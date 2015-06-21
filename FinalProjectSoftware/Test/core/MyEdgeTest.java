@@ -1,11 +1,14 @@
 /**
  * 
  */
-package graph1;
+package core;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import core.MyEdge;
+import core.MyVertex;
 
 /**
  * @author Rochelle
@@ -14,7 +17,7 @@ import org.junit.Test;
 public class MyEdgeTest {
 
 	/**
-	 * Test method for {@link graph1.MyEdge#MyEdge(graph1.MyVertex, graph1.MyVertex)}.
+	 * Test method for {@link core.MyEdge#MyEdge(core.MyVertex, core.MyVertex)}.
 	 */
 	@Test
 	public void testMyEdge() {
@@ -37,7 +40,7 @@ public class MyEdgeTest {
 	}
 
 	/**
-	 * Test method for {@link graph1.MyEdge#getId()}.
+	 * Test method for {@link core.MyEdge#getId()}.
 	 */
 	@Test
 	public void testGetId() {
@@ -48,7 +51,7 @@ public class MyEdgeTest {
 	}
 
 	/**
-	 * Test method for {@link graph1.MyEdge#getLabel()}.
+	 * Test method for {@link core.MyEdge#getLabel()}.
 	 */
 	@Test
 	public void testGetLabel() {
@@ -68,7 +71,7 @@ public class MyEdgeTest {
 	}
 
 	/**
-	 * Test method for {@link graph1.MyEdge#setId(int)}.
+	 * Test method for {@link core.MyEdge#setId(int)}.
 	 */
 	@Test
 	public void testSetId() {
@@ -80,7 +83,7 @@ public class MyEdgeTest {
 	}
 
 	/**
-	 * Test method for {@link graph1.MyEdge#getFrom()}.
+	 * Test method for {@link core.MyEdge#getFrom()}.
 	 */
 	@Test
 	public void testGetFrom() {
@@ -91,7 +94,7 @@ public class MyEdgeTest {
 			}
 
 	/**
-	 * Test method for {@link graph1.MyEdge#setFrom(graph1.MyVertex)}.
+	 * Test method for {@link core.MyEdge#setFrom(core.MyVertex)}.
 	 */
 	@Test
 	public void testSetFrom() {
@@ -105,7 +108,7 @@ public class MyEdgeTest {
 	}
 
 	/**
-	 * Test method for {@link graph1.MyEdge#getTo()}.
+	 * Test method for {@link core.MyEdge#getTo()}.
 	 */
 	@Test
 	public void testGetTo() {
@@ -116,7 +119,7 @@ public class MyEdgeTest {
 	}
 
 	/**
-	 * Test method for {@link graph1.MyEdge#setTo(graph1.MyVertex)}.
+	 * Test method for {@link core.MyEdge#setTo(core.MyVertex)}.
 	 */
 	@Test
 	public void testSetTo() {

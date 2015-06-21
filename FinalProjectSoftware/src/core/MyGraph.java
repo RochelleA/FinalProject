@@ -1,4 +1,4 @@
-package graph1;
+package core;
 
 import java.util.Collection;
 
@@ -10,7 +10,7 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	DirectedSparseGraph<MyVertex, MyEdge> myGraph;
+	public DirectedSparseGraph<MyVertex, MyEdge> myGraph;
 
 	 public MyGraph(){
 		 myGraph = new DirectedSparseGraph<MyVertex, MyEdge>();

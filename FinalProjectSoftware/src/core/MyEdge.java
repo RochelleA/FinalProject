@@ -1,4 +1,4 @@
-package graph1;
+package core;
 
 public class MyEdge implements IMyEdge {
 	static int edgeCount=0;

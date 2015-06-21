@@ -1,7 +1,7 @@
 /**
  * 
  */
-package graph1;
+package core;
 
 
 

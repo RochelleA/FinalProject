@@ -1,10 +1,13 @@
-package graph1;
+package core;
 
 import static org.junit.Assert.*;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Test;
 
+import core.MyEdge;
+import core.MyGraph;
+import core.MyVertex;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 public class MyGraphTest {
@@ -54,7 +57,7 @@ public class MyGraphTest {
 	g1.addEdge(e1,v1,v2);
 	System.out.println("The graph g1 = " + g1.toString());
 	CollectionUtils.isEqualCollection(gT1.getMyEdges(), g1.getEdges());
-	 
+	fail("Not yet implemented");
 	}
 	
 	@Test

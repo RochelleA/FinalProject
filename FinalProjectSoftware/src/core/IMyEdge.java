@@ -1,4 +1,4 @@
-package graph1;
+package core;
 
 public interface IMyEdge {
 	
