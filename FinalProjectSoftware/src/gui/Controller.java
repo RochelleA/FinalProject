@@ -4,7 +4,12 @@
 package gui;
 
 import java.awt.event.ActionEvent;
+
+import view.DefaultGraph;
+
 import java.awt.event.ActionListener;
+
+import core.MyGraph;
 import view.*;
 
 /**
@@ -19,6 +24,8 @@ public class Controller {
 		this.MyView=MyView;
 		this.MyModel=MyModel;
 		
+
+		
 		this.MyView.addAddVertexListener(new AddVertexListener());
 	}
 	
@@ -26,7 +33,9 @@ class AddVertexListener implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		MyModel.addVertex();
+		MyView.updateView();
 	}
+	
 	
 }
 }

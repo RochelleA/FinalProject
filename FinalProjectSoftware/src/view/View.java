@@ -49,10 +49,20 @@ public class View extends JFrame{
 		System.out.println("the Graph is displayed");
 	}
 	
+	public void DisplayGraph(DefaultGraph graph){
+		System.out.println("the Graph is displayed");
+	}
+	
 	public void addAddVertexListener(ActionListener listenForAddVertexButton){
 		
 			        AddVertexButton.addActionListener(listenForAddVertexButton);
 		    }
-		
-	
+//public void updateView(MyGraph g1){
+//		
+//		System.out.println("not yet implemented");
+//	}
+//	
+	public void updateView(){
+		System.out.println("not yet implemented");
+	}
 }
