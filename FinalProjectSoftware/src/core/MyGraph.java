@@ -10,25 +10,29 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public DirectedSparseGraph<MyVertex, MyEdge> myGraph;
+	public DirectedSparseGraph<MyVertex, MyEdge> myGraph = new DirectedSparseGraph<MyVertex, MyEdge>();
+	int vertexCount;
 
 	 public MyGraph(){
 		 myGraph = new DirectedSparseGraph<MyVertex, MyEdge>();
+		 this.vertexCount=0;
 	 }
 
 	 
 	@Override
 	public boolean addMyVertex() {
-	MyGraph vg = new MyGraph();
-	MyVertex v1 = new MyVertex();
-	vg.myGraph.addVertex(v1);
-	myGraph=vg.myGraph;
+	MyVertex v = new MyVertex();
+	v.setId(++vertexCount);
+	myGraph.addVertex(v);
 	return true;
 }
 	
+	public int GetMyVertexCount(){
+		return vertexCount;
+	}
+	
 	public Collection<MyVertex> getMyVertices(){
-		MyGraph vg = new MyGraph();
-		return vg.myGraph.getVertices();
+		return myGraph.getVertices();
 	}
 	
 	public Collection<MyEdge> getMyEdges(){
@@ -55,6 +59,10 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 			
 			return true;
 			
+		}
+		
+		public String toString(){
+			 return myGraph.toString();
 		}
 
 }

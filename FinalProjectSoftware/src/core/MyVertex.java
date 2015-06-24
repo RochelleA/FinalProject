@@ -10,7 +10,6 @@ package core;
  *
  */
 public class MyVertex implements IMyVertex {
-	static int vertexCount=0;
 	//identifies the vertex
 	int id;
 	//this is either not set or {in,out,undec}
@@ -25,7 +24,7 @@ public class MyVertex implements IMyVertex {
 	
 //	public MyVertex(int vertexId) {
 	public MyVertex(){
-		this.id=++vertexCount;
+		this.id=0;
 		this.weight=0;
 		this.label="no label";
 

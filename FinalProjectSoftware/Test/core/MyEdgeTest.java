@@ -23,11 +23,11 @@ public class MyEdgeTest {
 	public void testMyEdge() {
 		//create a vertex and store the current vertex count into an integer. This value is the id for the vertex v1.
 		MyVertex v1 = new MyVertex();
-		int v1VertexCount = MyVertex.vertexCount;
+		int v1VertexCount = 0;
 
 		//create a vertex and store the current vertex count into an integer. This value is the id for the vertex v2.
 		MyVertex v2 = new MyVertex();
-		int v2VertexCount = MyVertex.vertexCount;
+		int v2VertexCount = 0;
 
 		
 		MyEdge e1 = new MyEdge(v1,v2);
@@ -58,11 +58,11 @@ public class MyEdgeTest {
 		
 		//create a vertex and store the current vertex count into an integer. This value is the id for the vertex v1.
 		MyVertex v1 = new MyVertex();
-		int v1VertexCount = MyVertex.vertexCount;
+		int v1VertexCount = 0;
 
 		//create a vertex and store the current vertex count into an integer. This value is the id for the vertex v2.
 		MyVertex v2 = new MyVertex();
-		int v2VertexCount = MyVertex.vertexCount;
+		int v2VertexCount = 0;
 		
 		MyEdge e1 = new MyEdge(v1,v2);
 		String x = e1.getLabel();

@@ -1,41 +1,29 @@
-/**
- * 
- */
 package gui;
 
-import java.awt.event.ActionEvent;
 
-import view.DefaultGraph;
+import model.Model;
+import gui.View;
 
-import java.awt.event.ActionListener;
 
-import core.MyGraph;
-import view.*;
+class Controller implements java.awt.event.ActionListener {
 
-/**
- * @author Rochelle
- *
- */
-public class Controller {
-	private View MyView;
-	private Model MyModel;
-	
-	public Controller(View MyView, Model MyModel){
-		this.MyView=MyView;
-		this.MyModel=MyModel;
-		
+	Model MyModel;
+	View MyView;
 
-		
-		this.MyView.addAddVertexListener(new AddVertexListener());
-	}
-	
-class AddVertexListener implements ActionListener{
-	
-	public void actionPerformed(ActionEvent e){
+	Controller() {	
+		System.out.println ("Controller()");
+	} 
+	public void actionPerformed(java.awt.event.ActionEvent e){
+		System.out.println("Controller: acting on Model");
 		MyModel.addVertex();
-		MyView.updateView();
-	}
-	
-	
-}
-}
+	} 
+	public void addModel(Model m){
+		System.out.println("Controller: adding model");
+		this.MyModel = m;
+	} 
+	public void addView(View v){
+		System.out.println("Controller: adding view");
+		this.MyView = v;
+	} 
+ 
+} 

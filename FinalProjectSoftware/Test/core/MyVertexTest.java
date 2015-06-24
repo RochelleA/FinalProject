@@ -19,8 +19,8 @@ MyVertex v1 = new MyVertex();
 		//need plus 1 because when the new vertex is created it alters the vertexCount
 //		System.out.println(MyVertex.vertexCount);
 //		MyVertex v = new MyVertex();
-		System.out.println(MyVertex.vertexCount);
-		assertEquals(MyVertex.vertexCount,v1.id);
+		System.out.println();
+		assertEquals(0,v1.id);
 		assertEquals(0, v1.weight);
 		assertEquals("no label", v1.label);
 	}
@@ -28,8 +28,9 @@ MyVertex v1 = new MyVertex();
 	@Test
 	public void testGetId() {
 		MyVertex v = new MyVertex();
+		System.out.println(""+v.id);
 		int x = v.getId();
-		assertEquals(MyVertex.vertexCount,x);
+		assertEquals(0,x);
 	}
 
 	@Test
