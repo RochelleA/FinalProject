@@ -8,19 +8,31 @@ import java.awt.event.ActionListener;	//for addController()
 import javax.swing.*;
 
 import java.awt.BorderLayout;
+//import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+//import java.awt.FlowLayout;
+//import java.awt.Frame;
+
+
 
 import javax.swing.JFrame;
+import javax.swing.border.EmptyBorder;
 
-import edu.uci.ics.jung.algorithms.layout.CircleLayout;
-import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.algorithms.layout.StaticLayout;
+import edu.uci.ics.jung.algorithms.layout.*;
+import edu.uci.ics.jung.algorithms.layout.SpringLayout;
+//import edu.uci.ics.jung.algorithms.layout.StaticLayout;
+//import edu.uci.ics.jung.graph.Graph;
+//import edu.uci.ics.jung.graph.SparseMultigraph;
+//import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.BasicVisualizationServer;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
+//import edu.uci.ics.jung.visualization.VisualizationViewer;
+//import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
+
+import javax.swing.border.BevelBorder;
+
+import java.awt.Color;
 
 
 
@@ -28,34 +40,44 @@ class View extends JFrame implements java.util.Observer {
 	
 	private static final long serialVersionUID = 2118299654730994785L;
 
+	private JPanel contentPane;
+	private  JPanel panel = new JPanel();
+	private  JLabel lblGraphDisplay = new JLabel("Graph Display",SwingConstants.CENTER);
+//	private JLabel lblEditGraph = new JLabel("Edit Graph",SwingConstants.CENTER);
 	private JButton AddVertexButton = new JButton("Add Vertex");
-	private JTextField GraphString= new JTextField("");
-	private JPanel GraphDisplayPanel= new JPanel();
-	private JPanel DisplayPanel= new JPanel();
-	private final JPanel ButtonsPanel = new JPanel();
-	private VisualizationViewer<MyVertex,MyEdge> VV;
-
+	private JButton AddEdgeButton = new JButton("Add Edge");
+	private JTextArea GraphString= new JTextArea();
+	private JPanel DisplayGraph = new JPanel();
 	
 	
 	View() {
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(313, 164);
+//		this.setSize(1000, 1000);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setBounds(0, 0, 1000, 1000);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setBounds(0, 0, 950, 950);
 		
-		JPanel MainPanel = new JPanel();
-		getContentPane().add(MainPanel, BorderLayout.NORTH);
-			MainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-			JPanel GraphDisplayPanel = new JPanel();
-			GraphDisplayPanel.setSize(275, 175);
-			MainPanel.add(GraphDisplayPanel);
-			JLabel GraphDisplaylLabel = new JLabel("Graph Display");
-			GraphDisplayPanel.add(GraphDisplaylLabel);
-			JPanel EditGraphPanel= new JPanel();
-			MainPanel.add(EditGraphPanel);
-			JLabel EditGraphLabel = new JLabel("Edit Graph");
-			EditGraphPanel.add(EditGraphLabel);
-			EditGraphPanel.add(AddVertexButton);
-			
+		setContentPane(contentPane);
+		
+		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setBounds(0, 0, 700, 700);
+		panel.setLayout(null);
+		AddVertexButton.setBounds(300, 80, 100, 50);
+		AddEdgeButton.setBounds(430, 80, 100, 50);
+		GraphString.setBounds(30, 160,500, 100);
+		lblGraphDisplay.setBounds(300, 30, 100, 50);
+		DisplayGraph.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
+		DisplayGraph.setBounds(30, 290, 500, 300);
+		panel.add(DisplayGraph);
+		panel.add(AddVertexButton);
+		panel.add(AddEdgeButton);
+		panel.add(GraphString);
+		panel.add(lblGraphDisplay);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.pack();
 		this.setVisible(true);
 		
@@ -68,7 +90,7 @@ class View extends JFrame implements java.util.Observer {
   		System.out.println("Updated");
   		MyGraph y=(MyGraph)obj;
   		String z= y.toString();
-  		GraphString.setText(z);
+  		GraphString.setText("Graph Represented as a string \n"+ z);
  		displaygraph(y);
 //  		
 //		GraphString.setText("" + ((MyGraph)obj).toString());	//obj is an Object, need to cast to an MyGraph type
@@ -77,36 +99,25 @@ class View extends JFrame implements java.util.Observer {
   	
 	public void addController(ActionListener controller){
 		System.out.println("View      : adding controller");
-		AddVertexButton.addActionListener(controller);	
+	AddVertexButton.addActionListener(controller);	
 	} 
 	
-	public void displaygraph(MyGraph g){
-	        Layout<MyVertex, MyEdge> layout = new StaticLayout<MyVertex,MyEdge>(g);
-	        layout.setSize(new Dimension(300,300));
-	        VisualizationViewer<MyVertex,MyEdge> vv = new VisualizationViewer<MyVertex,MyEdge>(layout);
-	        vv.setPreferredSize(new Dimension(350,350));
-	        // Show vertex and edge labels
-//	        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
-//	        vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
-	        // Create a graph mouse and add it to the visualization viewer
-	        // Our Vertices are going to be Integer objects so we need an Integer factory
-//	        EditingModalGraphMouse<MyVertex,MyEdge> gm = new EditingModalGraphMouse<MyVertex,MyEdge>(vv.getRenderContext(), sgv.vertexFactory, sgv.edgeFactory); 
-//	        vv.setGraphMouse(gm);
+	public void displaygraph(MyGraph g1){
+	        Layout<MyVertex, MyEdge> layout = new CircleLayout<MyVertex,MyEdge>(g1.myGraph);
+//	        Layout<MyVertex, MyEdge> layout = new ISOMLayout<MyVertex,MyEdge>(g1.myGraph);
+	        layout.setSize(new Dimension(500,300));
+	        BasicVisualizationServer<MyVertex,MyEdge> vv = new BasicVisualizationServer<MyVertex,MyEdge>(layout);
+	        vv.setBounds(0, 0, 500, 300);
+	        vv.setPreferredSize(new Dimension(500,300));
 	        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
 	        vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
 	        vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
 	        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
 	        vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
-	        vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);   
+	        vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);      
+	        DisplayGraph.removeAll();
+	        DisplayGraph.add(vv);
 	        
-	     
-	       
-	        getContentPane().add(vv); 
-	        DisplayPanel.setBounds(480, 0, 164, 415);
-	        this.add(DisplayPanel);
-	        DisplayPanel.setVisible(true);
-	        DisplayPanel.revalidate();
-	       DisplayPanel.repaint();
-	       
+	        
 	}
 	} 

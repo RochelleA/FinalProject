@@ -1,16 +1,22 @@
 package model;
 
+import core.MyEdge;
 import core.MyGraph;
+import core.MyVertex;
+import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+import edu.uci.ics.jung.visualization.DefaultVisualizationModel;
 
 
 public class Model extends java.util.Observable {	
 	
 	private MyGraph graph = new MyGraph();	
+	DefaultVisualizationModel<MyVertex, MyEdge> vm;
 
 	public Model(){
 
 		System.out.println("Model()");	
-
+		CircleLayout<MyVertex, MyEdge> layout = new CircleLayout<MyVertex, MyEdge>(graph);
+		 vm = new DefaultVisualizationModel<MyVertex, MyEdge>(layout);
 	} 
 	public void addVertex() {
 		this.graph.addMyVertex();

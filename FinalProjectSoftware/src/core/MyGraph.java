@@ -65,6 +65,9 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 			 return myGraph.toString();
 		}
 
+		public DirectedSparseGraph<MyVertex, MyEdge> getGraph(){
+			return myGraph;
+		}
 }
 
 
