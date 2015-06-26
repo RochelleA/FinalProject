@@ -8,6 +8,9 @@ public interface IMyEdge {
 	//sets the edge's id
 	void setId(int id);
 	
+	//Gets the edge's label
+	String getLabel();
+		
 	//gets the edge's from argument 
 	MyVertex getFrom();
 	
@@ -20,7 +23,9 @@ public interface IMyEdge {
 	//Sets the edge's to argument
 	void setTo(MyVertex toEdge);
 	
-	String getLabel();
+	//Overriding the toString function of an edge so that the string representation of a graph will write edges as att[v1,v2]
+	String toString();
+	
 	
 
 }

@@ -28,22 +28,27 @@ public class MyEdge implements IMyEdge {
 	public int getId() {
 		return id;
 	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public String getLabel() {
 		return label;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
 	public MyVertex getFrom() {
 		return from;
 	}
+	
 	public void setFrom(MyVertex from) {
 		this.from = from;
 	}
+	
 	public MyVertex getTo() {
 		return to;
 	}
+	
 	public void setTo(MyVertex to) {
 		this.to = to;
 	}

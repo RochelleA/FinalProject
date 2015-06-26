@@ -27,6 +27,10 @@ public class Model extends java.util.Observable {
 
 	}
 	
+	public void addEdge(){
+		
+		
+	}
 	public void deleteVertex() {
 		
 		System.out.println("Vertex Deleted-- needs implementing");
@@ -34,6 +38,8 @@ public class Model extends java.util.Observable {
 		notifyObservers(graph);
 		
 	}
+	
+
 	
 
 } 

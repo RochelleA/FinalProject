@@ -4,30 +4,23 @@ import core.*;
 
 import java.util.Observable;		//for update();
 import java.awt.event.ActionListener;	//for addController()
-
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.*;
 
 import java.awt.BorderLayout;
-//import java.awt.Color;
 import java.awt.Dimension;
-//import java.awt.FlowLayout;
-//import java.awt.Frame;
-
-
 
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 
 import edu.uci.ics.jung.algorithms.layout.*;
-import edu.uci.ics.jung.algorithms.layout.SpringLayout;
-//import edu.uci.ics.jung.algorithms.layout.StaticLayout;
-//import edu.uci.ics.jung.graph.Graph;
-//import edu.uci.ics.jung.graph.SparseMultigraph;
-//import edu.uci.ics.jung.graph.util.EdgeType;
-import edu.uci.ics.jung.visualization.BasicVisualizationServer;
-//import edu.uci.ics.jung.visualization.VisualizationViewer;
-//import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
+import edu.uci.ics.jung.visualization.RenderContext;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import edu.uci.ics.jung.visualization.picking.PickedState;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
 import javax.swing.border.BevelBorder;
@@ -44,10 +37,15 @@ class View extends JFrame implements java.util.Observer {
 	private  JPanel panel = new JPanel();
 	private  JLabel lblGraphDisplay = new JLabel("Graph Display",SwingConstants.CENTER);
 //	private JLabel lblEditGraph = new JLabel("Edit Graph",SwingConstants.CENTER);
-	private JButton AddVertexButton = new JButton("Add Vertex");
-	private JButton AddEdgeButton = new JButton("Add Edge");
+	JButton AddVertexButton = new JButton("Add Vertex");
+	 JButton AddEdgeButton = new JButton("Add Edge");
 	private JTextArea GraphString= new JTextArea();
+	private JTextArea MessageFromController= new JTextArea();
 	private JPanel DisplayGraph = new JPanel();
+	Layout<MyVertex, MyEdge> layout;
+	VisualizationViewer<MyVertex, MyEdge> vv;
+	static PickedState<MyVertex> pickedState;
+	MyVertex currentVertex;
 	
 	
 	View() {
@@ -68,6 +66,7 @@ class View extends JFrame implements java.util.Observer {
 		panel.setLayout(null);
 		AddVertexButton.setBounds(300, 80, 100, 50);
 		AddEdgeButton.setBounds(430, 80, 100, 50);
+		MessageFromController.setBounds(30, 80, 240, 50);
 		GraphString.setBounds(30, 160,500, 100);
 		lblGraphDisplay.setBounds(300, 30, 100, 50);
 		DisplayGraph.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
@@ -77,6 +76,7 @@ class View extends JFrame implements java.util.Observer {
 		panel.add(AddEdgeButton);
 		panel.add(GraphString);
 		panel.add(lblGraphDisplay);
+		panel.add(MessageFromController);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.pack();
 		this.setVisible(true);
@@ -92,32 +92,103 @@ class View extends JFrame implements java.util.Observer {
   		String z= y.toString();
   		GraphString.setText("Graph Represented as a string \n"+ z);
  		displaygraph(y);
+ 
 //  		
 //		GraphString.setText("" + ((MyGraph)obj).toString());	//obj is an Object, need to cast to an MyGraph type
 
   	} 
   	
-	public void addController(ActionListener controller){
+	public void addController(ActionListener controller, ItemListener controller1){
 		System.out.println("View      : adding controller");
 	AddVertexButton.addActionListener(controller);	
+	AddEdgeButton.addActionListener(controller);
+//	View.pickedState.addItemListener(controller1);
 	} 
 	
-	public void displaygraph(MyGraph g1){
-	        Layout<MyVertex, MyEdge> layout = new CircleLayout<MyVertex,MyEdge>(g1.myGraph);
-//	        Layout<MyVertex, MyEdge> layout = new ISOMLayout<MyVertex,MyEdge>(g1.myGraph);
-	        layout.setSize(new Dimension(500,300));
-	        BasicVisualizationServer<MyVertex,MyEdge> vv = new BasicVisualizationServer<MyVertex,MyEdge>(layout);
-	        vv.setBounds(0, 0, 500, 300);
-	        vv.setPreferredSize(new Dimension(500,300));
-	        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
-	        vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
-	        vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
-	        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
-	        vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
-	        vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);      
+	public void setCurrentVertex(MyVertex v){
+		currentVertex=v;
+	}
+	public void AskForToVertex(){
+		MessageFromController.setText("Please select an attacking vertex");
+	}
+	
+
+	
+	public void displaygraph(MyGraph g1){  
+
+			final Layout<MyVertex, MyEdge> layout = new CircleLayout<MyVertex, MyEdge>(g1.getmygraph());
+			layout.setSize(new Dimension(200, 200));
+			VisualizationViewer<MyVertex, MyEdge> vv = new VisualizationViewer<MyVertex, MyEdge>(
+					layout);
+			vv.setPreferredSize(new Dimension(250, 250));
+			
+			// Attach the listener for listening to when vertices are selected (or deselected).
+			// You can also listen for changes to the selection of edges, by using vv.getPickedEdgeState() in
+			// place of vv.getPickedVertexState().
+			
+			// Set the mouse to "picking" mode so that vertices and edges can be selected.
+			DefaultModalGraphMouse<MyVertex, MyEdge> modalMouse = new DefaultModalGraphMouse<MyVertex, MyEdge>();
+			modalMouse.setMode(Mode.PICKING);
+			vv.setGraphMouse(modalMouse);
+
+			// Set up rendering for the vertices.
+			RenderContext<MyVertex, MyEdge> renderContext = vv.getRenderContext();
+			renderContext.setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
+			renderContext.setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
+			vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
+			g1.setGraphLayout(layout);
+			g1.setGraphVisualizationViewer(vv);
 	        DisplayGraph.removeAll();
 	        DisplayGraph.add(vv);
 	        
-	        
 	}
+	
+	public void getPickedVertex(MyGraph g1,ItemListener controller){
+		pickedState = g1.getGraphVisualizationViewer(g1.getGraphLayout()).getPickedVertexState();
+		pickedState.addItemListener(controller);
+		
+	}
+	
+	public PickedState<MyVertex> getPickedState(){
+		return View.pickedState;
+	}
+//	 public void pickVertex(MyGraph g1){   
+//		 layout= g1.getGraphLayout();
+//		 vv = g1.getGraphVisualizationViewer(layout);
+//	        final PickedState<MyVertex> pickedState = vv.getPickedVertexState();
+//			pickedState.addItemListener(new ItemListener() {
+//
+//				@Override
+//				public void itemStateChanged(ItemEvent e) {
+//					Object subject = e.getItem();
+//					if (subject instanceof MyVertex) {
+//						MyVertex vertex = (MyVertex) subject;
+//						if (pickedState.isPicked(vertex)) {
+//							System.out.println("Vertex " + vertex
+//									+ " is now selected");
+//						} else {
+//							System.out.println("Vertex " + vertex
+//									+ " no longer selected");
+//						}
+//					}
+//				}
+//			});
+//			
+//			DefaultModalGraphMouse<MyVertex, MyEdge> modalMouse = new DefaultModalGraphMouse<MyVertex, MyEdge>();
+//			modalMouse.setMode(Mode.PICKING);
+//			vv.setGraphMouse(modalMouse);
+//
+//			// Set up rendering for the vertices.
+//			RenderContext<MyVertex, MyEdge> renderContext = vv.getRenderContext();
+//			renderContext
+//					.setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
+//			renderContext.setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
+//			vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
+//			
+//	        
+//	}
+//	
+//	public MyVertex VertexSelected(){
+//		
+//	}
 	} 

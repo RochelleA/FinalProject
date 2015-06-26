@@ -130,5 +130,14 @@ public class MyEdgeTest {
 		e1.setTo(v3);
 		assertEquals(v3, e1.getTo());
 	}
+	
+	@Test
+	public void testToString(){
+		MyVertex v1 = new MyVertex();
+		MyVertex v2 = new MyVertex();
+		MyEdge e1 = new MyEdge(v1, v2);
+		assertEquals(e1.toString(),"Att");
+
+	}
 
 }

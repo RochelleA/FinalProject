@@ -21,7 +21,8 @@ public interface IMyVertex {
 	//Sets the vertex's weight
 	void setWeight(int weight);
 	
-	
+	//Overides the toString function to print a vertex as V followed by the Vertex's id.
+	String toString();
 	
 
 }
