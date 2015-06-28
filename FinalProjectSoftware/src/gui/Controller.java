@@ -19,26 +19,35 @@ class Controller implements ActionListener,ItemListener {
 	Controller() {	
 		System.out.println ("Controller()");
 	} 
-	public void actionPerformed(java.awt.event.ActionEvent e){
+	public void actionPerformed(ActionEvent e){
 		  Object src = e.getSource();
 
 		  if (src == MyView.AddVertexButton) {
-			  System.out.println("Vertex is added");
-				MyModel.addVertex();
+			System.out.println("AddVertexButton Pressed");
+			MyModel.addVertex();
 		  }
 		  else if (src == MyView.AddEdgeButton) {
-		   System.out.println("A vertex will be added");
-		   MyView.setPickingMode(MyModel.graph);
-		   MyVertex from = new MyVertex();
-		   from.setId(3);
-		   from.setLabel("haha");
-		   from =MyView.AskForToVertex();
-		   
-		
-		  System.out.println("from vertex is"+from);
-//		   MyVertex to= new MyVertex();
-//		   to= MyView.AskForFromVertex();
-//		   MyModel.graph.addMyEdge(from, to);
+			  System.out.println("AddEdgeButton Pressed");
+			  MyView.AskForFromVertex();
+			  MyView.MessageFromController.setText("Please select an attacking vertex");
+			  MyView.panel.add(MyView.MessageFromController);
+		  }
+		  else if(src==MyView.EnterButton){
+			  System.out.println("EnterButton Pressed");
+			  if(MyView.currentVertex==null){
+				 MyView.MessageFromController.setText("You have not select a vertex. \n Please select an attacking vertex");
+				 MyView.panel.add(MyView.MessageFromController);
+//				 
+			  }
+			  else{
+				  MyView.MessageFromController.setText("The attacking vertex will be "+ MyView.currentVertex);
+				  MyView.panel.add(MyView.MessageFromController);
+				  MyVertex from = new MyVertex();
+				  from =MyView.currentVertex;
+				  System.out.println("from vertex is "+from);
+				  MyView.ClearPicketState();
+			  
+			  }
 		  }
 	} 
 	

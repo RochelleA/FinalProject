@@ -1,12 +1,6 @@
 package model;
 
-import core.MyEdge;
 import core.MyGraph;
-import core.MyVertex;
-import edu.uci.ics.jung.algorithms.layout.CircleLayout;
-import edu.uci.ics.jung.visualization.DefaultVisualizationModel;
-import edu.uci.ics.jung.visualization.picking.PickedState;
-
 
 public class Model extends java.util.Observable {	
 	
@@ -16,7 +10,7 @@ public class Model extends java.util.Observable {
 	public Model(){
 
 		System.out.println("Model()");	
-		CircleLayout<MyVertex, MyEdge> layout = new CircleLayout<MyVertex, MyEdge>(graph);
+//		CircleLayout<MyVertex, MyEdge> layout = new CircleLayout<MyVertex, MyEdge>(graph);
 //		 vm = new DefaultVisualizationModel<MyVertex, MyEdge>(layout);
 //		 PickedState<MyVertex> ViewPickedState= vm.getPickedVertexState();
 	} 

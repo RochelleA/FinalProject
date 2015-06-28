@@ -1,37 +1,23 @@
 package gui;
 
 import core.*;
-
 import java.util.Observable;		//for update();
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;	//for addController()
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
 import javax.swing.*;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
-
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
-import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.visualization.BasicVisualizationServer;
-import edu.uci.ics.jung.visualization.DefaultVisualizationModel;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import edu.uci.ics.jung.visualization.picking.AbstractPickedState;
 import edu.uci.ics.jung.visualization.picking.PickedState;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
-
 import javax.swing.border.BevelBorder;
-
-import org.apache.commons.collections15.Factory;
-
 import java.awt.Color;
 
 
@@ -48,7 +34,7 @@ class View extends JFrame implements java.util.Observer {
 	JButton AddEdgeButton = new JButton("Add Edge");
 	JButton EnterButton = new JButton("Enter");
 	private JTextArea GraphString= new JTextArea();
-	private JTextArea MessageFromController= new JTextArea();
+	JTextArea MessageFromController= new JTextArea();
 	private JPanel DisplayGraph = new JPanel();
 	private MyGraph ViewGraph = new MyGraph();
 	private CircleLayout<MyVertex, MyEdge> ViewLayout;
@@ -125,6 +111,7 @@ class View extends JFrame implements java.util.Observer {
 		System.out.println("View      : adding controller");
 	AddVertexButton.addActionListener(controller);	
 	AddEdgeButton.addActionListener(controller);
+	EnterButton.addActionListener(controller);
 	ViewPickedState.addItemListener(Controller1);
 	} 
 	
@@ -152,8 +139,8 @@ class View extends JFrame implements java.util.Observer {
 	        
 	}
 	
-	public void setPickingMode(MyGraph g1){
-		gm.setMode(Mode.EDITING);
+	public void setPickingMode(){
+		gm.setMode(Mode.PICKING);
 		ViewVV.setGraphMouse(gm);
 	}
 
@@ -177,21 +164,12 @@ class View extends JFrame implements java.util.Observer {
 					} else {
 						MessageFromController.setText("You have not select a vertex. \n Please select an attacking vertex");
 						panel.add(MessageFromController);
+					  }
 					}
 						
-						
-					}
-			}
+			    }
 		});
 		
-		EnterButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				MessageFromController.setText("The attacking vertex will be "+ currentVertex);
-				panel.add(MessageFromController);
-			}
-		});
 	
 		return currentVertex;
 		
@@ -209,18 +187,29 @@ class View extends JFrame implements java.util.Observer {
 				if (subject instanceof MyVertex) {
 					MyVertex vertex = (MyVertex) subject;
 					if (ViewPickedState.isPicked(vertex)) {
+						MessageFromController.setText("You have selected "+ vertex);
+						panel.add(MessageFromController);
 						System.out.println("Vertex " + vertex
 								+ " is now selected");
 						currentVertex=vertex;
 					} else {
+						MessageFromController.setText("You have unselected "+ vertex + ". \n Please Select a new vertex.");
+						panel.add(MessageFromController);
 						System.out.println("Vertex " + vertex
 								+ " no longer selected");
+						currentVertex=null;
 					}
 				}
 			}
 		});
 		
 		return currentVertex;
+		
+	}
+
+	public void ClearPicketState() {
+		gm.setMode(Mode.TRANSFORMING);
+		ViewVV.setGraphMouse(gm);
 		
 	}
 

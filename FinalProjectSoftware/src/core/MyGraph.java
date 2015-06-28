@@ -1,15 +1,11 @@
 package core;
 
-import java.awt.Dimension;
 import java.util.Collection;
-
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
 public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IMyGraph {
 	 /**
