@@ -35,17 +35,18 @@ class Controller implements ActionListener,ItemListener {
 		  else if(src==MyView.EnterButton){
 			  System.out.println("EnterButton Pressed");
 			  if(MyView.currentVertex==null){
-				 MyView.MessageFromController.setText("You have not select a vertex. \n Please select an attacking vertex");
+				 MyView.MessageFromController.setText("You have not select a vertex. \n Please select a vertex");
 				 MyView.panel.add(MyView.MessageFromController);
 //				 
 			  }
 			  else{
-				  MyView.MessageFromController.setText("The attacking vertex will be "+ MyView.currentVertex);
+				  MyView.MessageFromController.setText("The vertex used will be "+ MyView.currentVertex);
 				  MyView.panel.add(MyView.MessageFromController);
 				  MyVertex from = new MyVertex();
 				  from =MyView.currentVertex;
 				  System.out.println("from vertex is "+from);
-				  MyView.ClearPicketState();
+				  MyView.ViewPickedState.clear();
+				  MyView.changeToNoPickingMouse();
 			  
 			  }
 		  }
