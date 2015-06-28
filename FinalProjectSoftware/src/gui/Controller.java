@@ -1,16 +1,17 @@
 package gui;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import core.MyVertex;
-import edu.uci.ics.jung.visualization.picking.PickedState;
+import core.*;
 import model.Model;
 import gui.View;
 
 
-class Controller implements java.awt.event.ActionListener,ItemListener {
+class Controller implements ActionListener,ItemListener {
 
 	Model MyModel;
 	View MyView;
@@ -27,33 +28,21 @@ class Controller implements java.awt.event.ActionListener,ItemListener {
 		  }
 		  else if (src == MyView.AddEdgeButton) {
 		   System.out.println("A vertex will be added");
-		   MyView.AskForToVertex();
+		   MyView.setPickingMode(MyModel.graph);
+		   MyVertex from = new MyVertex();
+		   from.setId(3);
+		   from.setLabel("haha");
+		   from =MyView.AskForToVertex();
 		   
-		   MyModel.addEdge();
+		
+		  System.out.println("from vertex is"+from);
+//		   MyVertex to= new MyVertex();
+//		   to= MyView.AskForFromVertex();
+//		   MyModel.graph.addMyEdge(from, to);
 		  }
 	} 
-
-		
-		public void itemStateChanged(ItemEvent e) {
-//			Object subject = e.getItem();
-//			if (subject == MyView.getPickedState()){
-//				@SuppressWarnings("unchecked")
-//				PickedState<MyVertex> p = (PickedState<MyVertex>) subject;
-//			if (subject instanceof MyVertex) {
-//				MyVertex vertex = (MyVertex) subject;
-//				if (View.pickedState.isPicked(vertex)) {
-//					MyView.currentVertex=vertex;
-//					System.out.println(MyView.currentVertex.toString());
-//					System.out.println("Vertex " + vertex
-//							+ " is now selected");
-//				} else {
-//					System.out.println("Vertex " + vertex
-//							+ " no longer selected");
-//				}
-//			}
-//		}
-		}
 	
+	 
 	public void addModel(Model m){
 		System.out.println("Controller: adding model");
 		this.MyModel = m;
@@ -61,6 +50,10 @@ class Controller implements java.awt.event.ActionListener,ItemListener {
 	public void addView(View v){
 		System.out.println("Controller: adding view");
 		this.MyView = v;
+	}
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		System.out.println("ItemEvent!");		
 	} 
  
 } 

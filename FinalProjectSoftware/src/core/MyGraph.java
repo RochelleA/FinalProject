@@ -19,7 +19,7 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 	public static DirectedSparseGraph<MyVertex, MyEdge> myGraph = new DirectedSparseGraph<MyVertex, MyEdge>();
 	int vertexCount;
 	int edgeCount;
-	Layout<MyVertex, MyEdge> layout;
+	CircleLayout<MyVertex, MyEdge> layout;
 	VisualizationViewer<MyVertex, MyEdge> vv;
 	
 	public MyGraph(){
@@ -88,13 +88,12 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		return myGraph;
 	}
 	
-	public Layout<MyVertex, MyEdge> getGraphLayout(){
+	public CircleLayout<MyVertex, MyEdge> getGraphLayout(){
 		MyGraph g1 = new MyGraph();
 		layout = new CircleLayout<MyVertex,MyEdge>(g1.getmygraph());
-		layout.setSize(new Dimension(450,250));
 		return layout;
 	}
-	public void setGraphLayout(Layout<MyVertex, MyEdge> layout){
+	public void setGraphLayout(CircleLayout<MyVertex, MyEdge> layout){
 		this.layout=layout;
 	}
 	public void setGraphVisualizationViewer(VisualizationViewer<MyVertex, MyEdge> vv){
@@ -102,21 +101,11 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 	}
 	
 	public VisualizationViewer<MyVertex, MyEdge> getGraphVisualizationViewer(Layout<MyVertex, MyEdge> layout){
-//       Layout<MyVertex, MyEdge> layout = new CircleLayout<MyVertex,MyEdge>(g1.myGraph);
-//       Layout<MyVertex, MyEdge> layout = new ISOMLayout<MyVertex,MyEdge>(g1.myGraph);
-//       layout.setSize(new Dimension(500,300));
+
         vv = new VisualizationViewer<MyVertex, MyEdge>(layout);
-//        BasicVisualizationServer<MyVertex,MyEdge> vv = new BasicVisualizationServer<MyVertex,MyEdge>(layout);
-        vv.setBounds(0, 0, 450, 300);
-        vv.setPreferredSize(new Dimension(450,250));
-        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
-        vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
-        vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
-        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
-        vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
-        vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
         return vv;
 	}
+	
 	
 }
 
