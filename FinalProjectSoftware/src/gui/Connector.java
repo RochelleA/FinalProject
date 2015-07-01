@@ -20,7 +20,7 @@ public class Connector{
 		myController.addModel(myModel);
 		myController.addView(myView);
 		myView.addController(myController,myController);
-		
+	
 
 	} 
 

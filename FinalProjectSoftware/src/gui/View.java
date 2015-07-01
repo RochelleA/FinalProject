@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.*;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
@@ -25,6 +25,8 @@ import edu.uci.ics.jung.visualization.picking.PickedState;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
 import javax.swing.border.BevelBorder;
+
+import org.apache.commons.collections15.Transformer;
 
 import java.awt.Color;
 
@@ -130,6 +132,13 @@ class View extends JFrame implements java.util.Observer {
 	        ViewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
 	        ViewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
 	        ViewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);     
+	       ViewVV.getRenderContext().setEdgeLabelTransformer(new Transformer<MyEdge, String>() {
+                public String transform(MyEdge e) {
+                    return (e.getLabel()) ;
+                }
+                
+            });
+	       ViewVV.getRenderContext().setLabelOffset(20);
 	        ViewPickedState = ViewVV.getPickedVertexState();
 	        DisplayGraph.removeAll();
 	        DisplayGraph.add(ViewVV);
@@ -163,10 +172,9 @@ class View extends JFrame implements java.util.Observer {
 								+ " is now selected");
 						currentVertex=vertex;
 					} else {
-						MessageFromController.setText("You have unselected "+ vertex + ". \n Please Select a new vertex."+"from");
+						MessageFromController.setText("");
 						panel.add(MessageFromController);
-						System.out.println("Vertex " + vertex
-								+ " no longer selected");
+						System.out.println("Picking state and message box cleared");
 						currentVertex=null;
 					}
 				}
@@ -180,31 +188,30 @@ class View extends JFrame implements java.util.Observer {
 	public MyVertex AskForToVertex() {
 		gm.setMode(Mode.PICKING);
 		ViewVV.setGraphMouse(gm);
-		MessageFromController.setText("Please select an attacking vertex");
-		ViewPickedState.addItemListener(new ItemListener() {
+		MessageFromController.setText("Please select an attacked vertex");
+//		ViewPickedState.addItemListener(new ItemListener() {
 
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				Object subject = e.getItem();
-				if (subject instanceof MyVertex) {
-					MyVertex vertex = (MyVertex) subject;
-					if (ViewPickedState.isPicked(vertex)) {
-						MessageFromController.setText("You have selected "+ vertex +"from");
-						panel.add(MessageFromController);
-						System.out.println("Vertex " + vertex
-								+ " is now selected");
-						currentVertex=vertex;
-					} else {
-						MessageFromController.setText("You have unselected "+ vertex + ". \n Please Select a new vertex."+"from");
-						panel.add(MessageFromController);
-						System.out.println("Vertex " + vertex
-								+ " no longer selected");
-						currentVertex=null;
-					}
-				}
-			}
-		});
-		
+//			@Override
+//			public void itemStateChanged(ItemEvent e) {
+//				Object subject = e.getItem();
+//				if (subject instanceof MyVertex) {
+//					MyVertex vertex = (MyVertex) subject;
+//					if (ViewPickedState.isPicked(vertex)) {
+//						MessageFromController.setText("You have selected "+ vertex +" to");
+//						panel.add(MessageFromController);
+//						System.out.println("Vertex " + vertex
+//								+ " is now selected");
+//						currentVertex=vertex;
+//					} else {
+//						MessageFromController.setText("");
+//						panel.add(MessageFromController);
+//						System.out.println("Picking state and message box cleared");
+//						currentVertex=null;
+//					}
+//				}
+//			}
+//		});
+//		
 		return currentVertex;
 		
 	}
