@@ -6,8 +6,8 @@ public class Model extends java.util.Observable {
 	
 	public MyGraph ModelGraph = new MyGraph();	
 //	DefaultVisualizationModel<MyVertex, MyEdge> vm;
-	MyVertex v1;
-	MyVertex v2;
+	public MyVertex v1;
+	public MyVertex v2;
 
 	public Model(){
 

@@ -16,122 +16,101 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import java.util.*;
 
 public class MyGraphTest {
-
 	
+
 	@Test
 	public void testMyGraph(){
 		MyGraph g1 = new MyGraph();
-		assertEquals(g1.vertexCount,0);
+		g1.addMyVertex();
+		g1.addMyVertex();
+		assertEquals(g1.vertexCount,2);
 		assertEquals(g1.edgeCount,0);
 	}
 	
-	@Test 
-	public void testGetMyVertexCount(){
-		MyGraph g =new MyGraph();
-		g.addMyVertex();
-		g.addMyVertex();
-		g.addMyVertex();
-		int y = g.GetMyVertexCount();
-		assertEquals(y, 3);
-	}
-	
-	@Test 
-	public void testGetMyEdgeCount(){
-		fail("no yet implemented");
-	}
+//	@Test 
+//	public void testGetMyVertexCount(){
+//		MyGraph g =new MyGraph();
+//		g.addMyVertex();
+//		g.addMyVertex();
+//		g.addMyVertex();
+//		int y = g.vertexCount;
+//		assertEquals(y, 3);
+//	}
 //	
-//	@Test
-//	public void testGetMyEdges(){
-//		//creates a new MyGraph object
-//		MyGraph g1 = new MyGraph();
-//		MyVertex v1= new MyVertex();
-//		MyVertex v2= new MyVertex();
-//		g1.addMyEdge(v1, v2);
-//		Collection<MyEdge> c= g1.getMyEdges();
-//		assertEquals(1,c.size());
-////		assertEquals(g1.getMyEdges(),g1.myGraph.getEdges());
-//		assertTrue(org.apache.commons.collections15.CollectionUtils.isEqualCollection(g1.getMyEdges(), g1.myGraph.getEdges()));
+//	@Test 
+//	public void testGetMyEdgeCount(){
+//		MyGraph g5 = new MyGraph();
+//		MyVertex v1 =g5.addMyVertex();
+//		MyVertex v2= g5.addMyVertex();
+//		MyEdge e1 = g5.addMyEdge(v1, v2);
+//		System.out.println("g5 is   \n" +g5.toString());
+//		int number =g5.edgeCount;
+//		int number1 = g5.getEdgeCount();
+//		System.out.println("n1" +number);
+//		System.out.println("n2" +number1);
+//		assertEquals(number,1);
+//		assertEquals(number1,1);
 //	}
 	
-	
-	@Test
-	public void testGetMyVertices(){
-		//creates a new MyGraph object
-		MyGraph g1 = new MyGraph();
-		g1.addMyVertex();
-		Collection<MyVertex> c= g1.getMyVertices();
-		assertEquals(1,c.size());
-		assertTrue(org.apache.commons.collections15.CollectionUtils.isEqualCollection(g1.getMyVertices(), g1.myGraph.getVertices()));
-	}
-	
-
-//	
-	public static boolean equals(MyVertex[] a, MyVertex[] b) {
-	    if (a.length != b.length)
-	        return false;
-	    for (int i = 0; i < a.length; i++)
-	        if (a[i] != b[i])
-	            return false;
-	    return true;
-	}
-
-//
-	@Test
-	public void testAddVertex() {
-		MyGraph g = new MyGraph();
-		g.addMyVertex();
-		System.out.println("The graph myGraph = " + g.myGraph.toString());
-		MyVertex v1 = new MyVertex();
-		v1.setId(1);
-		DirectedSparseGraph<MyVertex, MyEdge> g1 = new DirectedSparseGraph<MyVertex, MyEdge>();
-		g1.addVertex(v1);
-		System.out.println("The graph g1 = " + g1.toString());
-		Collection<MyVertex> a = g.getMyVertices();
-		Collection<MyVertex> b = g1.getVertices();
-		MyVertex list1[] = new MyVertex[a.size()];
-		MyVertex list2[] = new MyVertex[b.size()];
-		
-		assertTrue(Arrays.equals(list1,list2));
-		
-
-	}
-
-	@Test
-	public void testAddEdge() {
-	 MyGraph gT1 = new MyGraph();
-	 MyVertex v1 = new MyVertex();
-	 MyVertex v2 = new MyVertex();
-	 gT1.addMyEdge(v1, v2);
-	 System.out.println("The graph gT1.myGraph = " + gT1.myGraph.toString());
-	  
-	MyEdge e1 = new MyEdge(v1,v2);
-	DirectedSparseGraph<MyVertex, MyEdge> g1 = new DirectedSparseGraph<MyVertex, MyEdge>();
-	g1.addEdge(e1,v1,v2);
-	System.out.println("The graph g1 = " + g1.toString());
-	CollectionUtils.isEqualCollection(gT1.getMyEdges(), g1.getEdges());
-	fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testToString(){
-		MyGraph g1 = new MyGraph();
-		String y = "Vertices\n"+"Edges:\n"+"Vertex Count: 0\n"+"Edge Count: 0";
-		assertEquals(g1.toString(),y);
-		}
-	
-	@Test
-	public void testGetgraph(){
+@Test
+public void testGetMyVertices(){
 	MyGraph g1 = new MyGraph();
-	assertEquals(g1.getGraph(),g1.myGraph);
+	MyVertex v1 = new MyVertex(1);
+	g1.getmygraph().addVertex(v1);
+	System.out.println("g1 " +g1.toString());
+	Collection<MyVertex> c1 = g1.getMyVertices();
+	assertTrue(c1.contains(v1));
+	
+}
+
+@Test
+public void testGetMyEdges(){
+	MyGraph g2 = new MyGraph();
+	MyVertex ve1=g2.addMyVertex();
+	MyVertex ve2=g2.addMyVertex();
+	MyEdge e2 = new MyEdge(0);
+	System.out.println("g2 " + g2.toString());
+	System.out.println(e2.getLabel());
+	g2.getmygraph().addEdge(e2, ve1,ve2);
+	System.out.println("g2 " + g2.toString());
+	System.out.println(e2.getLabel());
+	Collection<MyEdge> c2 = g2.getMyEdges();
+	assertTrue(c2.contains(e2));
 	}
-//	@Test
-//	public void testDeleteEdge() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testDeleteVertex() {
-//		fail("Not yet implemented");
-//	}
+
+@Test
+public void testAddVertex(){
+	MyGraph g3 = new MyGraph();
+	MyVertex v1 =g3.addMyVertex();
+	System.out.println("g3"+g3.toString());
+	Collection<MyVertex> c3 = g3.getMyVertices();
+	System.out.println("Size of Vertex collection is "+c3.size());
+	assertTrue(c3.contains(v1));
+}
+
+@Test 
+public void testAddEdge(){
+	MyGraph g4 = new MyGraph();
+	MyVertex v1 =g4.addMyVertex();
+	MyVertex v2= g4.addMyVertex();
+	MyEdge e1 = g4.addMyEdge(v1, v2);
+	System.out.println("g4 "+ g4.toString());
+	Collection<MyEdge> c4 = g4.getMyEdges();
+	System.out.println("Size of Edge collection is " + c4.size());
+	assertTrue(c4.contains(e1));
+}
+
+@Test
+public void testToString(){
+	MyGraph g1= new MyGraph();
+	String y = "Vertices\n"+"Edges:\n"+"Vertex Count: 0\n"+"Edge Count: 0";
+	assertEquals(g1.toString(),y);
+	}
+
+@Test
+public void testGetgraph(){
+MyGraph g1= new MyGraph();
+assertEquals(g1.getGraph(),g1.myGraph);
+}
 
 }

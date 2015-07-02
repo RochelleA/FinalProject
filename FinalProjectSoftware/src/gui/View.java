@@ -66,14 +66,18 @@ class View extends JFrame implements java.util.Observer {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setBounds(0, 0, 700, 700);
 		panel.setLayout(null);
-		AddVertexButton.setBounds(300, 80, 100, 50);
-		AddEdgeButton.setBounds(430, 80, 100, 50);
-		EnterButton.setBounds(300, 160, 100, 50);
-		GraphString.setBounds(30, 160,240, 100);
-		MessageFromController.setBounds(30, 80, 240, 50);
-		lblGraphDisplay.setBounds(300, 30, 100, 50);
+		AddVertexButton.setBounds(300, 60, 100, 30);
+		AddEdgeButton.setBounds(430, 60, 100, 30);
+		EnterButton.setBounds(300, 120, 100, 30);
+		GraphString.setBounds(30, 180,240, 90);
+		GraphString.setLineWrap(true);
+		GraphString.setWrapStyleWord(true);
+		MessageFromController.setBounds(30, 60, 240, 90);
+		MessageFromController.setLineWrap(true);
+		MessageFromController.setWrapStyleWord(true);
+		lblGraphDisplay.setBounds(230, 10, 100, 30);
 		DisplayGraph.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
-		DisplayGraph.setBounds(30, 290, 500, 375);
+		DisplayGraph.setBounds(30, 300, 500, 375);
 		panel.add(DisplayGraph);
 		panel.add(AddVertexButton);
 		panel.add(AddEdgeButton);
@@ -138,7 +142,7 @@ class View extends JFrame implements java.util.Observer {
                 }
                 
             });
-	       ViewVV.getRenderContext().setLabelOffset(20);
+	       ViewVV.getRenderContext().setLabelOffset(17);
 	        ViewPickedState = ViewVV.getPickedVertexState();
 	        DisplayGraph.removeAll();
 	        DisplayGraph.add(ViewVV);
@@ -217,6 +221,7 @@ class View extends JFrame implements java.util.Observer {
 	}
 
 	public void changeToNoPickingMouse() {
+		currentVertex=null;
 		PluggableGraphMouse NoPick = new PluggableGraphMouse();
 		ViewVV.setGraphMouse(NoPick);
 //		ViewVV.setGraphMouse(NoPickMouse.gm);

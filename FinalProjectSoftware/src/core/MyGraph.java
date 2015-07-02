@@ -1,6 +1,7 @@
 package core;
 
 import java.util.Collection;
+
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
@@ -12,7 +13,7 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static DirectedSparseGraph<MyVertex, MyEdge> myGraph = new DirectedSparseGraph<MyVertex, MyEdge>();
+	public  DirectedSparseGraph<MyVertex, MyEdge> myGraph = new DirectedSparseGraph<MyVertex, MyEdge>();
 	int vertexCount;
 	int edgeCount;
 	CircleLayout<MyVertex, MyEdge> layout;
@@ -23,55 +24,59 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		this.edgeCount=0;
 	 }
 
-	
-	public int GetMyVertexCount(){
-		return vertexCount;
-	}
-	
-	public int GetMyEdgeCount(){
-		return edgeCount;
-	}
-	
+//	
+//	public int GetMyVertexCount(){
+//		return vertexCount;
+//	}
+//	
+//	public int GetMyEdgeCount(){
+//		return this.edgeCount;
+//	}
+//	
 	public Collection<MyVertex> getMyVertices(){
 		return myGraph.getVertices();
 	}
 	
 	public Collection<MyEdge> getMyEdges(){
-		MyGraph vg = new MyGraph();
-		return vg.getmygraph().getEdges();
+		return myGraph.getEdges();
 	}
 	public DirectedSparseGraph<MyVertex, MyEdge> getmygraph(){
 		return myGraph;
 	}
 	
 	@Override
-	public boolean addMyVertex() {
-		MyVertex v = new MyVertex();
-		v.setId(++vertexCount);
+	public MyVertex addMyVertex() {
+		++vertexCount;
+		MyVertex v = new MyVertex(vertexCount);
+//		v.setId(vertexCount);
 		myGraph.addVertex(v);
-		return true;
+		return v;
 	}
 	
-	public boolean addMyEdge(MyVertex v1, MyVertex v2){
-			
-		//create new MyGraph object
-		MyGraph g = new MyGraph();
-			
-		//create new edge
-		MyEdge e1 = new MyEdge(v1,v2);
-			
+	public MyEdge addMyEdge(MyVertex v1, MyVertex v2){
+	
+				
+		if(v1==v2){
+			throw new IllegalArgumentException("The to and from vertices must be distinct");
+		}
+		System.out.println("Current edge count " +edgeCount);
+	//create new edge
+		    ++edgeCount;
+		    System.out.println("New edge count " +edgeCount);
+			MyEdge e1 = new MyEdge(edgeCount);
+			e1.setFrom(v1);
+			e1.setTo(v2);
+			e1.setLabel(v1, v2);
 		//check whether the MyGraph g already contains an edge e in its DirectedSparseGraph called myGraph.
-		if (g.getmygraph().containsEdge(e1)){
+		if (myGraph.containsEdge(e1)){
+//			--edgeCount;
 			throw new IllegalArgumentException("Edge already exist");
 		}
 		else{
-			g.getmygraph().addEdge(e1, v1,v2, EdgeType.DIRECTED);
-			++edgeCount;
+			myGraph.addEdge(e1, v1,v2, EdgeType.DIRECTED);
+			System.out.println("this else is evaluated");
+		return e1;
 		}
-			
-		myGraph=g.getmygraph();
-			
-		return true;
 			
 		}
 		
@@ -85,8 +90,7 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 	}
 	
 	public CircleLayout<MyVertex, MyEdge> getGraphLayout(){
-		MyGraph g1 = new MyGraph();
-		layout = new CircleLayout<MyVertex,MyEdge>(g1.getmygraph());
+		layout = new CircleLayout<MyVertex,MyEdge>(myGraph);
 		return layout;
 	}
 	public void setGraphLayout(CircleLayout<MyVertex, MyEdge> layout){
