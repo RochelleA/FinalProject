@@ -1,7 +1,6 @@
 package core;
 
 public class MyEdge implements IMyEdge {
-	static int edgeCount=0;
 	// id identifies an edge in the graph
 	int id;
 	//identifies the argument the edge comes from
@@ -10,19 +9,18 @@ public class MyEdge implements IMyEdge {
 	MyVertex to;
 	//is a label such as Att(1,2)
 	String label;
+
+	 static MyVertex v1= new MyVertex(0);
+	static MyVertex v2= new MyVertex(0);
 	//count the number of edge so that the edge Id can be incremented by 1 each time.
 	
 	
-	public MyEdge(MyVertex v, MyVertex y){
-		if(v==y){
-			throw new IllegalArgumentException("The to and from vertices must be distinct");
-		}
-		else{
-		this.from = v;
-		this.to= y;
-		this.id=++edgeCount;
-		this.label= "Att("+v.getId()+","+y.getId()+")";
-		}
+	public MyEdge(int id){
+		this.from = v1;
+		this.to= v2;
+		this.id=id;
+		this.label= "Att("+v1.getId()+","+v2.getId()+")";
+		
 	}
 
 	public int getId() {
@@ -52,7 +50,9 @@ public class MyEdge implements IMyEdge {
 	public void setTo(MyVertex to) {
 		this.to = to;
 	}
-	
+	public void setLabel(MyVertex vl1, MyVertex vl2){
+		this.label="Att("+vl1.getId()+","+vl2.getId()+")";
+	}
 	public String toString() {
         return "Att";
 	}

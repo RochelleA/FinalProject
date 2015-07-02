@@ -14,13 +14,13 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
  *
  */
 public interface IMyGraph {
-	
-	
-	//Returns the number of vertices in the graph
-	public int GetMyVertexCount();
-	
-	//Returns the number of edges in the graph
-	public int GetMyEdgeCount();
+//	
+//	
+//	//Returns the number of vertices in the graph
+//	public int GetMyVertexCount();
+//	
+//	//Returns the number of edges in the graph
+//	public int GetMyEdgeCount();
 
 	//Return all the edges in the Graph.
 	public Collection<MyVertex> getMyVertices();
@@ -29,10 +29,10 @@ public interface IMyGraph {
 	public Collection<MyEdge> getMyEdges();
 
 	//This method first creates a new vertex and then adds it to the graph
-	public boolean addMyVertex();
+	public MyVertex addMyVertex();
 
 	//This method creates a vertex between V1 and V2 and then adds it to the graph
-	public boolean addMyEdge(MyVertex v1, MyVertex v2);
+	public MyEdge addMyEdge(MyVertex v1, MyVertex v2);
 	
 	//return myGraph.toString();
 	public String toString();

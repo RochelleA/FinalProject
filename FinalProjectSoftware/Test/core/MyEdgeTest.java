@@ -15,26 +15,20 @@ import core.MyVertex;
  *
  */
 public class MyEdgeTest {
-
+//	MyVertex v1 = new MyVertex(0);
+//	MyVertex v2 = new MyVertex(1);
+	MyVertex v3 = new MyVertex(2);
+	MyEdge e1 = new MyEdge(0);
 	/**
 	 * Test method for {@link core.MyEdge#MyEdge(core.MyVertex, core.MyVertex)}.
 	 */
 	@Test
 	public void testMyEdge() {
-		//create a vertex and store the current vertex count into an integer. This value is the id for the vertex v1.
-		MyVertex v1 = new MyVertex();
-		int v1VertexCount = 0;
-
-		//create a vertex and store the current vertex count into an integer. This value is the id for the vertex v2.
-		MyVertex v2 = new MyVertex();
-		int v2VertexCount = 0;
-
 		
-		MyEdge e1 = new MyEdge(v1,v2);
-		assertEquals(MyEdge.edgeCount,e1.id);
-		assertEquals(v1,e1.from);
-		assertEquals(v2,e1.to);
-		assertEquals("Att("+ v1VertexCount +","+ v2VertexCount +")",e1.label);
+		assertEquals(0,e1.id);
+		assertEquals(MyEdge.v1,e1.from);
+		assertEquals(MyEdge.v2,e1.to);
+		assertEquals("Att("+ 0 +","+ 0 +")",e1.label);
 		
 		
 	}
@@ -44,10 +38,7 @@ public class MyEdgeTest {
 	 */
 	@Test
 	public void testGetId() {
-		MyVertex v1 = new MyVertex();
-		MyVertex v2 = new MyVertex();
-		MyEdge e1 = new MyEdge(v1,v2);
-		assertEquals(MyEdge.edgeCount, e1.getId());
+		assertEquals(0, e1.getId());
 	}
 
 	/**
@@ -55,18 +46,8 @@ public class MyEdgeTest {
 	 */
 	@Test
 	public void testGetLabel() {
-		
-		//create a vertex and store the current vertex count into an integer. This value is the id for the vertex v1.
-		MyVertex v1 = new MyVertex();
-		int v1VertexCount = 0;
-
-		//create a vertex and store the current vertex count into an integer. This value is the id for the vertex v2.
-		MyVertex v2 = new MyVertex();
-		int v2VertexCount = 0;
-		
-		MyEdge e1 = new MyEdge(v1,v2);
 		String x = e1.getLabel();
-		String y = "Att("+v1VertexCount+","+v2VertexCount+")";
+		String y = "Att("+ 0 +","+0+")";
 		assertEquals(y,x);
 	}
 
@@ -75,9 +56,6 @@ public class MyEdgeTest {
 	 */
 	@Test
 	public void testSetId() {
-		MyVertex v1 = new MyVertex();
-		MyVertex v2 = new MyVertex();
-		MyEdge e1 = new MyEdge(v1,v2);
 		e1.setId(3);
 		assertEquals(3, e1.getId());
 	}
@@ -87,10 +65,8 @@ public class MyEdgeTest {
 	 */
 	@Test
 	public void testGetFrom() {
-		MyVertex v1 = new MyVertex();
-		MyVertex v2 = new MyVertex();
-		MyEdge e1 = new MyEdge(v1,v2);
-		assertEquals(v1, e1.getFrom());
+		e1.setFrom(MyEdge.v1);
+		assertEquals(MyEdge.v1, e1.getFrom());
 			}
 
 	/**
@@ -98,10 +74,6 @@ public class MyEdgeTest {
 	 */
 	@Test
 	public void testSetFrom() {
-		MyVertex v1 = new MyVertex();
-		MyVertex v2 = new MyVertex();
-		MyVertex v3 = new MyVertex();
-		MyEdge e1 = new MyEdge(v1,v2);
 		e1.setFrom(v3);
 		assertEquals(v3,e1.getFrom());
 		
@@ -112,10 +84,8 @@ public class MyEdgeTest {
 	 */
 	@Test
 	public void testGetTo() {
-		MyVertex v1 = new MyVertex();
-		MyVertex v2 = new MyVertex();
-		MyEdge e1 = new MyEdge(v1,v2);
-		assertEquals(v2, e1.getTo());
+		e1.setTo(MyEdge.v2);
+		assertEquals(MyEdge.v2, e1.getTo());
 	}
 
 	/**
@@ -123,21 +93,23 @@ public class MyEdgeTest {
 	 */
 	@Test
 	public void testSetTo() {
-		MyVertex v1 = new MyVertex();
-		MyVertex v2 = new MyVertex();
-		MyVertex v3 = new MyVertex();
-		MyEdge e1 = new MyEdge(v1,v2);
 		e1.setTo(v3);
 		assertEquals(v3, e1.getTo());
 	}
 	
+	@Test 
+	public void testSetLabel(){
+		e1.setLabel(MyEdge.v1, MyEdge.v2);
+		String y = "Att(0,0)";
+		assertEquals(e1.label,y );
+	}
+	
+	
 	@Test
 	public void testToString(){
-		MyVertex v1 = new MyVertex();
-		MyVertex v2 = new MyVertex();
-		MyEdge e1 = new MyEdge(v1, v2);
 		assertEquals(e1.toString(),"Att");
 
 	}
 
 }
+

@@ -23,8 +23,8 @@ public class MyVertex implements IMyVertex {
 	
 	
 //	public MyVertex(int vertexId) {
-	public MyVertex(){
-		this.id=0;
+	public MyVertex(int id){
+		this.id=id;
 		this.weight=0;
 		this.label="no label";
 
