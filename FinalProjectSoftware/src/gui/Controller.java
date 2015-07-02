@@ -18,6 +18,9 @@ class Controller implements ActionListener,ItemListener {
 	MyGraph ControllerGraph;
 	boolean clicked= false;
 
+	MyVertex from = new MyVertex(0);
+	MyVertex to = new MyVertex(0);
+
 	Controller() {	
 		System.out.println ("Controller()");
 	} 
@@ -25,10 +28,16 @@ class Controller implements ActionListener,ItemListener {
 		  Object src = e.getSource();
 
 		  if (src == MyView.AddVertexButton) {
+			  MyView.ViewPickedState.clear();
+			  MyView.changeToNoPickingMouse();
+			  MyView.MessageFromController.setText("");
+			  MyView.panel.add(MyView.MessageFromController);
 			System.out.println("AddVertexButton Pressed");
 			MyModel.addVertex();
 		  }
 		  else if (src == MyView.AddEdgeButton) {
+			  MyView.ViewPickedState.clear();
+			  MyView.currentVertex=null;
 			  System.out.println("AddEdgeButton Pressed");
 			  MyView.AskForFromVertex();
 			  MyView.MessageFromController.setText("Please select an attacking vertex");
@@ -38,7 +47,7 @@ class Controller implements ActionListener,ItemListener {
 			  System.out.println("EnterButton Pressed");
 			  System.out.println("current"+MyView.currentVertex);
 			  if(MyView.currentVertex==null){
-				 MyView.MessageFromController.setText("You have not select a vertex. \n Please select a vertex");
+				 MyView.MessageFromController.setText("You have not select a vertex. Please select a vertex");
 				 MyView.panel.add(MyView.MessageFromController);
 			  }
 			  else{ 
@@ -85,7 +94,6 @@ class Controller implements ActionListener,ItemListener {
 				clicked=true;
 				MyView.MessageFromController.setText("The vertex used will be "+ MyView.currentVertex);
 				MyView.panel.add(MyView.MessageFromController);
-				MyVertex from = new MyVertex();
 				from =MyView.currentVertex;
 				MyModel.storeVertex(from);
 				System.out.println("from vertex is "+from);
@@ -96,9 +104,18 @@ class Controller implements ActionListener,ItemListener {
 		 else if (clicked==true){
 			 System.out.print(clicked);
 			 clicked=false;
+			 if (from ==MyView.currentVertex){
+				 MyView.MessageFromController.setText("You have selected the same attacking and attacked vertex. Please start again.");
+					MyView.panel.add(MyView.MessageFromController);
+					MyView.currentVertex=null;
+					MyModel.v1=null;
+//					MyView.ViewPickedState.clear();
+					MyView.changeToNoPickingMouse();
+			 }
+			 else{
+			
 			 MyView.MessageFromController.setText("The vertex used will be "+ MyView.currentVertex);
 			MyView.panel.add(MyView.MessageFromController);
-				MyVertex to = new MyVertex();
 				to =MyView.currentVertex;
 				MyModel.storeVertex(to);
 				System.out.println("to vertex is "+to);
@@ -110,5 +127,5 @@ class Controller implements ActionListener,ItemListener {
 			 
 		 }
 	}
- 
+	}
 } 
