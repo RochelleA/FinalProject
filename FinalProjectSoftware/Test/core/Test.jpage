@@ -1,0 +1,1 @@
+import core.MyEdge;import core.MyVertex;MyEdge e1 = new Myedge();MyVertex v1 = new MyVertex();MyVertex v2 = new MyVertex();e1.toString();
