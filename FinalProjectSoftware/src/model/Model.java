@@ -1,10 +1,10 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import net.miginfocom.layout.LC;
 import core.*;
 
 public class Model extends java.util.Observable {	
@@ -107,8 +107,9 @@ public class Model extends java.util.Observable {
 	
 	public MyLabelling findL1(){
 		HashSet<MyVertex> UA = new HashSet<MyVertex>();
-		NotLabelledVertices =  new HashSet<MyVertex>(this.ModelGraph.getMyVertices());
-		Iterator<MyVertex> vertexIterator = NotLabelledVertices.iterator();
+		MyLabelling L1= new MyLabelling(1);
+		L1.setNotLabelledVertices(new HashSet<MyVertex>(this.ModelGraph.getMyVertices()));
+		Iterator<MyVertex> vertexIterator = L1.getNotLabelledVertices().iterator();
 		while(vertexIterator.hasNext()){
 			MyVertex currentVertex = vertexIterator.next();
 			if(this.ModelGraph.getmygraph().getPredecessors(currentVertex).isEmpty()){
@@ -119,11 +120,11 @@ public class Model extends java.util.Observable {
 				System.out.println(currentVertex.toString()+" has predecessors");
 			}
 		}
-		NotLabelledVertices.removeAll(UA);
+		L1.getNotLabelledVertices().removeAll(UA);
 		System.out.println(" The Unattacked edges areUA); "+UA);
-		MyLabelling L1= new MyLabelling(1);
+		
 		L1.setInVerties(UA);
-		Iterator<MyVertex> NotLabelledIterator = NotLabelledVertices.iterator();
+		Iterator<MyVertex> NotLabelledIterator = L1.getNotLabelledVertices().iterator();
 		while(NotLabelledIterator.hasNext()){
 			MyVertex v1= NotLabelledIterator.next();
 			HashSet<MyVertex> v1Attackers = new HashSet<MyVertex>(this.ModelGraph.getmygraph().getPredecessors(v1));
@@ -131,20 +132,63 @@ public class Model extends java.util.Observable {
 			intsection.retainAll(L1.getInVertices());
 			if(!(intsection.isEmpty())){
 				L1.addOutVertex(v1);
+				L1.getNotLabelledVertices().removeAll(L1.getOutVertices());
 			}
+			
 		}
 		return L1;
 	}
 	public MyLabelling GroundedLabelling(){
 		MyLabelling LPrevious = new MyLabelling(0);
 		MyLabelling LCurrent= new MyLabelling(0);
-		HashSet<MyVertex> vertexList =new HashSet<MyVertex>(this.ModelGraph.getMyVertices());
 		LPrevious=this.findL1();
+		System.out.println("L1/unattacked is: " +LPrevious.toString());
 		while(!(LPrevious==LCurrent)){
-			
+			LCurrent=LPrevious;
+			Iterator<MyVertex> InNotLabelledIterator = LPrevious.getNotLabelledVertices().iterator();
+			while(InNotLabelledIterator.hasNext()){
+				MyVertex va= InNotLabelledIterator.next();
+				System.out.println("va is: " +va.toString());
+				HashSet<MyVertex> vaAttackers = new HashSet<MyVertex>(this.ModelGraph.getmygraph().getPredecessors(va));
+				final HashSet<MyVertex> TempVaAttackers= new HashSet<MyVertex>(vaAttackers);
+				System.out.println("Va attacker contains: " +vaAttackers);
+				Iterator<MyVertex> AttackersIterator = vaAttackers.iterator();
+				while(AttackersIterator.hasNext()){
+					MyVertex vb = AttackersIterator.next();
+					System.out.println("vb is :" +vb.toString());
+					HashSet<MyVertex> h = new HashSet<MyVertex>();
+					if(vb.isOut()){
+						h.add(vb);
+						System.out.println("h contains"+h);
+						AttackersIterator.remove();
+					}	
+					System.out.println("Now TempVattackers contains" +TempVaAttackers +" and h contains" + h);
+				if(TempVaAttackers.equals(h)){
+					System.out.println(LCurrent.addInVertex(va));
+					InNotLabelledIterator.remove();
+				}
+			}
+				LPrevious.getNotLabelledVertices().removeAll(LCurrent.getInVertices());
+			}
+			Iterator<MyVertex> OutNotLabelledIterator = LPrevious.getNotLabelledVertices().iterator();
+			while(OutNotLabelledIterator.hasNext()){
+				MyVertex v1= OutNotLabelledIterator.next();
+				HashSet<MyVertex> v1Attackers = new HashSet<MyVertex>(this.ModelGraph.getmygraph().getPredecessors(v1));
+				HashSet<MyVertex> intsection = new HashSet<MyVertex>(v1Attackers);
+				intsection.retainAll(LPrevious.getInVertices());
+				if(!(intsection.isEmpty())){
+					LCurrent.addOutVertex(v1);
+				}
+				LPrevious.getNotLabelledVertices().removeAll(LPrevious.getOutVertices());
+			}
+			System.out.println("Current status of the labelling: "+ LCurrent.toString() +"Previous labelling state"+ LPrevious.toString());
 		}
 		
-		return null;
+		LCurrent.setUndecVertices(LPrevious.getNotLabelledVertices());
+		return LCurrent;
 		
+	}
+	public HashSet<MyVertex> getGroundedExtension(){
+		return this.GroundedLabelling().getInVertices();
 	}
 } 

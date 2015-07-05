@@ -9,6 +9,7 @@ public class MyLabelling implements IMyLabelling {
 	HashSet<MyVertex> InLabels;
 	HashSet<MyVertex> OutLabels;
 	HashSet<MyVertex> UndecLabels;
+	private HashSet<MyVertex> NotLabelledVertices;
 	
 
 	public MyLabelling(int id) {
@@ -16,7 +17,7 @@ public class MyLabelling implements IMyLabelling {
 		InLabels= new HashSet<MyVertex>();
 		OutLabels = new HashSet<MyVertex>();
 		UndecLabels = new HashSet<MyVertex>();
-		
+		setNotLabelledVertices(new HashSet<MyVertex>());
 	}
 
 	@Override
@@ -25,7 +26,7 @@ public class MyLabelling implements IMyLabelling {
 	}
 
 	@Override
-	public void addInVertex(MyVertex v) {
+	public boolean addInVertex(MyVertex v) {
 		if(this.OutLabels.contains(v)){
 			throw new IllegalArgumentException("This vertex is already labelled out");
 		}
@@ -36,16 +37,16 @@ public class MyLabelling implements IMyLabelling {
 			v.setLabel("IN");
 			InLabels.add(v);
 		}
+		return true;
 	}
 	
-	public HashSet<MyVertex> setInVerties(HashSet<MyVertex> h1){
+	public void setInVerties(HashSet<MyVertex> h1){
 		Iterator<MyVertex> I = h1.iterator();
 		while(I.hasNext()){
 			I.next().setLabel("IN");
 		}
 		InLabels=h1;
-		return InLabels;
-	}
+			}
 
 	@Override
 	public HashSet<MyVertex> getOutVertices() {
@@ -53,15 +54,18 @@ public class MyLabelling implements IMyLabelling {
 	}
 
 	@Override
-	public void addOutVertex(MyVertex v) {
+	public boolean addOutVertex(MyVertex v) {
 		if(this.InLabels.contains(v)){
 			throw new IllegalArgumentException("This vertex is already labelled in");
 		}
 		if(this.UndecLabels.contains(v)){
 			throw new IllegalArgumentException("This vertex is already labelled undec");
 		}
-		v.setLabel("OUT");
+		else{v.setLabel("OUT");
 		OutLabels.add(v);
+		return true;
+		}
+		
 	}
 
 	@Override
@@ -70,7 +74,7 @@ public class MyLabelling implements IMyLabelling {
 	}
 
 	@Override
-	public void addUndecVertex(MyVertex v) {
+	public boolean addUndecVertex(MyVertex v) {
 		if(this.InLabels.contains(v)){
 			throw new IllegalArgumentException("This vertex is already labelled in");
 		}
@@ -79,7 +83,16 @@ public class MyLabelling implements IMyLabelling {
 		}
 		v.setLabel("UNDEC");
 		UndecLabels.add(v);
+		return true;
 	}
+
+	public void setUndecVertices(HashSet<MyVertex> h1){
+		Iterator<MyVertex> I = h1.iterator();
+		while(I.hasNext()){
+			I.next().setLabel("IN");
+		}
+		UndecLabels=h1;
+			}
 
 	@Override
 	public String toString(){
@@ -130,5 +143,18 @@ public boolean contains(MyVertex v){
 		return false;
 	}
 }
+
+public HashSet<MyVertex> getNotLabelledVertices() {
+	return NotLabelledVertices;
+}
+
+public void setNotLabelledVertices(HashSet<MyVertex> notLabelledVertices) {
+	Iterator<MyVertex> I = notLabelledVertices.iterator();
+	while(I.hasNext()){
+		I.next().setLabel("NONE");
+	}
+	NotLabelledVertices=notLabelledVertices;
+}
+
 }
 

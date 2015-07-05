@@ -65,19 +65,44 @@ public class ModelTest {
 		assertTrue(HIn1.contains(v2));
 		assertTrue(HIn1.contains(v3));
 		assertEquals(v3.getLabel(), "IN");
-		assertTrue(m.NotLabelledVertices.isEmpty());
+		assertTrue(L1.getNotLabelledVertices().isEmpty());
 		@SuppressWarnings("unused")
 		MyEdge e1 =m.ModelGraph.addMyEdge(v1, v3);
 		MyLabelling L2 = m.findL1();
 		HashSet<MyVertex> HIn2 = L2.getInVertices();
-		System.out.println("The In vertices are: " + HIn2+"The labelling is: "+ L2.toString());
+		System.out.println("The In vertices are: " + HIn2+"The labelling is: "+ L2.toString()+ "The not labelled vertices are: "+ L2.getNotLabelledVertices());
 		assertTrue(HIn2.contains(v1));
 		assertTrue(HIn2.contains(v2));
 		assertFalse(HIn2.contains(v3));
-		assertTrue(m.NotLabelledVertices.contains(v3));
+		assertTrue(L2.getNotLabelledVertices().isEmpty());
 		assertTrue(L2.getOutVertices().contains(v3));
 		assertEquals(v3.getLabel(), "OUT");
 
 	}
-
+	
+	@SuppressWarnings("unused")
+	@Test 
+	public void TestGroundedLabelling(){
+		Model m = new Model();
+		MyVertex v1= m.ModelGraph.addMyVertex();
+		MyVertex v2=m.ModelGraph.addMyVertex();
+		MyVertex v3= m.ModelGraph.addMyVertex();
+		MyVertex v4= m.ModelGraph.addMyVertex();
+		MyVertex v5= m.ModelGraph.addMyVertex();
+		MyEdge e1 =m.ModelGraph.addMyEdge(v1, v2);
+		MyEdge e2 = m.ModelGraph.addMyEdge(v3, v2);
+		MyEdge e3 = m.ModelGraph.addMyEdge(v2, v4);
+		MyEdge e4 = m.ModelGraph.addMyEdge(v2, v5);
+		MyLabelling l1 =m.GroundedLabelling();
+		System.out.println("not lablled vertices" + l1.getNotLabelledVertices());
+		assertTrue(l1.getNotLabelledVertices().isEmpty());
+		assertTrue(l1.getInVertices().contains(v1));
+		assertTrue(l1.getInVertices().contains(v3));
+		assertTrue(l1.getInVertices().contains(v4));
+		assertTrue(l1.getInVertices().contains(v5));
+		assertTrue(l1.getOutVertices().contains(v2));
+		System.out.println("Grounded Labelling is: " + l1.toString()+ "\n Vertices not labelled anymore");
+		
+	}
+	
 }
