@@ -1,6 +1,8 @@
 package core;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
@@ -54,7 +56,10 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 	}
 	
 	public MyEdge addMyEdge(MyVertex v1, MyVertex v2){
-	
+		if(!(this.getMyVertices().contains(v1)) || !(this.getMyVertices().contains(v2))){
+			System.out.println("edge not added");
+			throw new IllegalArgumentException("Vertices not in graph");
+		}
 				
 		if(v1==v2){
 			throw new IllegalArgumentException("The to and from vertices must be distinct");
@@ -72,10 +77,14 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 //			--edgeCount;
 			throw new IllegalArgumentException("Edge already exist");
 		}
+		else if (myGraph.addEdge(e1, v1,v2, EdgeType.DIRECTED)){
+			System.out.println("edge added");
+			return e1;
+		}
 		else{
-			myGraph.addEdge(e1, v1,v2, EdgeType.DIRECTED);
-			System.out.println("this else is evaluated");
-		return e1;
+			System.out.println("edge not added");
+			throw new IllegalArgumentException("Vertices not in graph");
+		
 		}
 			
 		}
@@ -106,5 +115,77 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
         return vv;
 	}
 	
+	public HashSet<MyVertex> getNoneLabelledVertices(){
+		HashSet<MyVertex> noneLabelledVertices = new HashSet<MyVertex>();
+		HashSet<MyVertex> listVertices = new HashSet<MyVertex>(this.getMyVertices());
+		Iterator<MyVertex> vertexIterator = listVertices.iterator();
+		while(vertexIterator.hasNext()){
+			MyVertex currentVertex = vertexIterator.next();
+			if(currentVertex.hasNoLabel()){
+				noneLabelledVertices.add(currentVertex);
+			}
+			else{
+				System.out.println(currentVertex.toString() + "has a label" + currentVertex.getLabel());
+			}
+		}
+			System.out.print("Vertices Labelled none are "+noneLabelledVertices);
+			return noneLabelledVertices;
+		
+	}
 	
+	public HashSet<MyVertex> getInLabelledVertices(){
+		HashSet<MyVertex> inLabelledVertices = new HashSet<MyVertex>();
+		HashSet<MyVertex> listVertices = new HashSet<MyVertex>(this.getMyVertices());
+		Iterator<MyVertex> vertexIterator = listVertices.iterator();
+		while(vertexIterator.hasNext()){
+			MyVertex currentVertex = vertexIterator.next();
+			if(currentVertex.isIn()){
+				inLabelledVertices.add(currentVertex);
+			}
+			else{
+				System.out.println(currentVertex.toString() + "has a label" + currentVertex.getLabel());
+			}
+		}
+			System.out.print("Vertices Labelled in are "+inLabelledVertices);
+			return inLabelledVertices;
+		
+	}
+	
+	
+	public HashSet<MyVertex> getOutLabelledVertices(){
+		HashSet<MyVertex> outLabelledVertices = new HashSet<MyVertex>();
+		HashSet<MyVertex> listVertices = new HashSet<MyVertex>(this.getMyVertices());
+		Iterator<MyVertex> vertexIterator = listVertices.iterator();
+		while(vertexIterator.hasNext()){
+			MyVertex currentVertex = vertexIterator.next();
+			if(currentVertex.isOut()){
+				outLabelledVertices.add(currentVertex);
+			}
+			else{
+				System.out.print("Vertices Labelled out are "+outLabelledVertices);
+				System.out.println(currentVertex.toString() + "has a label" + currentVertex.getLabel());
+			}
+		}
+			return outLabelledVertices;
+		
+	}
+	
+	public HashSet<MyVertex> getUndecLabelledVertices(){
+		HashSet<MyVertex> undecLabelledVertices = new HashSet<MyVertex>();
+		HashSet<MyVertex> listVertices = new HashSet<MyVertex>(this.getMyVertices());
+		Iterator<MyVertex> vertexIterator = listVertices.iterator();
+		while(vertexIterator.hasNext()){
+			MyVertex currentVertex = vertexIterator.next();
+			if(currentVertex.isIn()){
+				undecLabelledVertices.add(currentVertex);
+			}
+			else{
+				System.out.print("Vertices Labelled undec are "+undecLabelledVertices);
+				System.out.println(currentVertex.toString() + "has a label" + currentVertex.getLabel());
+			}
+		}
+			return undecLabelledVertices;
+		
+	}
+
 }
