@@ -120,16 +120,29 @@ public class Model extends java.util.Observable {
 			}
 		}
 		NotLabelledVertices.removeAll(UA);
-		System.out.println(UA);
+		System.out.println(" The Unattacked edges areUA); "+UA);
 		MyLabelling L1= new MyLabelling(1);
 		L1.setInVerties(UA);
+		Iterator<MyVertex> NotLabelledIterator = NotLabelledVertices.iterator();
+		while(NotLabelledIterator.hasNext()){
+			MyVertex v1= NotLabelledIterator.next();
+			HashSet<MyVertex> v1Attackers = new HashSet<MyVertex>(this.ModelGraph.getmygraph().getPredecessors(v1));
+			HashSet<MyVertex> intsection = new HashSet<MyVertex>(v1Attackers);
+			intsection.retainAll(L1.getInVertices());
+			if(!(intsection.isEmpty())){
+				L1.addOutVertex(v1);
+			}
+		}
 		return L1;
 	}
-	
 	public MyLabelling GroundedLabelling(){
-		MyLabelling L0 = new MyLabelling(0);
+		MyLabelling LPrevious = new MyLabelling(0);
+		MyLabelling LCurrent= new MyLabelling(0);
 		HashSet<MyVertex> vertexList =new HashSet<MyVertex>(this.ModelGraph.getMyVertices());
-		
+		LPrevious=this.findL1();
+		while(!(LPrevious==LCurrent)){
+			
+		}
 		
 		return null;
 		

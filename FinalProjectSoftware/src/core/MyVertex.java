@@ -59,11 +59,11 @@ public class MyVertex implements IMyVertex {
 	}
 	
 
-	public boolean equals(Object other) {
-		if (other == this) return true;
-	    if (other == null) return false;
-	    if (getClass() != other.getClass()) return false;
-	    MyVertex vertex = (MyVertex)other;
+	public boolean equals(Object vertex2) {
+		if (vertex2 == this) return true;
+	    if (vertex2 == null) return false;
+	    if (getClass() != vertex2.getClass()) return false;
+	    MyVertex vertex = (MyVertex)vertex2;
 	    return (id == vertex.id && label == vertex.label && weight == vertex.weight );
 	  }
 	

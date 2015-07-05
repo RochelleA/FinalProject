@@ -1,6 +1,6 @@
 package core;
 
-import java.util.ArrayList;
+
 import java.util.HashSet;
 
 public interface IMyLabelling {
