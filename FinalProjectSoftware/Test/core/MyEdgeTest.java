@@ -110,6 +110,19 @@ public class MyEdgeTest {
 		assertEquals(e1.toString(),"Att");
 
 	}
+	
+	@Test
+	public void testEquals(){
+		MyEdge e1 = new MyEdge(1);
+		MyEdge e2 = new MyEdge(1);
+		MyEdge e3 = new MyEdge(1);
+		MyEdge e4 = new MyEdge(2);
+		MyVertex v4 = new MyVertex(3);
+		e3.setFrom(v4);
+		assertFalse(e1.equals(e3));
+		assertFalse(e1.equals(e4));
+		assertTrue(e1.equals(e2));
+		}
 
 }
 

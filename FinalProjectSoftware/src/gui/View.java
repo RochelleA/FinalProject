@@ -69,7 +69,7 @@ class View extends JFrame implements java.util.Observer {
 		AddVertexButton.setBounds(300, 60, 100, 30);
 		AddEdgeButton.setBounds(430, 60, 100, 30);
 		EnterButton.setBounds(300, 120, 100, 30);
-		GraphString.setBounds(30, 180,240, 90);
+		GraphString.setBounds(30, 180,500, 90);
 		GraphString.setLineWrap(true);
 		GraphString.setWrapStyleWord(true);
 		MessageFromController.setBounds(30, 60, 240, 90);
@@ -158,7 +158,7 @@ class View extends JFrame implements java.util.Observer {
 		ViewVV.setGraphMouse(gm);
 	}
 
-	public MyVertex AskForFromVertex() {
+	public MyVertex askForFromVertex() {
 		gm.setMode(Mode.PICKING);
 		ViewVV.setGraphMouse(gm);
 		MessageFromController.setText("Please select an attacking vertex");
@@ -189,33 +189,10 @@ class View extends JFrame implements java.util.Observer {
 		
 	}
 	
-	public MyVertex AskForToVertex() {
+	public MyVertex askForToVertex() {
 		gm.setMode(Mode.PICKING);
 		ViewVV.setGraphMouse(gm);
 		MessageFromController.setText("Please select an attacked vertex");
-//		ViewPickedState.addItemListener(new ItemListener() {
-
-//			@Override
-//			public void itemStateChanged(ItemEvent e) {
-//				Object subject = e.getItem();
-//				if (subject instanceof MyVertex) {
-//					MyVertex vertex = (MyVertex) subject;
-//					if (ViewPickedState.isPicked(vertex)) {
-//						MessageFromController.setText("You have selected "+ vertex +" to");
-//						panel.add(MessageFromController);
-//						System.out.println("Vertex " + vertex
-//								+ " is now selected");
-//						currentVertex=vertex;
-//					} else {
-//						MessageFromController.setText("");
-//						panel.add(MessageFromController);
-//						System.out.println("Picking state and message box cleared");
-//						currentVertex=null;
-//					}
-//				}
-//			}
-//		});
-//		
 		return currentVertex;
 		
 	}
@@ -224,8 +201,6 @@ class View extends JFrame implements java.util.Observer {
 		currentVertex=null;
 		PluggableGraphMouse NoPick = new PluggableGraphMouse();
 		ViewVV.setGraphMouse(NoPick);
-//		ViewVV.setGraphMouse(NoPickMouse.gm);
-		
 	}
 
 

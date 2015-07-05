@@ -14,20 +14,17 @@ MyVertex v1 = new MyVertex(0);
 	
 	@Test
 	public void testMyVertex() {
-		System.out.println(v1.id);
 		
 		//need plus 1 because when the new vertex is created it alters the vertexCount
 //		System.out.println(MyVertex.vertexCount);
 //		MyVertex v = new MyVertex();
 		assertEquals(0,v1.id);
 		assertEquals(0, v1.weight);
-		assertEquals("no label", v1.label);
+		assertEquals("NONE", v1.label);
 	}
 	
 	@Test
 	public void testGetId() {
-		
-		System.out.println(""+v1.id);
 		int x = v1.getId();
 		assertEquals(0,x);
 	}
@@ -41,7 +38,7 @@ MyVertex v1 = new MyVertex(0);
 	@Test
 	public void testGetLabel() {
 		String x = v1.getLabel();
-		assertEquals("no label", x);
+		assertEquals("NONE", x);
 	}
 
 	@Test
@@ -66,5 +63,21 @@ MyVertex v1 = new MyVertex(0);
 	@Test
 public void testToString(){
 		assertEquals(v1.toString(),"V0");
+	}
+	
+	@Test 
+	public void testEquals(){
+		MyVertex v1 = new MyVertex(1);
+		MyVertex v2 = new MyVertex(1);
+		assertTrue(v1.equals(v2));
+		v2.setId(2);
+		assertFalse(v1.equals(v2));
+		v2.setId(1);
+		v2.setWeight(1);
+		assertFalse(v1.equals(v2));
+		v2.setWeight(0);
+		v2.setLabel("changed");
+		assertFalse(v1.equals(v2));
+		
 	}
 }

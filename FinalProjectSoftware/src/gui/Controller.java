@@ -37,9 +37,10 @@ class Controller implements ActionListener,ItemListener {
 		  }
 		  else if (src == MyView.AddEdgeButton) {
 			  MyView.ViewPickedState.clear();
+			  clicked=false;
 			  MyView.currentVertex=null;
 			  System.out.println("AddEdgeButton Pressed");
-			  MyView.AskForFromVertex();
+			  MyView.askForFromVertex();
 			  MyView.MessageFromController.setText("Please select an attacking vertex");
 			  MyView.panel.add(MyView.MessageFromController);
 		  }
@@ -51,26 +52,47 @@ class Controller implements ActionListener,ItemListener {
 				 MyView.panel.add(MyView.MessageFromController);
 			  }
 			  else{ 
-				check();
-			  }
+				  {
+					  if(clicked==false){
+						  System.out.print(clicked);
+							clicked=true;
+							MyView.MessageFromController.setText("The vertex used will be "+ MyView.currentVertex);
+							MyView.panel.add(MyView.MessageFromController);
+							from =MyView.currentVertex;
+							MyModel.addEdge(from);
+							System.out.println("from vertex is "+from);
+							MyView.ViewPickedState.clear();
+							MyView.changeToNoPickingMouse();
+							MyView.askForToVertex();
+						  }
+					 else if (clicked==true){
+						 System.out.print(clicked);
+						 clicked=false;
+						 if (from ==MyView.currentVertex){
+							 MyView.MessageFromController.setText("You have selected the same attacking and attacked vertex. Please start again.");
+								MyView.panel.add(MyView.MessageFromController);
+								MyView.currentVertex=null;
+								MyModel.v1=null;
+//								MyView.ViewPickedState.clear();
+								MyView.changeToNoPickingMouse();
+						 }
+						 else{
+						
+						 MyView.MessageFromController.setText("The vertex used will be "+ MyView.currentVertex);
+						MyView.panel.add(MyView.MessageFromController);
+							to =MyView.currentVertex;
+							MyModel.addEdge(to);
+							System.out.println("to vertex is "+to);
+							MyView.ViewPickedState.clear();
+							MyView.changeToNoPickingMouse();
+							MyView.currentVertex=null;
+							System.out.println("We have now reset the currentvertex to be null");
+
+						 
+					 }
+				}
+				}			  }
 		  }
-//		 else{
-//			 if ( clicked=false){
-//					clicked=true;
-//					MyView.MessageFromController.setText("The vertex used will be "+ MyView.currentVertex);
-//					MyView.panel.add(MyView.MessageFromController);
-//					MyVertex from = new MyVertex();
-//					from =MyView.currentVertex;
-//					MyModel.storeVertex(from);
-//					System.out.println("from vertex is "+from);
-//					MyView.ViewPickedState.clear();
-//					MyView.changeToNoPickingMouse();
-//					MyView.AskForToVertex();
-//				}
-//			 else {
-//				 System.out.println("system help");
-//			 }
-//		  }
 	}
 	
 	
@@ -87,45 +109,4 @@ class Controller implements ActionListener,ItemListener {
 	public void itemStateChanged(ItemEvent e) {
 		System.out.println("ItemEvent!");		
 	} 
-	
-	public void check(){
-		  if(clicked==false){
-			  System.out.print(clicked);
-				clicked=true;
-				MyView.MessageFromController.setText("The vertex used will be "+ MyView.currentVertex);
-				MyView.panel.add(MyView.MessageFromController);
-				from =MyView.currentVertex;
-				MyModel.storeVertex(from);
-				System.out.println("from vertex is "+from);
-				MyView.ViewPickedState.clear();
-				MyView.changeToNoPickingMouse();
-				MyView.AskForToVertex();
-			  }
-		 else if (clicked==true){
-			 System.out.print(clicked);
-			 clicked=false;
-			 if (from ==MyView.currentVertex){
-				 MyView.MessageFromController.setText("You have selected the same attacking and attacked vertex. Please start again.");
-					MyView.panel.add(MyView.MessageFromController);
-					MyView.currentVertex=null;
-					MyModel.v1=null;
-//					MyView.ViewPickedState.clear();
-					MyView.changeToNoPickingMouse();
-			 }
-			 else{
-			
-			 MyView.MessageFromController.setText("The vertex used will be "+ MyView.currentVertex);
-			MyView.panel.add(MyView.MessageFromController);
-				to =MyView.currentVertex;
-				MyModel.storeVertex(to);
-				System.out.println("to vertex is "+to);
-				MyView.ViewPickedState.clear();
-				MyView.changeToNoPickingMouse();
-				MyView.currentVertex=null;
-				System.out.println("We have now reset the currentvertex to be null");
-
-			 
-		 }
-	}
-	}
 } 

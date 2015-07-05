@@ -93,6 +93,7 @@ public void testAddEdge(){
 	MyGraph g4 = new MyGraph();
 	MyVertex v1 =g4.addMyVertex();
 	MyVertex v2= g4.addMyVertex();
+//	MyVertex v2 =new MyVertex(1);
 	MyEdge e1 = g4.addMyEdge(v1, v2);
 	System.out.println("g4 "+ g4.toString());
 	Collection<MyEdge> c4 = g4.getMyEdges();
@@ -113,4 +114,37 @@ MyGraph g1= new MyGraph();
 assertEquals(g1.getGraph(),g1.myGraph);
 }
 
+@Test
+public void testGetPredecessors(){
+	MyGraph g6= new MyGraph();
+	MyVertex v1=g6.addMyVertex();
+	MyVertex v2 =g6.addMyVertex();
+	MyEdge e1=g6.addMyEdge(v1, v2);
+	System.out.println("g6 as a graph "+g6.toString());
+	Collection<MyVertex> c1 = g6.getmygraph().getPredecessors(v2);
+	System.out.println(c1.size()+"");
+	assertTrue(c1.contains(v1));
+}
+
+@Test 
+public void testGetNoneLabelledVertices(){
+	MyGraph g6= new MyGraph();
+	MyVertex v1=g6.addMyVertex();
+	MyVertex v2 =g6.addMyVertex();
+	v2.setLabel("in");
+	HashSet<MyVertex > h1 =g6.getNoneLabelledVertices();
+	assertTrue(h1.contains(v1));
+	assertFalse(h1.contains(v2));
+}
+
+@Test
+public void testGetInLabelledVertices(){
+	MyGraph g6= new MyGraph();
+	MyVertex v1=g6.addMyVertex();
+	MyVertex v2 =g6.addMyVertex();
+	v2.setLabel("IN");
+	HashSet<MyVertex > h1 =g6.getInLabelledVertices();
+	assertTrue(h1.contains(v2));
+	assertFalse(h1.contains(v1));
+}
 }
