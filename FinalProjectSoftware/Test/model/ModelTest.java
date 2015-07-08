@@ -11,6 +11,25 @@ import org.junit.Test;
 
 public class ModelTest {
 	
+	@Test
+	public void TestIsIllegallyIn(){
+		Model m = new Model();
+		MyVertex v1= m.ModelGraph.addMyVertex();
+		MyVertex v2=m.ModelGraph.addMyVertex();
+		MyVertex v3= m.ModelGraph.addMyVertex();
+		MyVertex v4= m.ModelGraph.addMyVertex();
+		MyVertex v5= m.ModelGraph.addMyVertex();
+		MyEdge e1 =m.ModelGraph.addMyEdge(v1, v2);
+		MyEdge e2 = m.ModelGraph.addMyEdge(v3, v2);
+		MyEdge e3 = m.ModelGraph.addMyEdge(v2, v4);
+		MyEdge e4 = m.ModelGraph.addMyEdge(v2, v5);
+		m.GroundedLabelling();
+		System.out.println(""+v2.getLabel());
+		v2.setLabel("IN");
+		System.out.println(""+v2.getLabel());
+		assertTrue(m.isIllegallyIn(v2));
+	}
+
 	@Test 
 	public void TestAddEdge(){
 		Model m = new Model();
@@ -105,4 +124,57 @@ public class ModelTest {
 		
 	}
 	
+	@SuppressWarnings("unused")
+	@Test
+	public void TestGetGroundedLabelling(){
+		Model m = new Model();
+		MyVertex v1= m.ModelGraph.addMyVertex();
+		MyVertex v2=m.ModelGraph.addMyVertex();
+		MyVertex v3= m.ModelGraph.addMyVertex();
+		MyVertex v4= m.ModelGraph.addMyVertex();
+		MyVertex v5= m.ModelGraph.addMyVertex();
+		MyEdge e1 =m.ModelGraph.addMyEdge(v1, v2);
+		MyEdge e2 = m.ModelGraph.addMyEdge(v3, v2);
+		MyEdge e3 = m.ModelGraph.addMyEdge(v2, v4);
+		MyEdge e4 = m.ModelGraph.addMyEdge(v2, v5);
+		HashSet<MyVertex> h1= m.getGroundedExtension();
+	}
+	
+	@Test 
+	public void TestIsIllegallyOut(){
+		Model m = new Model();
+		MyVertex v1= m.ModelGraph.addMyVertex();
+		MyVertex v2=m.ModelGraph.addMyVertex();
+		MyVertex v3= m.ModelGraph.addMyVertex();
+		MyVertex v4= m.ModelGraph.addMyVertex();
+		MyVertex v5= m.ModelGraph.addMyVertex();
+		MyEdge e1 =m.ModelGraph.addMyEdge(v1, v2);
+		MyEdge e2 = m.ModelGraph.addMyEdge(v3, v2);
+		MyEdge e3 = m.ModelGraph.addMyEdge(v2, v4);
+		MyEdge e4 = m.ModelGraph.addMyEdge(v2, v5);
+		m.GroundedLabelling();
+		System.out.println(""+v3.getLabel());
+		v3.setLabel("OUT");
+		System.out.println(""+v3.getLabel());
+		assertTrue(m.isIllegallyOut(v3));
+	}
+	
+	@Test 
+	public void TestIsIlegallyUndec(){
+		Model m = new Model();
+		MyVertex v1= m.ModelGraph.addMyVertex();
+		MyVertex v2=m.ModelGraph.addMyVertex();
+		MyVertex v3= m.ModelGraph.addMyVertex();
+		MyVertex v4= m.ModelGraph.addMyVertex();
+		MyVertex v5= m.ModelGraph.addMyVertex();
+		MyEdge e1 =m.ModelGraph.addMyEdge(v1, v2);
+		MyEdge e2 = m.ModelGraph.addMyEdge(v3, v2);
+		MyEdge e3 = m.ModelGraph.addMyEdge(v2, v4);
+		MyEdge e4 = m.ModelGraph.addMyEdge(v2, v5);
+		m.GroundedLabelling();
+		System.out.println(""+v3.getLabel());
+		v3.setLabel("UNDEC");
+		System.out.println(""+v3.getLabel());
+		assertTrue(m.isIllegallyUndec(v3));
+	}
 }

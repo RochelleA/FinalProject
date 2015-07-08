@@ -156,5 +156,9 @@ public void setNotLabelledVertices(HashSet<MyVertex> notLabelledVertices) {
 	NotLabelledVertices=notLabelledVertices;
 }
 
+public String DisplayLabelling(){
+	String display ="In labelled vertices:  "+InLabels.toString()+"\n Out labelled Vertices:  "+OutLabels.toString()+"\n Undecided Labelled vertices: "+UndecLabels.toString();
+	return display;
+}
 }
 

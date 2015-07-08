@@ -11,6 +11,7 @@ import javax.swing.*;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
@@ -37,11 +38,21 @@ class View extends JFrame implements java.util.Observer {
 	private static final long serialVersionUID = 2118299654730994785L;
 
 	private JPanel contentPane;
-	JPanel panel = new JPanel();
-	private  JLabel lblGraphDisplay = new JLabel("Graph Display",SwingConstants.CENTER);
+	JPanel graphVisualPanel = new JPanel();
+	JPanel graphChangePanel;
+	JPanel graphBuildPanel = new JPanel();
+	JPanel graphSemanticsPanel = new JPanel();
+	JPanel mainPanel = new JPanel();
+	JPanel GroundedSemanticsPanel= new JPanel();
+	JPanel PreferredSemanticsPanel = new JPanel();
+	private  JLabel graphVisualLabel = new JLabel("Graph Visualisation");
+	private  JLabel graphEditingLabel = new JLabel("Graph Editor");
+	private  JLabel graphSemanticslLabel = new JLabel("Graph Semantics");
 	JButton AddVertexButton = new JButton("Add Vertex");
 	JButton AddEdgeButton = new JButton("Add Edge");
 	JButton EnterButton = new JButton("Enter");
+	JButton GroundedLabellingButton = new JButton("Grounded Labelling");
+	JTextArea GroundedSemanticsInfo = new JTextArea();
 	private JTextArea GraphString= new JTextArea();
 	JTextArea MessageFromController= new JTextArea();
 	private JPanel DisplayGraph = new JPanel();
@@ -59,13 +70,64 @@ class View extends JFrame implements java.util.Observer {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.setBounds(0, 0, 950, 950);
-		
+		graphChangePanel= new JPanel();
+//		{
+//			@Override
+//			public Dimension getPreferredSize(){
+//				return new Dimension(400,700);
+//			}
+//		};
+//		contentPane.setBounds(0, 0, 950, 950);
 		setContentPane(contentPane);
+		contentPane.add(mainPanel);
+		mainPanel.setLayout(new GridLayout(0,2,15,15));
+		mainPanel.add(graphChangePanel);
+		mainPanel.add(graphVisualPanel);
+
 		
-		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setBounds(0, 0, 700, 700);
-		panel.setLayout(null);
+//		graphChangePanel.setBounds(15, 15, 350, 650);
+		graphChangePanel.setLayout(new BoxLayout(graphChangePanel,BoxLayout.PAGE_AXIS));
+		graphChangePanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
+		graphChangePanel.add(graphBuildPanel);
+		graphChangePanel.add(graphSemanticsPanel);
+		
+	
+		
+		graphSemanticsPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
+//		graphSemanticsPanel.setBounds(30, 380, 200, 250)
+		graphSemanticsPanel.setLayout(new GridLayout(3, 1, 5, 5));
+		graphSemanticsPanel.add(graphSemanticslLabel);
+		graphSemanticsPanel.add(GroundedSemanticsPanel);
+		graphSemanticsPanel.add(PreferredSemanticsPanel);
+		
+		graphSemanticslLabel.setHorizontalAlignment(JLabel.CENTER);
+		
+		GroundedSemanticsPanel.setLayout(null);
+		GroundedSemanticsPanel.add(GroundedLabellingButton);
+		GroundedSemanticsPanel.add(GroundedSemanticsInfo);
+		
+		GroundedLabellingButton.setBounds(30, 10, 100, 30);
+		GroundedSemanticsInfo.setBounds(160,10 , 450, 100);
+		GroundedSemanticsInfo.setLineWrap(true);
+		GroundedSemanticsInfo.setWrapStyleWord(true);
+		
+		
+
+		
+		graphBuildPanel.setLayout(null);
+		graphBuildPanel.add(graphEditingLabel);
+//		graphBuildPanel.setBounds(30, 30, 400, 350);
+		graphBuildPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
+		graphBuildPanel.add(AddVertexButton);
+		graphBuildPanel.add(AddEdgeButton);
+		graphBuildPanel.add(EnterButton);
+		graphBuildPanel.add(GraphString);
+		graphBuildPanel.add(MessageFromController);
+		graphBuildPanel.add(graphVisualLabel);
+		graphBuildPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
+//		graphVisualLabel.setBounds(0, 10, 100, 30);
+		
+
 		AddVertexButton.setBounds(300, 60, 100, 30);
 		AddEdgeButton.setBounds(430, 60, 100, 30);
 		EnterButton.setBounds(300, 120, 100, 30);
@@ -75,20 +137,18 @@ class View extends JFrame implements java.util.Observer {
 		MessageFromController.setBounds(30, 60, 240, 90);
 		MessageFromController.setLineWrap(true);
 		MessageFromController.setWrapStyleWord(true);
-		lblGraphDisplay.setBounds(230, 10, 100, 30);
+		
+//		graphVisualPanel.setBounds(600, 5, 600, 600);
+		graphVisualPanel.setLayout(null);
+		graphVisualPanel.add(DisplayGraph);
+		
 		DisplayGraph.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
-		DisplayGraph.setBounds(30, 300, 500, 375);
-		panel.add(DisplayGraph);
-		panel.add(AddVertexButton);
-		panel.add(AddEdgeButton);
-		panel.add(EnterButton);
-		panel.add(GraphString);
-		panel.add(MessageFromController);
-		panel.add(lblGraphDisplay);
+		DisplayGraph.setBounds(00, 20, 600, 650);
+		DisplayGraph.add(graphVisualLabel);
 		
 		ViewLayout = new CircleLayout<MyVertex, MyEdge>(ViewGraph);
-        ViewLayout.setSize(new Dimension(400,275));
-		ViewVV = new VisualizationViewer<MyVertex,MyEdge>(ViewLayout,new Dimension(400,275));
+        ViewLayout.setSize(new Dimension(590,590));
+		ViewVV = new VisualizationViewer<MyVertex,MyEdge>(ViewLayout,new Dimension(590,590));
 		ViewPickedState= ViewVV.getPickedVertexState();
 		NoPickMouse = new MyPluggableGraphMouse();
         ViewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
@@ -121,15 +181,16 @@ class View extends JFrame implements java.util.Observer {
 	AddVertexButton.addActionListener(controller);	
 	AddEdgeButton.addActionListener(controller);
 	EnterButton.addActionListener(controller);
+	GroundedLabellingButton.addActionListener(controller);
 	ViewPickedState.addItemListener(Controller1);
 	} 
 	
 	public void displayGraph(MyGraph g1){
 	        ViewLayout =g1.getGraphLayout();
-	        ViewLayout.setSize(new Dimension(490,365));
+	        ViewLayout.setSize(new Dimension(590,590));
 	        ViewVV  = g1.getGraphVisualizationViewer(ViewLayout);
-	        ViewVV.setBounds(0, 0,490, 365);
-	        ViewVV.setPreferredSize(new Dimension(490,365));
+	        ViewVV.setBounds(0, 0,590, 590);
+	        ViewVV.setPreferredSize(new Dimension(590,590));
 	        ViewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
 	        ViewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
 	        ViewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
@@ -171,13 +232,13 @@ class View extends JFrame implements java.util.Observer {
 					MyVertex vertex = (MyVertex) subject;
 					if (ViewPickedState.isPicked(vertex)) {
 						MessageFromController.setText("You have selected "+ vertex +"from");
-						panel.add(MessageFromController);
+						graphBuildPanel.add(MessageFromController);
 						System.out.println("Vertex " + vertex
 								+ " is now selected");
 						currentVertex=vertex;
 					} else {
 						MessageFromController.setText("");
-						panel.add(MessageFromController);
+						graphBuildPanel.add(MessageFromController);
 						System.out.println("Picking state and message box cleared");
 						currentVertex=null;
 					}
