@@ -191,54 +191,67 @@ public class Model extends java.util.Observable {
 		return this.GroundedLabelling().getInVertices();
 	}
 	
-	public boolean isIllegallyOut(MyVertex v1){
+	public boolean isLegallyOut(MyVertex v1){
+		if(v1.isIn()||v1.isUndec()){
+			return false;
+		}
 		HashSet<MyVertex> attackers = new HashSet<MyVertex>(this.ModelGraph.getmygraph().getPredecessors(v1));
 		System.out.println("attackers "+v1+attackers.toString());
 		Iterator<MyVertex> attackersIterator = attackers.iterator();
+		int count =0;
 		while(attackersIterator.hasNext()){
 			MyVertex tempVertex = attackersIterator.next();
 			if(tempVertex.isIn()){
-				return false;
+				count++;
 			}
-			
+			if(count>=1){
+				return true;
+			}
 		}
-		return true;
+		return false;
 	}
-	public boolean isIllegallyUndec(MyVertex v1){
+	
+	//Caution before using the following function ensure that there are no vertices with a label "NONE"
+	public boolean isLegallyUndec(MyVertex v1){
+		if(v1.isIn()||v1.isOut()){
+			return false;
+		}
 		HashSet<MyVertex> attackers = new HashSet<MyVertex>(this.ModelGraph.getmygraph().getPredecessors(v1));
 		System.out.println("attackers "+v1+attackers.toString());
-		if(attackers.isEmpty()){
-			return true;
-		}
+		int tempCount=0;
 		Iterator<MyVertex> attackersIterator = attackers.iterator();
 		while(attackersIterator.hasNext()){
 			MyVertex tempVertex = attackersIterator.next();
-			int tempCount=0;
 			if(tempVertex.isOut()){
 				tempCount++;
 			}
-			if(tempCount==attackers.size()){
-				return true;
-			}
 		}
-		while(attackersIterator.hasNext()){
-			MyVertex tempVertex1 = attackersIterator.next();
-			if(tempVertex1.isOut()){
-				return true;
+			if(tempCount<attackers.size()){
+				while(attackersIterator.hasNext()){
+					MyVertex tempVertex1 = attackersIterator.next();
+					if(tempVertex1.isIn()){
+						return false;
+					}
+					else{
+						return true;
+					}
+				}
 			}
-		}
 		
 		return false;
 	}
 	
-	public boolean isIllegallyIn(MyVertex v1){
+	public boolean isLegallyIn(MyVertex v1){
+		if(v1.isUndec()||v1.isOut()){
+			return false;
+	}
 		HashSet<MyVertex> attackers = new HashSet<MyVertex>(this.ModelGraph.getmygraph().getPredecessors(v1));
 		System.out.println("attackers "+v1+attackers.toString());
 		Iterator<MyVertex> attackersIterator = attackers.iterator();
 		int tempCount1=0;
 		while(attackersIterator.hasNext()){
 			MyVertex tempVertex = attackersIterator.next();
-			if(tempVertex.isIn()){
+			if(tempVertex.isOut()){
 				tempCount1++;
 			}
 		}
@@ -250,10 +263,40 @@ public class Model extends java.util.Observable {
 				return false;
 	}
 	
-	public MyLabelling PreferredLabelling(){
-		HashSet<MyVertex> h1 = new HashSet<MyVertex>(this.ModelGraph.getmygraph().getVertices());
+	public MyLabelling AdmissibleLabelling(){
+		HashSet<MyVertex> vertices = new HashSet<MyVertex>(this.ModelGraph.getmygraph().getVertices());
+		HashSet<MyVertex> illegOutVerticesCheck;
 		MyLabelling l1 = new MyLabelling(0);
-		l1.setInVerties(h1);
+		MyVertex currentVertex;
+		l1.setInVerties(vertices);
+	    System.out.println("l1 in vertices are" +l1.getInVertices().toString());
+	    HashSet<MyVertex> tempInVertices = new HashSet<MyVertex>(l1.getInVertices());
+		Iterator<MyVertex> verticesIterator= tempInVertices.iterator();
+		while(verticesIterator.hasNext()){
+			currentVertex = verticesIterator.next();
+			System.out.print("current Vertex is: "+currentVertex.toString());
+			System.out.println("l1 in vertices are" +l1.getInVertices().toString());
+			verticesIterator.remove();
+			if(!(this.isLegallyIn(currentVertex))){
+				System.out.println("If 1 entered");
+				System.out.println("l1 in vertices are" +l1.getInVertices().toString());
+				l1.deleteFromInVertices(currentVertex);
+				l1.addOutVertex(currentVertex);
+				illegOutVerticesCheck= new HashSet<MyVertex>(this.ModelGraph.getmygraph().getSuccessors(currentVertex));
+				illegOutVerticesCheck.add(currentVertex);
+				Iterator<MyVertex> illegalIterator =illegOutVerticesCheck.iterator();
+				while(illegalIterator.hasNext()){
+					MyVertex v = illegalIterator.next();
+					if(v.isOut()){
+						if(!(this.isLegallyOut(v))){
+							System.out.println("If 2 entered");
+							l1.deleteFromOutVertices(v);
+							l1.addUndecVertex(v);
+						}
+					}
+				}
+			}
+		}
 		return l1;
 		
 	}

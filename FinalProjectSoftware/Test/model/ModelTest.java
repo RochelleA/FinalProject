@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import core.*;
 
@@ -11,6 +12,7 @@ import org.junit.Test;
 
 public class ModelTest {
 	
+	@SuppressWarnings("unused")
 	@Test
 	public void TestIsIllegallyIn(){
 		Model m = new Model();
@@ -27,7 +29,7 @@ public class ModelTest {
 		System.out.println(""+v2.getLabel());
 		v2.setLabel("IN");
 		System.out.println(""+v2.getLabel());
-		assertTrue(m.isIllegallyIn(v2));
+		assertFalse(m.isLegallyIn(v2));
 	}
 
 	@Test 
@@ -121,6 +123,7 @@ public class ModelTest {
 		assertTrue(l1.getInVertices().contains(v5));
 		assertTrue(l1.getOutVertices().contains(v2));
 		System.out.println("Grounded Labelling is: " + l1.toString()+ "\n Vertices not labelled anymore");
+
 		
 	}
 	
@@ -140,6 +143,7 @@ public class ModelTest {
 		HashSet<MyVertex> h1= m.getGroundedExtension();
 	}
 	
+	@SuppressWarnings("unused")
 	@Test 
 	public void TestIsIllegallyOut(){
 		Model m = new Model();
@@ -156,9 +160,10 @@ public class ModelTest {
 		System.out.println(""+v3.getLabel());
 		v3.setLabel("OUT");
 		System.out.println(""+v3.getLabel());
-		assertTrue(m.isIllegallyOut(v3));
+		assertFalse(m.isLegallyOut(v3));
 	}
 	
+	@SuppressWarnings("unused")
 	@Test 
 	public void TestIsIlegallyUndec(){
 		Model m = new Model();
@@ -175,6 +180,32 @@ public class ModelTest {
 		System.out.println(""+v3.getLabel());
 		v3.setLabel("UNDEC");
 		System.out.println(""+v3.getLabel());
-		assertTrue(m.isIllegallyUndec(v3));
+		assertFalse(m.isLegallyUndec(v3));
+	}
+	
+	@Test
+	public void TestAdmissibleLabelling(){
+		Model m = new Model();
+		MyVertex v1 =m.ModelGraph.addMyVertex();
+		MyVertex v2= m.ModelGraph.addMyVertex();
+		MyVertex v3=  m.ModelGraph.addMyVertex();
+		MyVertex v4 = m.ModelGraph.addMyVertex();
+		m.ModelGraph.addMyEdge(v4, v3);
+		m.ModelGraph.addMyEdge(v2, v1);
+		m.ModelGraph.addMyEdge(v3, v2);
+		MyLabelling l1=m.AdmissibleLabelling();
+		System.out.println("Here now" + l1.DisplayLabelling());
+		HashSet<MyVertex> inTemp = new HashSet<MyVertex>(l1.getInVertices());
+		Iterator<MyVertex> inIterator = inTemp.iterator();
+		while(inIterator.hasNext()){
+			MyVertex current = inIterator.next();
+			assertTrue(m.isLegallyIn(current));
+		}
+		HashSet<MyVertex> outTemp = new HashSet<MyVertex>(l1.getOutVertices());
+		Iterator<MyVertex> outIterator = outTemp.iterator();
+		while(outIterator.hasNext()){
+			MyVertex current = outIterator.next();
+			assertTrue(m.isLegallyOut(current));
+		}
 	}
 }

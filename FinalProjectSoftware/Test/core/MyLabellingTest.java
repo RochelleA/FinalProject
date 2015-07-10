@@ -109,5 +109,80 @@ public class MyLabellingTest {
 		l1.addOutVertex(v3);
 		assertTrue(l1.contains(v1));
 	}
+	
+	@Test  (expected = IllegalArgumentException.class)
+	public void testDeleteFromInVertices(){
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v1 = new MyVertex(0);
+		MyVertex v2 = new MyVertex(0);
+		MyVertex v3 = new MyVertex(0);
+		l1.addUndecVertex(v1);
+		l1.addInVertex(v2);
+		l1.addOutVertex(v3);
+		l1.deleteFromInVertices(v3);
+		
+	}
+	
+	@Test
+	public void testDeleteFromInVertices2(){
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v1 = new MyVertex(0);
+		MyVertex v2 = new MyVertex(0);
+		MyVertex v3 = new MyVertex(0);
+		l1.addUndecVertex(v1);
+		l1.addInVertex(v2);
+		l1.addOutVertex(v3);
+		l1.deleteFromInVertices(v2);
+	}
+	
+	@Test  (expected = IllegalArgumentException.class)
+	public void testDeleteFromUndecVertices(){
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v1 = new MyVertex(0);
+		MyVertex v2 = new MyVertex(0);
+		MyVertex v3 = new MyVertex(0);
+		l1.addUndecVertex(v1);
+		l1.addInVertex(v2);
+		l1.addOutVertex(v3);
+		l1.deleteFromUndecVertices(v3);
+		
+	}
+	
+	@Test
+	public void testDeleteUndecInVertices2(){
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v1 = new MyVertex(0);
+		MyVertex v2 = new MyVertex(0);
+		MyVertex v3 = new MyVertex(0);
+		l1.addUndecVertex(v1);
+		l1.addInVertex(v2);
+		l1.addOutVertex(v3);
+		l1.deleteFromUndecVertices(v1);
+	}
+	
+	@Test  (expected = IllegalArgumentException.class)
+	public void testDeleteFromOutVertices(){
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v1 = new MyVertex(0);
+		MyVertex v2 = new MyVertex(0);
+		MyVertex v3 = new MyVertex(0);
+		l1.addUndecVertex(v1);
+		l1.addInVertex(v2);
+		l1.addOutVertex(v3);
+		l1.deleteFromUndecVertices(v3);
+		
+	}
+	
+	@Test
+	public void testDeleteFromOutVertices2(){
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v1 = new MyVertex(0);
+		MyVertex v2 = new MyVertex(0);
+		MyVertex v3 = new MyVertex(0);
+		l1.addUndecVertex(v1);
+		l1.addInVertex(v2);
+		l1.addOutVertex(v3);
+		l1.deleteFromOutVertices(v3);
+	}
 
 }

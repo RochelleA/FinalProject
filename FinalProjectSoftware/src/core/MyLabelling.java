@@ -40,6 +40,17 @@ public class MyLabelling implements IMyLabelling {
 		return true;
 	}
 	
+	public boolean deleteFromInVertices(MyVertex v){
+		if(!(this.InLabels.contains(v))){
+			throw new IllegalArgumentException("This vertex is not in the in hashset");
+		}
+		else{
+			InLabels.remove(v);
+			v.setLabel("NONE");
+		}
+		return true;
+	}
+	
 	public void setInVerties(HashSet<MyVertex> h1){
 		Iterator<MyVertex> I = h1.iterator();
 		while(I.hasNext()){
@@ -67,6 +78,16 @@ public class MyLabelling implements IMyLabelling {
 		}
 		
 	}
+	
+	public boolean deleteFromOutVertices(MyVertex v){
+		if(!(this.OutLabels.contains(v))){
+			throw  new IllegalArgumentException("This vertex is not in the out hashset");
+		}
+		else{
+			OutLabels.remove(v);
+		}
+		return true;
+	}
 
 	@Override
 	public HashSet<MyVertex> getUndecVertices() {
@@ -83,6 +104,16 @@ public class MyLabelling implements IMyLabelling {
 		}
 		v.setLabel("UNDEC");
 		UndecLabels.add(v);
+		return true;
+	}
+	
+	public boolean deleteFromUndecVertices(MyVertex v){
+		if(!(this.UndecLabels.contains(v))){
+			throw new IllegalArgumentException("This vertex is not in the undec hashset");
+		}
+		else{
+			UndecLabels.remove(v);
+		}
 		return true;
 	}
 
