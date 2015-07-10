@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Paint;
 
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
@@ -52,13 +53,15 @@ class View extends JFrame implements java.util.Observer {
 	JButton AddEdgeButton = new JButton("Add Edge");
 	JButton EnterButton = new JButton("Enter");
 	JButton GroundedLabellingButton = new JButton("Grounded Labelling");
+	JButton PreferredLabellingButton = new JButton("Admissible Labelling");
 	JTextArea GroundedSemanticsInfo = new JTextArea();
+	JTextArea PreferredSemanticsInfo = new JTextArea();
 	private JTextArea GraphString= new JTextArea();
 	JTextArea MessageFromController= new JTextArea();
 	private JPanel DisplayGraph = new JPanel();
 	private MyGraph ViewGraph = new MyGraph();
 	private CircleLayout<MyVertex, MyEdge> ViewLayout;
-	private VisualizationViewer<MyVertex,MyEdge> ViewVV;
+	VisualizationViewer<MyVertex,MyEdge> ViewVV;
 	 PickedState<MyVertex> ViewPickedState;
 	private DefaultModalGraphMouse<MyVertex, MyEdge> gm;
 	MyVertex currentVertex;
@@ -106,13 +109,19 @@ class View extends JFrame implements java.util.Observer {
 		GroundedSemanticsPanel.add(GroundedLabellingButton);
 		GroundedSemanticsPanel.add(GroundedSemanticsInfo);
 		
-		GroundedLabellingButton.setBounds(30, 10, 100, 30);
-		GroundedSemanticsInfo.setBounds(160,10 , 450, 100);
+		GroundedLabellingButton.setBounds(30, 10, 200, 50);
+		GroundedSemanticsInfo.setBounds(260,10 , 350, 100);
 		GroundedSemanticsInfo.setLineWrap(true);
 		GroundedSemanticsInfo.setWrapStyleWord(true);
 		
-		
+		PreferredSemanticsPanel.setLayout(null);
+		PreferredSemanticsPanel.add(PreferredLabellingButton);
+		PreferredSemanticsPanel.add(PreferredSemanticsInfo);
 
+		PreferredLabellingButton.setBounds(30, 10, 200, 50);
+		PreferredSemanticsInfo.setBounds(260, 10 , 350, 100);
+		PreferredSemanticsInfo.setLineWrap(true);
+		PreferredSemanticsInfo.setWrapStyleWord(true);
 		
 		graphBuildPanel.setLayout(null);
 		graphBuildPanel.add(graphEditingLabel);
@@ -159,6 +168,9 @@ class View extends JFrame implements java.util.Observer {
         ViewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);   
         gm = new DefaultModalGraphMouse<MyVertex, MyEdge>();
         DisplayGraph.add(ViewVV);		
+        
+        
+        this.setMinimumSize(new Dimension(600,600));
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.pack();
 		this.setVisible(true);
@@ -173,6 +185,7 @@ class View extends JFrame implements java.util.Observer {
   		MyGraph y=(MyGraph)obj;
   		displayGraphAsString(y);
  		displayGraph(y);
+ 		colourGraph(y);
 
   	} 
   	
@@ -182,6 +195,7 @@ class View extends JFrame implements java.util.Observer {
 	AddEdgeButton.addActionListener(controller);
 	EnterButton.addActionListener(controller);
 	GroundedLabellingButton.addActionListener(controller);
+	PreferredLabellingButton.addActionListener(controller);
 	ViewPickedState.addItemListener(Controller1);
 	} 
 	
@@ -193,7 +207,7 @@ class View extends JFrame implements java.util.Observer {
 	        ViewVV.setPreferredSize(new Dimension(590,590));
 	        ViewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
 	        ViewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
-	        ViewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
+	        ViewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR); 
 	        ViewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
 	        ViewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
 	        ViewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);     
@@ -209,6 +223,7 @@ class View extends JFrame implements java.util.Observer {
 	        DisplayGraph.add(ViewVV);
 	}
 	
+
 	public void displayGraphAsString(MyGraph g1){
   		String z= g1.toString();
   		GraphString.setText("Graph Represented as a string \n"+ z);
@@ -230,7 +245,18 @@ class View extends JFrame implements java.util.Observer {
 				Object subject = e.getItem();
 				if (subject instanceof MyVertex) {
 					MyVertex vertex = (MyVertex) subject;
+					
 					if (ViewPickedState.isPicked(vertex)) {
+						Transformer<MyVertex, Paint> vertexColour = new Transformer<MyVertex, Paint>() {
+							public Paint transform(MyVertex vertex){
+								if(ViewPickedState.isPicked(vertex)){
+									return Color.YELLOW;
+								}
+								
+								return Color.LIGHT_GRAY;
+							}
+						};
+						ViewVV.getRenderContext().setVertexFillPaintTransformer(vertexColour);
 						MessageFromController.setText("You have selected "+ vertex +"from");
 						graphBuildPanel.add(MessageFromController);
 						System.out.println("Vertex " + vertex
@@ -264,5 +290,23 @@ class View extends JFrame implements java.util.Observer {
 		ViewVV.setGraphMouse(NoPick);
 	}
 
-
-	} 
+	public void colourGraph(MyGraph graph){
+	 Transformer<MyVertex,Paint> vertexColour = new Transformer<MyVertex, Paint>() {
+		public Paint transform(MyVertex vertex){
+			if(vertex.getLabel()=="IN"){
+				return Color.GREEN;
+			}
+			else if(vertex.getLabel()=="OUT"){
+				return Color.RED;
+			}
+			else if(vertex.getLabel()=="UNDEC"){
+				return Color.ORANGE;
+			}
+			else{
+				return Color.LIGHT_GRAY;
+			}
+		}
+	};
+	ViewVV.getRenderContext().setVertexFillPaintTransformer(vertexColour);
+	}
+} 

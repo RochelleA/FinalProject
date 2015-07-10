@@ -33,9 +33,11 @@ class Controller implements ActionListener,ItemListener {
 			  MyView.MessageFromController.setText("");
 			  MyView.graphBuildPanel.add(MyView.MessageFromController);
 			System.out.println("AddVertexButton Pressed");
+			MyModel.resetLabels();
 			MyModel.addVertex();
 		  }
 		  else if (src == MyView.AddEdgeButton) {
+			  MyModel.resetLabels();
 			  MyView.ViewPickedState.clear();
 			  clicked=false;
 			  MyView.currentVertex=null;
@@ -48,6 +50,11 @@ class Controller implements ActionListener,ItemListener {
 			  System.out.println("Grounded labelling button pressed");
 			  MyLabelling l1=MyModel.GroundedLabelling();
 			  MyView.GroundedSemanticsInfo.setText("The grounded labelling for your current graph is: \n "+l1.DisplayLabelling());
+		  }
+		  else if (src==MyView.PreferredLabellingButton){
+			  System.out.println("Preffered labelling button pressed");
+			  MyLabelling l1=MyModel.AdmissibleLabelling();
+			  MyView.PreferredSemanticsInfo.setText("The Preferred labelling for your current graph is: \n "+l1.DisplayLabelling());
 		  }
 		  else if((src==MyView.EnterButton) ){
 			  System.out.println("EnterButton Pressed");

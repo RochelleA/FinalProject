@@ -2,28 +2,53 @@ package core;
 
 public interface IMyEdge {
 	
-	// returns the edge's Id
+	/**
+	 *  Returns the edge's id
+	 * @return the id of the vertex.
+	 */
 	int getId();
 	
-	//sets the edge's id
-	void setId(int id);
+	/**
+	 * Sets the edge's id
+	 * @param id the id number for the vertex.
+	 */
+	void setId(int integer);
 	
-	//Gets the edge's label
+	/**
+	 * Gets the edge's label
+	 * @return the label for the Vertex.
+	 */
 	String getLabel();
 		
-	//gets the edge's from argument 
+	/**
+	 * Gets the edge's from argument 
+	 * @return the attacking vertex.
+	 */
 	MyVertex getFrom();
 	
-	//sets the edge's from argument
-	void setFrom(MyVertex fromEdge);
+	/**
+	 * Sets the edge's from argument
+	 * @param vertex the vertex to be used as the attacking vertex.
+	 */
+	void setFrom(MyVertex vertex);
 	
-	//Gets the edge's to argument
+	/**
+	 * Gets the edge's to argument
+	 * @return the vertex being attacked.
+	 */
 	MyVertex getTo();
 
-	//Sets the edge's to argument
-	void setTo(MyVertex toEdge);
+	/**
+	 * Sets the edge's to argument
+	 * @param vertex the vertex to be used as the attacked vertex.
+	 */
+	void setTo(MyVertex vertex);
 	
-	//Overriding the toString function of an edge so that the string representation of a graph will write edges as att[v1,v2]
+	/**
+	 * Overriding the toString function of an edge.
+	 * This ensures that the string representation of a graph will write edges as att[v1,v2].
+	 * @return the string representation of the edge.
+	 */
 	String toString();
 	
 	

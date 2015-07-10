@@ -4,31 +4,31 @@ public interface IMyVertex {
 	
 
 	/**
-	 *  returns the vertex's id
+	 *  Returns the vertex's id
 	 * @return
 	 */
 	int getId();
 	
 	/**
-	 * sets the vertex's id
+	 * Sets the vertex's id
 	 * @param id
 	 */
 	void setId(int id);
 	
 	/**
-	 * gets the vertex's label
+	 * Returns the vertex's label
 	 * @return
 	 */
 	String getLabel();
 	
 	/**
-	 * sets the Vertex's label
+	 * Sets the Vertex's label
 	 * @param label
 	 */
 	void setLabel(String label);
 	
 	/**
-	 * Gets the vertex's weight
+	 * Return the vertex's weight
 	 * @return
 	 */
 	int getWeight();
@@ -45,24 +45,25 @@ public interface IMyVertex {
 	 */
 	String toString();
 	
-	/**Overide the standard equals function to check to objects are equal only if their id, label and weight are equal.
+	/**
+	 * Overides the standard equals function to check to objects are equal only if their id, label and weight are equal.
 	* As Id is determined automatically based on how many vertices are in the graph it is a key for vertices. 
 	*/
 	public boolean equals(Object vertex2);
 	
 	/**
-	 * Returns true if the vertex is labelled in
+	 * Returns true if the vertex is labelled in and false otherwise.
 	 * @return
 	 */
 	public boolean isIn();
 	
 	/**
-	 * Returns true if the vertex is labelled out
+	 * Returns true if the vertex is labelled out and false otherwise.
 	 */
 	public boolean isOut();
 
 	/** 
-	 * Return true if the vertex is labelled undec
+	 * Returns true if the vertex is labelled undec and false otherwise.
 	 */
 	public boolean isUndec();
 }

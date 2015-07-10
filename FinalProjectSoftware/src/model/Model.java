@@ -184,9 +184,23 @@ public class Model extends java.util.Observable {
 		}
 		LPrevious.getNotLabelledVertices().removeAll(LPrevious.getOutVertices());
 		LCurrent.setUndecVertices(LPrevious.getNotLabelledVertices());
+		setChanged();
+		notifyObservers(ModelGraph);
 		return LCurrent;
 		
 	}
+	
+	public HashSet<MyVertex> resetLabels(){
+		HashSet<MyVertex> vertices = new HashSet<MyVertex>(this.ModelGraph.getMyVertices());
+		HashSet<MyVertex> tempVertices = vertices;
+		Iterator< MyVertex> tempVerticesIterator = tempVertices.iterator();
+		while(tempVerticesIterator.hasNext()){
+			tempVerticesIterator.next().setLabel("NONE");
+		}
+		return tempVertices;
+	}
+	
+	
 	public HashSet<MyVertex> getGroundedExtension(){
 		return this.GroundedLabelling().getInVertices();
 	}
@@ -297,6 +311,8 @@ public class Model extends java.util.Observable {
 				}
 			}
 		}
+		setChanged();
+		notifyObservers(ModelGraph);
 		return l1;
 		
 	}
