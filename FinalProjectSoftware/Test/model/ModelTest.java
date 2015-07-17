@@ -118,11 +118,13 @@ public class ModelTest {
 		System.out.println("not lablled vertices" + l1.getNotLabelledVertices());
 		assertTrue(l1.getNotLabelledVertices().isEmpty());
 		assertTrue(l1.getInVertices().contains(v1));
+		System.out.print(v1.toString()+v1.getLabel());
 		assertTrue(l1.getInVertices().contains(v3));
 		assertTrue(l1.getInVertices().contains(v4));
 		assertTrue(l1.getInVertices().contains(v5));
 		assertTrue(l1.getOutVertices().contains(v2));
 		System.out.println("Grounded Labelling is: " + l1.toString()+ "\n Vertices not labelled anymore");
+
 
 		
 	}
@@ -140,7 +142,11 @@ public class ModelTest {
 		MyEdge e2 = m.ModelGraph.addMyEdge(v3, v2);
 		MyEdge e3 = m.ModelGraph.addMyEdge(v2, v4);
 		MyEdge e4 = m.ModelGraph.addMyEdge(v2, v5);
+		
+		
 		HashSet<MyVertex> h1= m.getGroundedExtension();
+		
+		
 	}
 	
 	@SuppressWarnings("unused")

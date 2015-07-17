@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import net.miginfocom.layout.LC;
+import org.omg.CORBA.CurrentHolder;
+
 import core.*;
 
 public class Model extends java.util.Observable {	
@@ -39,6 +40,13 @@ public class Model extends java.util.Observable {
 		setChanged();
 		notifyObservers(ModelGraph);
 		
+	}
+	public void resetMyGraph(){
+		MyGraph g= new MyGraph();
+		this.ModelGraph=g;
+		System.out.println(ModelGraph.toString());
+		setChanged();
+		notifyObservers(ModelGraph);
 	}
 	
 	public MyEdge addEdge(MyVertex v){
@@ -163,6 +171,8 @@ public class Model extends java.util.Observable {
 					}	
 					System.out.println("Now TempVattackers contains" +TempVaAttackers +" and h contains" + h);
 				if(TempVaAttackers.equals(h)){
+					System.out.print(va.toString()+va.getLabel());
+					LCurrent.addInVertex(va);
 					System.out.println(LCurrent.addInVertex(va));
 					InNotLabelledIterator.remove();
 				}
@@ -186,6 +196,8 @@ public class Model extends java.util.Observable {
 		LCurrent.setUndecVertices(LPrevious.getNotLabelledVertices());
 		setChanged();
 		notifyObservers(ModelGraph);
+		System.out.println(LCurrent.getInVertices());
+		System.out.println(LCurrent.toString());
 		return LCurrent;
 		
 	}
@@ -276,44 +288,140 @@ public class Model extends java.util.Observable {
 		
 				return false;
 	}
+	public boolean hasillegallyIn(MyLabelling L){
+		HashSet<MyVertex> h = L.getInVertices();
+		HashSet<MyVertex> h1 = h;
+		Iterator<MyVertex> I = h1.iterator();
+		while(I.hasNext()){
+			MyVertex v= I.next();
+//			I.remove();
+			if(!(this.isLegallyIn(v))){
+				return true;
+			}
+		}
+		return false;
+	}
 	
-	public MyLabelling AdmissibleLabelling(){
-		HashSet<MyVertex> vertices = new HashSet<MyVertex>(this.ModelGraph.getmygraph().getVertices());
-		HashSet<MyVertex> illegOutVerticesCheck;
-		MyLabelling l1 = new MyLabelling(0);
-		MyVertex currentVertex;
-		l1.setInVerties(vertices);
-	    System.out.println("l1 in vertices are" +l1.getInVertices().toString());
-	    HashSet<MyVertex> tempInVertices = new HashSet<MyVertex>(l1.getInVertices());
-		Iterator<MyVertex> verticesIterator= tempInVertices.iterator();
-		while(verticesIterator.hasNext()){
-			currentVertex = verticesIterator.next();
-			System.out.print("current Vertex is: "+currentVertex.toString());
-			System.out.println("l1 in vertices are" +l1.getInVertices().toString());
-			verticesIterator.remove();
-			if(!(this.isLegallyIn(currentVertex))){
-				System.out.println("If 1 entered");
-				System.out.println("l1 in vertices are" +l1.getInVertices().toString());
-				l1.deleteFromInVertices(currentVertex);
-				l1.addOutVertex(currentVertex);
-				illegOutVerticesCheck= new HashSet<MyVertex>(this.ModelGraph.getmygraph().getSuccessors(currentVertex));
-				illegOutVerticesCheck.add(currentVertex);
-				Iterator<MyVertex> illegalIterator =illegOutVerticesCheck.iterator();
-				while(illegalIterator.hasNext()){
-					MyVertex v = illegalIterator.next();
-					if(v.isOut()){
-						if(!(this.isLegallyOut(v))){
-							System.out.println("If 2 entered");
-							l1.deleteFromOutVertices(v);
-							l1.addUndecVertex(v);
+	public MyLabelling transitionStep(MyLabelling L){
+		  HashSet<MyVertex> tempInVertices = new HashSet<MyVertex>(L.getInVertices());
+		  System.out.println("(Temp in) current labelling in vertices are: " +tempInVertices.toString());
+			Iterator<MyVertex> verticesIterator= tempInVertices.iterator();
+			MyVertex currentVertex;
+			while(verticesIterator.hasNext()){
+				currentVertex = verticesIterator.next();
+				System.out.print("current Vertex is: "+currentVertex.toString());
+				System.out.println("l1 in vertices are" +L.getInVertices().toString());
+				verticesIterator.remove();
+				if(!(this.isLegallyIn(currentVertex))){
+					System.out.println("If 1 entered");
+					System.out.println("l1 in vertices are" +L.getInVertices().toString());
+					L.deleteFromInVertices(currentVertex);
+					L.addOutVertex(currentVertex);
+					HashSet<MyVertex> illegOutVerticesCheck= new HashSet<MyVertex>(this.ModelGraph.getmygraph().getSuccessors(currentVertex));
+					illegOutVerticesCheck.add(currentVertex);
+					Iterator<MyVertex> illegalIterator =illegOutVerticesCheck.iterator();
+					while(illegalIterator.hasNext()){
+						MyVertex v = illegalIterator.next();
+						if(v.isOut()){
+							if(!(this.isLegallyOut(v))){
+								System.out.println("If 2 entered");
+								L.deleteFromOutVertices(v);
+								L.addUndecVertex(v);
+							}
 						}
 					}
 				}
 			}
+			return L;
+			
 		}
+	
+	public MyLabelling AdmissibleLabelling(){
+		HashSet<MyVertex> vertices = new HashSet<MyVertex>(this.ModelGraph.getMyVertices());
+		System.out.println("vertices in the graph are: "+vertices);
+		MyLabelling currentLabelling = new MyLabelling(0);
+		currentLabelling.setInVerties(vertices);
+		System.out.println("current labelling in vertices are: " +currentLabelling.getInVertices().toString());
+		MyLabelling nextLabelling = currentLabelling;
+		MyVertex currentVertex;
+		while(this.hasillegallyIn(currentLabelling)){
+			currentLabelling=transitionStep(currentLabelling);
+		}
+//	    System.out.println("l1 in vertices are" +l1.getInVertices().toString());
+//	    HashSet<MyVertex> tempInVertices = new HashSet<MyVertex>(l1.getInVertices());
+//		Iterator<MyVertex> verticesIterator= tempInVertices.iterator();
+//		while(verticesIterator.hasNext()){
+//			currentVertex = verticesIterator.next();
+//			System.out.print("current Vertex is: "+currentVertex.toString());
+//			System.out.println("l1 in vertices are" +l1.getInVertices().toString());
+//			verticesIterator.remove();
+//			if(!(this.isLegallyIn(currentVertex))){
+//				System.out.println("If 1 entered");
+//				System.out.println("l1 in vertices are" +l1.getInVertices().toString());
+//				l1.deleteFromInVertices(currentVertex);
+//				l1.addOutVertex(currentVertex);
+//				illegOutVerticesCheck= new HashSet<MyVertex>(this.ModelGraph.getmygraph().getSuccessors(currentVertex));
+//				illegOutVerticesCheck.add(currentVertex);
+//				Iterator<MyVertex> illegalIterator =illegOutVerticesCheck.iterator();
+//				while(illegalIterator.hasNext()){
+//					MyVertex v = illegalIterator.next();
+//					if(v.isOut()){
+//						if(!(this.isLegallyOut(v))){
+//							System.out.println("If 2 entered");
+//							l1.deleteFromOutVertices(v);
+//							l1.addUndecVertex(v);
+//						}
+//					}
+//				}
+//			}
+//		}
 		setChanged();
 		notifyObservers(ModelGraph);
-		return l1;
+		System.out.println("current labelling in vertices are: " +currentLabelling.getInVertices().toString());
+		return currentLabelling;
 		
+	}
+	
+	public void deleteMyVertex(MyVertex deleteVertex) {
+		int vertexId=deleteVertex.getId();
+		HashSet<MyVertex> vertices = new HashSet<MyVertex>(ModelGraph.getMyVertices());
+		//hashet to add all vertices with a id larger than the id of the vertex we are deleting.
+		HashSet<MyVertex> afterDeleteVertex = new HashSet<MyVertex>();
+		Iterator<MyVertex> verticesIterator = vertices.iterator();
+		while(verticesIterator.hasNext()){
+			MyVertex v= verticesIterator.next();
+			if(v.getId()>vertexId){
+				afterDeleteVertex.add(v);
+			}
+		}
+		// now iterate through the newer vertices and reduce their id by one.
+		Iterator<MyVertex> afterDeleteVertexIterator = afterDeleteVertex.iterator();
+		while(afterDeleteVertexIterator.hasNext()){
+			MyVertex v1= afterDeleteVertexIterator.next();
+			v1.setId(v1.getId()-1);
+		}
+		HashSet<MyEdge> edges = new HashSet<MyEdge>(this.ModelGraph.getMyEdges());
+		Iterator<MyEdge> edgesiterator = edges.iterator();
+		while(edgesiterator.hasNext()){
+			MyEdge e = edgesiterator.next();
+			e.updateLabel();
+		}
+		//remove the vertex to be deleted
+		this.ModelGraph.myGraph.removeVertex(deleteVertex);
+		// reduce the vertex count by 1. This stops new vertices having a id one higher than they should.
+		int newVertexCount= this.ModelGraph.GetMyVertexCount() -1;
+		this.ModelGraph.setMyVertexCount(newVertexCount);
+		//Notify the view that the model has changed. 
+		setChanged();
+		notifyObservers(ModelGraph);
+		
+	}
+	public void deleteMyEdge(MyEdge deleteEdge){
+		System.out.println("Old Edge count is"+ModelGraph.GetMyEdgeCount());
+		int newEdgeCount= this.ModelGraph.GetMyEdgeCount()-1;
+		this.ModelGraph.setMyEdgeCount(newEdgeCount);
+		this.ModelGraph.myGraph.removeEdge(deleteEdge);
+		setChanged();
+		notifyObservers(ModelGraph);
 	}
 } 

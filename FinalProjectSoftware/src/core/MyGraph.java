@@ -26,15 +26,22 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		this.edgeCount=0;
 	 }
 
-//	
-//	public int GetMyVertexCount(){
-//		return vertexCount;
-//	}
-//	
-//	public int GetMyEdgeCount(){
-//		return this.edgeCount;
-//	}
-//	
+	
+	public int GetMyVertexCount(){
+		return vertexCount;
+	}
+	public void setMyVertexCount(int integer){
+		vertexCount=integer;
+		
+	}
+	
+	public int GetMyEdgeCount(){
+		return this.edgeCount;
+	}
+	public void setMyEdgeCount(int Integer){
+		this.edgeCount=Integer;
+	}
+	
 	public Collection<MyVertex> getMyVertices(){
 		return myGraph.getVertices();
 	}
@@ -57,17 +64,14 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 	
 	public MyEdge addMyEdge(MyVertex v1, MyVertex v2){
 		if(!(this.getMyVertices().contains(v1)) || !(this.getMyVertices().contains(v2))){
-			System.out.println("edge not added");
 			throw new IllegalArgumentException("Vertices not in graph");
 		}
 				
 		if(v1==v2){
 			throw new IllegalArgumentException("The to and from vertices must be distinct");
 		}
-		System.out.println("Current edge count " +edgeCount);
 	//create new edge
 		    ++edgeCount;
-		    System.out.println("New edge count " +edgeCount);
 			MyEdge e1 = new MyEdge(edgeCount);
 			e1.setFrom(v1);
 			e1.setTo(v2);
@@ -90,7 +94,11 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		}
 		
 	public String toString(){
-		String y = myGraph.toString() + "\n" +"Vertex Count: " +vertexCount + "\n" +"Edge Count: " +edgeCount;
+		HashSet<MyVertex> vertices = new HashSet<MyVertex>(myGraph.getVertices());
+		HashSet<MyEdge> edges = new HashSet<MyEdge>(myGraph.getEdges());
+		String verticesToString = "Arguments: "+vertices.toString();
+		String edgesToString = "Attacks: "+edges.toString();
+		String y =  verticesToString+ "\n" + edgesToString+"\n" +"Arguments Count: " +vertexCount + "\n" +"Attacks Count: " +edgeCount;
 		return y;
 		}
 
@@ -188,4 +196,18 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		
 	}
 
+	public boolean resetGraph(){
+		HashSet<MyVertex> vertices = new HashSet<MyVertex>(this.getMyVertices());
+		Iterator<MyVertex> verticesIterator = vertices.iterator();
+		while(verticesIterator.hasNext()){
+			MyVertex currentVertex = verticesIterator.next();
+			this.myGraph.removeVertex(currentVertex);
+		}
+		if(this.getVertexCount()==0){
+			vertexCount=0;
+			edgeCount=0;
+			return true;
+		}
+		return false;
+	}
 }

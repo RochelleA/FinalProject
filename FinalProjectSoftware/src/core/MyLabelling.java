@@ -59,6 +59,7 @@ public class MyLabelling implements IMyLabelling {
 		InLabels=h1;
 			}
 
+	
 	@Override
 	public HashSet<MyVertex> getOutVertices() {
 		return  OutLabels;
@@ -120,7 +121,7 @@ public class MyLabelling implements IMyLabelling {
 	public void setUndecVertices(HashSet<MyVertex> h1){
 		Iterator<MyVertex> I = h1.iterator();
 		while(I.hasNext()){
-			I.next().setLabel("IN");
+			I.next().setLabel("UNDEC");
 		}
 		UndecLabels=h1;
 			}
@@ -188,7 +189,7 @@ public void setNotLabelledVertices(HashSet<MyVertex> notLabelledVertices) {
 }
 
 public String DisplayLabelling(){
-	String display ="In labelled vertices:  "+InLabels.toString()+"\n Out labelled Vertices:  "+OutLabels.toString()+"\n Undecided Labelled vertices: "+UndecLabels.toString();
+	String display ="In labelled arguments:  "+InLabels.toString()+"\n Out labelled arguments:  "+OutLabels.toString()+"\n Undecided Labelled arguments: "+UndecLabels.toString();
 	return display;
 }
 }

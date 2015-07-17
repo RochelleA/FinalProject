@@ -107,7 +107,7 @@ public class MyEdgeTest {
 	
 	@Test
 	public void testToString(){
-		assertEquals(e1.toString(),"Att");
+		assertEquals(e1.toString(),"Att[V0,V0]");
 
 	}
 	
