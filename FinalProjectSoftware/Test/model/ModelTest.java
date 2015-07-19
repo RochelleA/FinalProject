@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 import core.*;
 
@@ -213,5 +214,44 @@ public class ModelTest {
 			MyVertex current = outIterator.next();
 			assertTrue(m.isLegallyOut(current));
 		}
+		
+	}
+	
+	@Test
+	public void TestReorderSet(){
+		Model m = new Model();
+		MyVertex v1 =m.ModelGraph.addMyVertex();
+		MyVertex v2= m.ModelGraph.addMyVertex();
+		MyVertex v3=  m.ModelGraph.addMyVertex();
+		MyVertex v4 = m.ModelGraph.addMyVertex();
+		m.ModelGraph.addMyEdge(v4, v3);
+		m.ModelGraph.addMyEdge(v2, v1);
+		m.ModelGraph.addMyEdge(v3, v2);
+		LinkedHashSet<MyVertex> vertices =new LinkedHashSet<MyVertex>(m.ModelGraph.getMyVertices());
+		MyVertex[] array1 = new MyVertex[vertices.size()];
+		vertices.toArray(array1);
+		LinkedHashSet<MyVertex> verticesReoder=m.reorderSet(vertices);
+		System.out.println("vertices reordered"+verticesReoder.toString()+ vertices.size());
+		MyVertex[] array2= new MyVertex[verticesReoder.size()];
+		verticesReoder.toArray(array2);
+		System.out.println("array 2"+array2.toString() );
+		System.out.println("array1 element 1 "+ array1[0] + array1[1] + array1[2] + array1[3] );
+		System.out.println("array2 element 3"+ array2[0] + array2[1] + array2[2] + array2[3]);
+		assertEquals(array1[0], array2[3]);
+	}
+	
+	@Test 
+	public void TestAllAdmissibleLabellings(){
+		Model m = new Model();
+		MyVertex v1= m.ModelGraph.addMyVertex();
+		MyVertex v2=m.ModelGraph.addMyVertex();
+		MyVertex v3= m.ModelGraph.addMyVertex();
+		MyVertex v4= m.ModelGraph.addMyVertex();
+		m.ModelGraph.addMyEdge(v1, v2);
+		m.ModelGraph.addMyEdge(v2, v1);
+		m.ModelGraph.addMyEdge(v1, v3);
+		m.ModelGraph.addMyEdge(v2, v3);
+		m.ModelGraph.addMyEdge(v3, v4);
+		m.allAdmissibleLabellings();
 	}
 }

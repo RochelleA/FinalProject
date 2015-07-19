@@ -3,6 +3,7 @@ package core;
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import org.junit.Test;
 
@@ -37,7 +38,7 @@ public class MyLabellingTest {
 	@Test
 	public void testSetInVerties() {
 		MyLabelling l1 = new MyLabelling(0);
-		HashSet<MyVertex> h1 = new HashSet<MyVertex>();
+		LinkedHashSet<MyVertex> h1 = new LinkedHashSet<MyVertex>();
 		MyVertex v = new MyVertex(0);
 		h1.add(v);
 		l1.setInVerties(h1);

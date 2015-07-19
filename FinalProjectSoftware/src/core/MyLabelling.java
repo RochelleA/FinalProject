@@ -2,26 +2,27 @@ package core;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 public class MyLabelling implements IMyLabelling {
 	
 	int id;
-	HashSet<MyVertex> InLabels;
-	HashSet<MyVertex> OutLabels;
-	HashSet<MyVertex> UndecLabels;
-	private HashSet<MyVertex> NotLabelledVertices;
+	LinkedHashSet<MyVertex> InLabels;
+	LinkedHashSet<MyVertex> OutLabels;
+	LinkedHashSet<MyVertex> UndecLabels;
+	private LinkedHashSet<MyVertex> NotLabelledVertices;
 	
 
 	public MyLabelling(int id) {
 		this.id = id;
-		InLabels= new HashSet<MyVertex>();
-		OutLabels = new HashSet<MyVertex>();
-		UndecLabels = new HashSet<MyVertex>();
-		setNotLabelledVertices(new HashSet<MyVertex>());
+		InLabels= new LinkedHashSet<MyVertex>();
+		OutLabels = new LinkedHashSet<MyVertex>();
+		UndecLabels = new LinkedHashSet<MyVertex>();
+		setNotLabelledVertices(new LinkedHashSet<MyVertex>());
 	}
 
 	@Override
-	public HashSet<MyVertex> getInVertices() {
+	public LinkedHashSet<MyVertex> getInVertices() {
 		return InLabels;
 	}
 
@@ -51,7 +52,7 @@ public class MyLabelling implements IMyLabelling {
 		return true;
 	}
 	
-	public void setInVerties(HashSet<MyVertex> h1){
+	public void setInVerties(LinkedHashSet<MyVertex> h1){
 		Iterator<MyVertex> I = h1.iterator();
 		while(I.hasNext()){
 			I.next().setLabel("IN");
@@ -61,7 +62,7 @@ public class MyLabelling implements IMyLabelling {
 
 	
 	@Override
-	public HashSet<MyVertex> getOutVertices() {
+	public LinkedHashSet<MyVertex> getOutVertices() {
 		return  OutLabels;
 	}
 
@@ -91,7 +92,7 @@ public class MyLabelling implements IMyLabelling {
 	}
 
 	@Override
-	public HashSet<MyVertex> getUndecVertices() {
+	public LinkedHashSet<MyVertex> getUndecVertices() {
 		return UndecLabels;
 	}
 
@@ -118,7 +119,7 @@ public class MyLabelling implements IMyLabelling {
 		return true;
 	}
 
-	public void setUndecVertices(HashSet<MyVertex> h1){
+	public void setUndecVertices(LinkedHashSet<MyVertex> h1){
 		Iterator<MyVertex> I = h1.iterator();
 		while(I.hasNext()){
 			I.next().setLabel("UNDEC");
@@ -176,11 +177,11 @@ public boolean contains(MyVertex v){
 	}
 }
 
-public HashSet<MyVertex> getNotLabelledVertices() {
+public LinkedHashSet<MyVertex> getNotLabelledVertices() {
 	return NotLabelledVertices;
 }
 
-public void setNotLabelledVertices(HashSet<MyVertex> notLabelledVertices) {
+public void setNotLabelledVertices(LinkedHashSet<MyVertex> notLabelledVertices) {
 	Iterator<MyVertex> I = notLabelledVertices.iterator();
 	while(I.hasNext()){
 		I.next().setLabel("NONE");
