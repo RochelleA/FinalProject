@@ -504,6 +504,7 @@ public class Model extends java.util.Observable {
 			allLabelledVertices.addAll(PossibleLabellings);
 			PossibleLabellings.removeAll(allLabelledVertices);
 			System.out.println(allLabelledVertices.toString());
+			collec
 		}
 		
 		System.out.println(allLabelledVertices.toString());
