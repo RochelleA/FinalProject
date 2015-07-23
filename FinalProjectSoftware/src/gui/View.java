@@ -60,6 +60,7 @@ class View extends JFrame implements java.util.Observer {
 	JButton DeleteEdgeButton = new JButton("Delete Attack");
 	JButton GroundedLabellingButton = new JButton("Grounded Labelling");
 	JButton PreferredLabellingButton = new JButton("Admissible Labelling");
+	JButton AllAddmissibleLabellingButton = new JButton("All Admissble Labelling");
 	JTextArea GroundedSemanticsInfo = new JTextArea();
 	JTextArea PreferredSemanticsInfo = new JTextArea();
 	JTextArea GraphString= new JTextArea();
@@ -122,15 +123,19 @@ class View extends JFrame implements java.util.Observer {
 		GroundedSemanticsInfo.setBounds(260,10 , 350, 100);
 		GroundedSemanticsInfo.setLineWrap(true);
 		GroundedSemanticsInfo.setWrapStyleWord(true);
+		GroundedSemanticsInfo.setEditable(false);
 		
 		PreferredSemanticsPanel.setLayout(null);
 		PreferredSemanticsPanel.add(PreferredLabellingButton);
 		PreferredSemanticsPanel.add(PreferredSemanticsInfo);
+		PreferredSemanticsPanel.add(AllAddmissibleLabellingButton);
 
-		PreferredLabellingButton.setBounds(30, 10, 200, 50);
+		PreferredLabellingButton.setBounds(30, 10, 200, 30);
+		AllAddmissibleLabellingButton.setBounds(30, 60, 200, 30);
 		PreferredSemanticsInfo.setBounds(260, 10 , 350, 100);
 		PreferredSemanticsInfo.setLineWrap(true);
 		PreferredSemanticsInfo.setWrapStyleWord(true);
+		PreferredSemanticsInfo.setEditable(false);
 		
 		graphBuildPanel.setLayout(null);
 		graphBuildPanel.add(graphEditingLabel);
@@ -164,6 +169,7 @@ class View extends JFrame implements java.util.Observer {
 		MessageFromController.setBounds(30, 60, 200, 90);
 		MessageFromController.setLineWrap(true);
 		MessageFromController.setWrapStyleWord(true);
+		MessageFromController.setEditable(false);
 		
 //		graphVisualPanel.setBounds(600, 5, 600, 600);
 		graphVisualPanel.setLayout(new BoxLayout(graphVisualPanel,BoxLayout.PAGE_AXIS));
@@ -235,6 +241,7 @@ class View extends JFrame implements java.util.Observer {
 	DeleteEdgeButton.addActionListener(controller);
 	GroundedLabellingButton.addActionListener(controller);
 	PreferredLabellingButton.addActionListener(controller);
+	AllAddmissibleLabellingButton.addActionListener(controller);
 	ViewVertexPickedState.addItemListener(Controller1);
 	ViewEdgePickedState.addItemListener(Controller1);
 	} 
@@ -524,5 +531,9 @@ class View extends JFrame implements java.util.Observer {
 	public void clearSemanticsInfoBoxes(){
 		GroundedSemanticsInfo.setText("");
 		PreferredSemanticsInfo.setText("");
+	}
+	
+	public void openAdmissibleFrame(String string){
+		new addmissibleFrame(string);
 	}
 }

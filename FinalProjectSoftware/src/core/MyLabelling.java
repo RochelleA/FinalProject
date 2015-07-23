@@ -80,12 +80,20 @@ public class MyLabelling implements IMyLabelling {
 		}
 		
 	}
+	public void setOutVertices(LinkedHashSet<MyVertex> h1){
+		Iterator<MyVertex> I = h1.iterator();
+		while(I.hasNext()){
+			I.next().setLabel("OUT");
+		}
+		OutLabels=h1;
+			}
 	
 	public boolean deleteFromOutVertices(MyVertex v){
 		if(!(this.OutLabels.contains(v))){
 			throw  new IllegalArgumentException("This vertex is not in the out hashset");
 		}
 		else{
+			NotLabelledVertices.add(v);
 			OutLabels.remove(v);
 		}
 		return true;
@@ -158,7 +166,7 @@ public class MyLabelling implements IMyLabelling {
 	    if (label2 == null) return false;
 	    if (getClass() != label2.getClass()) return false;
 	    MyLabelling label = (MyLabelling)label2;
-	    return (InLabels.equals(label.InLabels) && OutLabels.equals(label.OutLabels) && UndecLabels.equals(label.UndecLabels) && id==label.id);
+	    return (InLabels.containsAll(label.InLabels) && OutLabels.containsAll(label.OutLabels) && UndecLabels.containsAll(label.UndecLabels) && id==label.id);
 	  }
 	
 
@@ -193,5 +201,9 @@ public String DisplayLabelling(){
 	String display ="In labelled arguments:  "+InLabels.toString()+"\n Out labelled arguments:  "+OutLabels.toString()+"\n Undecided Labelled arguments: "+UndecLabels.toString();
 	return display;
 }
+
+
+
+
 }
 

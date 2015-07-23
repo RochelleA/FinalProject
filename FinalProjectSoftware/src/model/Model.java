@@ -1,9 +1,16 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Arrays;
+import java.util.List;
+
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Collections2.*;
 
 import org.omg.CORBA.CurrentHolder;
 
@@ -447,69 +454,120 @@ public class Model extends java.util.Observable {
 			return h1;
 	}
 	
-	public LinkedHashSet<MyLabelling> allAdmissibleLabellings(){
-		LinkedHashSet<MyLabelling> allLabelledVertices = new LinkedHashSet<MyLabelling>();
-		LinkedHashSet<MyVertex> vertices = new LinkedHashSet<MyVertex>(this.ModelGraph.getMyVertices());
-		LinkedHashSet<MyLabelling> PossibleLabellings = new LinkedHashSet<MyLabelling>();
-		MyLabelling PLCurrentLabelling= new MyLabelling(0);
-		System.out.println("vertices in the graph are: "+vertices);
-		LinkedHashSet<MyVertex> currentVertexOrder= new LinkedHashSet<MyVertex>(vertices);
-		for (int i = 0; i <= this.ModelGraph.GetMyVertexCount(); i++) {
-			MyLabelling currentLabelling = new MyLabelling(0);
-			currentVertexOrder=reorderSet(currentVertexOrder);
-			currentLabelling.setInVerties(new LinkedHashSet<MyVertex>(currentVertexOrder));
-			PossibleLabellings.add(currentLabelling);
-			while(this.hasillegallyIn(PossibleLabellings)){
-				Iterator<MyLabelling> possibleLabellingIterator = PossibleLabellings.iterator();
-				while(possibleLabellingIterator.hasNext()){
-					//Possible labelling's current labelling
-					PLCurrentLabelling = possibleLabellingIterator.next();
-				if(hasillegallyIn(PLCurrentLabelling)){
-				possibleLabellingIterator.remove();
-				LinkedHashSet<MyVertex> tempInVertices = new LinkedHashSet<MyVertex>(PLCurrentLabelling.getInVertices());
-				  System.out.println("(Temp in) current labelling in vertices are: " +tempInVertices.toString());
-					Iterator<MyVertex> verticesIterator= tempInVertices.iterator();
-					MyVertex currentVertex;
-					while(verticesIterator.hasNext()){
-						currentVertex = verticesIterator.next();
-						System.out.print("current Vertex is: "+currentVertex.toString());
-						System.out.println("l1 in vertices are" +PLCurrentLabelling.getInVertices().toString());
-						verticesIterator.remove();
-						if(!(this.isLegallyIn(currentVertex))){
-							System.out.println("If 1 entered");
-							System.out.println("l1 in vertices are" +PLCurrentLabelling.getInVertices().toString());
-							PLCurrentLabelling.deleteFromInVertices(currentVertex);
-							PLCurrentLabelling.addOutVertex(currentVertex);
-							LinkedHashSet<MyVertex> illegOutVerticesCheck= new LinkedHashSet<MyVertex>(this.ModelGraph.getmygraph().getSuccessors(currentVertex));
-							illegOutVerticesCheck.add(currentVertex);
-							Iterator<MyVertex> illegalIterator =illegOutVerticesCheck.iterator();
-							while(illegalIterator.hasNext()){
-								MyVertex v = illegalIterator.next();
-								if(v.isOut()){
-									if(!(this.isLegallyOut(v))){
-										System.out.println("If 2 entered");
-										PLCurrentLabelling.deleteFromOutVertices(v);
-										PLCurrentLabelling.addUndecVertex(v);
-										
-									}
-								}
-							}
-						}
-					}
-				}
-				
-			}
-		}
-			PossibleLabellings.add(PLCurrentLabelling);
-			allLabelledVertices.addAll(PossibleLabellings);
-			PossibleLabellings.removeAll(allLabelledVertices);
-			System.out.println(allLabelledVertices.toString());
-			collec
-		}
+	/**
+	 * This method swaps the a[i] and a[j] elements in an ArrayList.
+	 * @param list An array of elements 
+	 * @param i	The first index to swap
+	 * @param j The second index to swap
+	 * @return a list with the a[i] and a[j] elements swapped.
+	 */
+	static ArrayList<MyVertex> swap(ArrayList<MyVertex> list, int i , int j){
+		MyVertex temp = list.get(i);
+		list.set(i, list.get(j));
+		list.set(j, temp);
+		return list;
 		
-		System.out.println(allLabelledVertices.toString());
-		return allLabelledVertices;
-		
-	
 	}
+	
+	/**
+	 * This methods permutates all the elements in an ArrayList. 
+	 * It permutates the elements starting from the kth. 
+	 * @param currentCombination list to be permutated.
+	 * @param possibleCombinations collection to store the list into.
+	 * @param k the index that the permutation should start at.
+	 * @return
+	 */
+    static Collection<ArrayList<MyVertex>> Permute(ArrayList<MyVertex> currentCombination, Collection<ArrayList<MyVertex>> possibleCombinations,int k){
+    	if(k>currentCombination.size()){
+    		throw new IllegalArgumentException("The index is large than the number of elements in the list");
+    	}
+    	else{
+        for(int i = k; i < currentCombination.size(); i++){
+            currentCombination=swap(currentCombination, i, k);
+            possibleCombinations=Permute(currentCombination,possibleCombinations, k+1);
+            currentCombination=swap(currentCombination, k, i);
+        }
+        if (k == currentCombination.size() -1){
+            System.out.println(java.util.Arrays.toString(currentCombination.toArray())+currentCombination);
+            System.out.println("added");
+           ArrayList<MyVertex> combination = new ArrayList<MyVertex>(currentCombination);
+           possibleCombinations.add(combination);
+		}
+    	}
+//        System.out.println("Possible Combinatiosns are:"+possibleCombinations);
+        return possibleCombinations;
+    }
+   
+    
+    /**
+     * This method checks whether a set already contains a labelling
+     * @param setOfLabelling A set of labellings. 
+     * @param labelling The labelling to be checked.
+     */
+    public boolean alreadyContains(HashSet<MyLabelling> setOfLabellings, MyLabelling labelling){
+    	Iterator<MyLabelling > setOfLabellingsIterator = setOfLabellings.iterator();
+    	while(setOfLabellingsIterator.hasNext()){
+    		MyLabelling tempLabellings = setOfLabellingsIterator.next();
+    		if(tempLabellings.equals(labelling)){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    public HashSet<MyLabelling> allAdmissibleLabellings(){
+    	LinkedHashSet<MyLabelling> admissibleLabellings= new LinkedHashSet<MyLabelling>();
+    	LinkedHashSet<MyVertex> graphVertices = new LinkedHashSet<MyVertex>(ModelGraph.getMyVertices());
+    	ArrayList<MyVertex> vertices = new ArrayList<MyVertex>();
+    	vertices.addAll(graphVertices);
+    	LinkedHashSet<ArrayList<MyVertex>> possibleCombinations = new LinkedHashSet<ArrayList<MyVertex>>();
+    	MyVertex currentVertex = new MyVertex(0);
+    	/*This method finds all possible combinations of the vertices. Each combination must be checked in order to find all labellings. 
+    	 * Some combinations will find the same labelling. Duplicates are not added.
+    	 * */
+    	Permute(vertices, possibleCombinations, 0);
+    	Iterator<ArrayList<MyVertex>> possibleCombinationsIterator = possibleCombinations.iterator();
+    	while(possibleCombinationsIterator.hasNext()){
+    		MyLabelling currentLabelling = new MyLabelling(0);
+    		LinkedHashSet<MyVertex> VertexOrder = new LinkedHashSet<MyVertex>(possibleCombinationsIterator.next());
+    		LinkedHashSet<MyVertex> currentVertexOrder = new LinkedHashSet<MyVertex>();
+    		currentVertexOrder.addAll(VertexOrder);
+    		currentLabelling.setInVerties(currentVertexOrder);
+    		while(hasillegallyIn(currentLabelling)){
+    			LinkedHashSet<MyVertex> tempIn = new LinkedHashSet<MyVertex>();
+    			tempIn.addAll(currentLabelling.getInVertices());
+    			LinkedHashSet<MyVertex> tempOut = new LinkedHashSet<MyVertex>();
+    			tempOut.addAll(currentLabelling.getOutVertices());
+    			Iterator<MyVertex> inIterator = tempIn.iterator();
+    			while(inIterator.hasNext()){
+    				MyVertex tempv= inIterator.next();
+    				currentVertex= tempv;
+    				if(!(isLegallyIn(currentVertex))){
+    					currentLabelling.deleteFromInVertices(currentVertex);
+    					currentLabelling.addOutVertex(currentVertex);
+    					LinkedHashSet<MyVertex> illegOut = new LinkedHashSet<MyVertex>();
+    					illegOut.addAll(ModelGraph.myGraph.getSuccessors(currentVertex));
+    					illegOut.add(currentVertex);
+    					Iterator<MyVertex> illegOutIterator = illegOut.iterator();
+    					while(illegOutIterator.hasNext()){
+    					MyVertex v = illegOutIterator.next();
+	    					if(v.isOut()){
+	    						if(!(isLegallyOut(v))){
+	    							currentLabelling.deleteFromOutVertices(v);
+	    							currentLabelling.addUndecVertex(v);
+	    						}
+    						
+	    					}	
+    					}
+    				}
+    				
+    			}
+    		}
+    		if (!(alreadyContains(admissibleLabellings, currentLabelling))){
+    		admissibleLabellings.add(currentLabelling);
+    		}
+    	}
+    	return admissibleLabellings;
+    }
+  
 } 

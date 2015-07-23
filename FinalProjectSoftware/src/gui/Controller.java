@@ -99,6 +99,11 @@ class Controller implements ActionListener,ItemListener {
 			  MyLabelling l1=MyModel.AdmissibleLabelling();
 			  MyView.PreferredSemanticsInfo.setText("The Preferred labelling for your current graph is: \n "+l1.DisplayLabelling());
 		  }
+		  else if(src==MyView.AllAddmissibleLabellingButton){
+			  System.out.println("All Admissible Labelling button pressed");
+			  String string = MyModel.allAdmissibleLabellings().toString();
+			  MyView.openAdmissibleFrame(string);
+		  }
 		  else if((src==MyView.EnterButton) ){
 			  System.out.println("EnterButton Pressed");
 			  System.out.println("current"+MyView.currentVertex);

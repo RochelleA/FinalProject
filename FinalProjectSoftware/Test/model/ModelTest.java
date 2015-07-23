@@ -252,6 +252,6 @@ public class ModelTest {
 		m.ModelGraph.addMyEdge(v1, v3);
 		m.ModelGraph.addMyEdge(v2, v3);
 		m.ModelGraph.addMyEdge(v3, v4);
-		m.allAdmissibleLabellings();
+		System.out.println(m.allAdmissibleLabellings());
 	}
 }
