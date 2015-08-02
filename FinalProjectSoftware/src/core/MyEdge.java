@@ -65,7 +65,7 @@ public class MyEdge implements IMyEdge {
 		    if (other == null) return false;
 		    if (getClass() != other.getClass()) return false;
 		    MyEdge edge = (MyEdge)other;
-		    return (id == edge.id && to == edge.to && from==edge.from );
+		    return (to.equals(edge.getTo()) && from.equals(edge.getFrom()));
 		  }
 		
 

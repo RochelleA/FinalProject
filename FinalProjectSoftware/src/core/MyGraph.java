@@ -3,6 +3,7 @@ package core;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
@@ -184,7 +185,7 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		Iterator<MyVertex> vertexIterator = listVertices.iterator();
 		while(vertexIterator.hasNext()){
 			MyVertex currentVertex = vertexIterator.next();
-			if(currentVertex.isIn()){
+			if(currentVertex.isUndec()){
 				undecLabelledVertices.add(currentVertex);
 			}
 			else{
@@ -210,4 +211,72 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		}
 		return false;
 	}
+	
+	public boolean findMyVertex(MyVertex v){
+		LinkedHashSet<MyVertex> vertices = new LinkedHashSet<MyVertex>(this.getMyVertices());
+		Iterator<MyVertex> verticesIterator = vertices.iterator();
+		while(verticesIterator.hasNext()){
+			MyVertex currentvertex = verticesIterator.next();
+			if(currentvertex.equals(v)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean findMyEdge(MyEdge e){
+		LinkedHashSet<MyEdge> edges = new LinkedHashSet<MyEdge>(this.getMyEdges());
+		Iterator<MyEdge> edgesIterator = edges.iterator();
+		while(edgesIterator.hasNext()){
+			MyEdge currentEdge= edgesIterator.next();
+			if(currentEdge.equals(e)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean containsAllVertices(Collection<MyVertex> collection){
+		LinkedHashSet<MyVertex> set = new LinkedHashSet<MyVertex>(collection);
+		Iterator<MyVertex> setIterator = set.iterator();
+		// This counts the number of vertices in the collection that are the same as in the graph.
+		int sameVertexCount=0;
+		while(setIterator.hasNext()){
+			MyVertex currentVertex = setIterator.next();
+			if(this.findMyVertex(currentVertex)){
+				sameVertexCount++;
+			}
+		}
+	if(sameVertexCount==this.GetMyVertexCount()){
+		return true;
+	}
+	return false;
+	}
+	
+	public boolean containsAllEdges(Collection<MyEdge> collection){
+		LinkedHashSet<MyEdge> set = new LinkedHashSet<MyEdge>(collection);
+		Iterator<MyEdge> setIterator = set.iterator();
+		int sameEdgeCount=0;
+		
+		while(setIterator.hasNext()){
+			MyEdge currentEdge= setIterator.next();
+			if(this.findMyEdge(currentEdge)){
+				sameEdgeCount++;
+			}
+		}
+		
+		if(sameEdgeCount==this.GetMyEdgeCount()){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean equals(Object other) {
+	    if (other == this) return true;
+	    if (other == null) return false;
+	    if (getClass() != other.getClass()) return false;
+	    MyGraph graph = (MyGraph)other;
+	    return (graph.containsAllVertices(this.getMyVertices()) && graph.containsAllEdges(this.getMyEdges()) && this.GetMyVertexCount()== graph.GetMyVertexCount() && this.GetMyEdgeCount() == graph.GetMyEdgeCount() );
+	  }
 }

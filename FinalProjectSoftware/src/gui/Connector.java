@@ -9,14 +9,13 @@ public class Connector{
 
 	public Connector() {
 
-		
-		Model myModel 	= new Model();
 		View myView 	= new View();
+		Controller myController = new Controller();
+		Model myModel 	= new Model();
+	
 
 		
 		myModel.addObserver(myView);
-
-		Controller myController = new Controller();
 		myController.addModel(myModel);
 		myController.addView(myView);
 		myView.addController(myController,myController);

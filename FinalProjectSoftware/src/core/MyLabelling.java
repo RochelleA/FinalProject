@@ -1,6 +1,6 @@
 package core;
 
-import java.util.HashSet;
+
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
@@ -10,7 +10,7 @@ public class MyLabelling implements IMyLabelling {
 	LinkedHashSet<MyVertex> InLabels;
 	LinkedHashSet<MyVertex> OutLabels;
 	LinkedHashSet<MyVertex> UndecLabels;
-	private LinkedHashSet<MyVertex> NotLabelledVertices;
+	LinkedHashSet<MyVertex> NotLabelledVertices;
 	
 
 	public MyLabelling(int id) {
@@ -18,7 +18,7 @@ public class MyLabelling implements IMyLabelling {
 		InLabels= new LinkedHashSet<MyVertex>();
 		OutLabels = new LinkedHashSet<MyVertex>();
 		UndecLabels = new LinkedHashSet<MyVertex>();
-		setNotLabelledVertices(new LinkedHashSet<MyVertex>());
+		NotLabelledVertices= new LinkedHashSet<MyVertex>();
 	}
 
 	@Override
@@ -46,6 +46,7 @@ public class MyLabelling implements IMyLabelling {
 			throw new IllegalArgumentException("This vertex is not in the in hashset");
 		}
 		else{
+			NotLabelledVertices.add(v);
 			InLabels.remove(v);
 			v.setLabel("NONE");
 		}
@@ -93,6 +94,7 @@ public class MyLabelling implements IMyLabelling {
 			throw  new IllegalArgumentException("This vertex is not in the out hashset");
 		}
 		else{
+			v.setLabel("NONE");
 			NotLabelledVertices.add(v);
 			OutLabels.remove(v);
 		}
@@ -122,6 +124,8 @@ public class MyLabelling implements IMyLabelling {
 			throw new IllegalArgumentException("This vertex is not in the undec hashset");
 		}
 		else{
+			NotLabelledVertices.add(v);
+			v.setLabel("NONE");
 			UndecLabels.remove(v);
 		}
 		return true;
@@ -198,7 +202,26 @@ public void setNotLabelledVertices(LinkedHashSet<MyVertex> notLabelledVertices) 
 }
 
 public String DisplayLabelling(){
-	String display ="In labelled arguments:  "+InLabels.toString()+"\n Out labelled arguments:  "+OutLabels.toString()+"\n Undecided Labelled arguments: "+UndecLabels.toString();
+	String inString;
+	String outString;
+	String undecString;
+	if(InLabels.isEmpty()){
+		inString= "\u00D8";
+	}
+	else 
+		inString=InLabels.toString();
+	if(OutLabels.isEmpty()){
+		outString="\u00D8";
+	}
+	else 
+		outString=OutLabels.toString();
+	if(UndecLabels.isEmpty()){
+		undecString="\u00D8";
+	}
+	else{
+		undecString=UndecLabels.toString();
+	}
+	String display ="In labelled arguments:  "+inString+"\n Out labelled arguments:  "+outString+"\n Undecided labelled arguments: "+undecString;
 	return display;
 }
 

@@ -10,6 +10,10 @@ import javax.swing.border.EmptyBorder;
 
 public class addmissibleFrame extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8540893768803052189L;
 	JPanel contentPane;
 	JPanel mainPanel;
 	JTextArea mainTextArea;
