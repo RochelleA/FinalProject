@@ -19,7 +19,7 @@ public class addmissibleFrame extends JFrame{
 	JTextArea mainTextArea;
 
 	public addmissibleFrame(String string) {
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -28,9 +28,11 @@ public class addmissibleFrame extends JFrame{
 		mainPanel=  new JPanel();
 		contentPane.add(mainPanel);
 		mainTextArea = new JTextArea();
+		mainTextArea.setBounds(30, 30, 1000, 1000);
 		mainTextArea.setLineWrap(true);
 		mainTextArea.setEditable(false);
 		mainTextArea.setText(string);
+		mainPanel.setLayout(null);
 		mainPanel.add(mainTextArea);
 		
 

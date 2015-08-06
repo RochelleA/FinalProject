@@ -101,7 +101,8 @@ class Controller implements ActionListener,ItemListener {
 		  }
 		  else if(src==MyView.allAddmissibleLabellingButton){
 			  System.out.println("All Admissible Labelling button pressed");
-			  String string = MyModel.allAdmissibleLabellings().toString();
+			  String string = MyModel.allAdmissibleLabelling2().toString();
+			  System.out.println("All admissible labelling" + string);
 			  MyView.openAdmissibleFrame(string);
 		  }
 		  else if((src==MyView.enterButton) ){

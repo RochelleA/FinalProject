@@ -186,7 +186,42 @@ public class MyLabellingTest {
 		String s = "{\u00D8,\u00D8,[V0]}";
 		assertEquals(s, l1.toString());
 	}
-
+	
+	@Test 
+	public void testFindMyVertex(){
+		MyVertex v1 = new MyVertex(1);
+		MyVertex v2 = new MyVertex(2);
+		MyVertex v3 = new MyVertex(3);
+		MyVertex v4 = new MyVertex(4);
+		MyLabelling l1 = new MyLabelling(1);
+		LinkedHashSet<MyVertex> set = new LinkedHashSet<MyVertex>();
+		set.add(v1);
+		set.add(v2);
+		set.add(v3);
+		assertTrue(l1.findMyVertex(v1, set));
+		assertFalse(l1.findMyVertex(v4, set));
+		v4.setId(1);
+		assertTrue(l1.findMyVertex(v4, set));
+	}
+	
+	@Test 
+	public void testContainsAllVertices(){
+		MyVertex v1 = new MyVertex(1);
+		MyVertex v2 = new MyVertex(2);
+		MyVertex v3 = new MyVertex(3);
+		MyVertex v4 = new MyVertex(4);
+		MyLabelling l1 = new MyLabelling(1);
+		LinkedHashSet<MyVertex> set = new LinkedHashSet<MyVertex>();
+		set.add(v1);
+		set.add(v2);
+		set.add(v3);
+		LinkedHashSet<MyVertex> set1 = new LinkedHashSet<MyVertex>();
+		set1.add(v3);
+		set1.add(v2);
+		set1.add(v1);
+		assertTrue(l1.containsAllVertices(set, set1));
+		
+	}
 	@Test
 	public void testEqualsObject() {
 		MyLabelling l1 = new MyLabelling(0);
@@ -194,6 +229,7 @@ public class MyLabellingTest {
 		assertTrue(l2.equals(l1));
 		MyVertex v = new MyVertex(0);
 		l1.addUndecVertex(v);
+		System.out.println("l1 is:" + l1.toString());
 		assertFalse(l2.equals(l1));
 		
 	}
@@ -237,5 +273,25 @@ public class MyLabellingTest {
 		MyLabelling l1 = new MyLabelling(0);
 		String s = "In labelled arguments:  "+ "\u00D8"+"\n Out labelled arguments:  "+  "\u00D8"+"\n Undecided labelled arguments: "+"\u00D8";
 		assertEquals(s, l1.DisplayLabelling());
+	}
+	
+	@Test 
+	public void testCheckAllLabels(){
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v1 = new MyVertex(1);
+		MyVertex v2 = new MyVertex(2);
+		MyVertex v3 = new MyVertex(3);
+		MyVertex v4 = new MyVertex(5);
+		MyVertex v5 = new MyVertex(6);
+		l1.addInVertex(v1);
+		l1.addInVertex(v2);
+		l1.addOutVertex(v3);
+		l1.addUndecVertex(v4);
+		l1.addUndecVertex(v5);
+		System.out.print(l1);
+		assertTrue(l1.checkAllLabels());
+		v1.setLabel("OUT");
+		assertFalse(l1.checkAllLabels());
+		
 	}
 }

@@ -273,7 +273,7 @@ public class Model extends java.util.Observable {
 			}
 		}
 			System.out.println(tempCount1+attackers.size()+"");
-			if(tempCount1==attackers.size()){
+			if(tempCount1==attackers.size() || attackers.size()==0){
 				return true;
 			}
 		
@@ -509,8 +509,23 @@ public class Model extends java.util.Observable {
     	}
     	return false;
     }
+    static boolean alreadyContains(HashSet<MyLabelling> setOfLabellings,HashSet<MyLabelling> containLabellings){
+    	Iterator<MyLabelling > containLabellingsIterator = containLabellings.iterator();
+    	int count =0;
+    	while(containLabellingsIterator.hasNext()){
+    		MyLabelling tempLabellings = containLabellingsIterator.next();
+    		if(alreadyContains(setOfLabellings, tempLabellings)){
+    			count++;
+    		}
+    	}
+    	if(count==setOfLabellings.size()&& count!=0){
+    		return true;
+    	}
+   
+    	return false;
+    }
     
-    public HashSet<MyLabelling> allAdmissibleLabellings(){
+    public LinkedHashSet<MyLabelling> allAdmissibleLabellings(){
     	LinkedHashSet<MyLabelling> admissibleLabellings= new LinkedHashSet<MyLabelling>();
     	LinkedHashSet<MyVertex> graphVertices = new LinkedHashSet<MyVertex>(modelGraph.getMyVertices());
     	ArrayList<MyVertex> vertices = new ArrayList<MyVertex>();
@@ -580,6 +595,18 @@ public class Model extends java.util.Observable {
 		return illegalInVertices;
     	
     }
+    
+    public int checkAllLabels(LinkedHashSet<MyLabelling> set){
+    	int count=0;
+    	Iterator<MyLabelling> setIterator = set.iterator();
+    	while(setIterator.hasNext()){
+    		if(setIterator.next().checkAllLabels()){
+    			count++;
+    		}
+    	}
+    	
+    	return count;
+    }
   
     public HashSet<MyLabelling> allAdmissibleLabellings1(){
     	LinkedHashSet<MyLabelling> admissibleLabellings= new LinkedHashSet<MyLabelling>();
@@ -638,30 +665,70 @@ public class Model extends java.util.Observable {
     	return admissibleLabellings;
     }
 
-    
+//Not working yet    
     public LinkedHashSet<MyLabelling> allAdmissibleLabelling2(){
+    	int count=0;
     	LinkedHashSet<MyLabelling> allAdmissibleLabellings = new LinkedHashSet<MyLabelling>();
     	LinkedHashSet<MyLabelling> possibleCombinations = new LinkedHashSet<MyLabelling>();
+    	LinkedHashSet<MyLabelling> possibleCombinations1 = new LinkedHashSet<MyLabelling>();
     	LinkedHashSet<MyVertex> graphVertices = new LinkedHashSet<MyVertex>(this.modelGraph.getMyVertices());
     	LinkedHashSet<MyVertex> vertices = new LinkedHashSet<MyVertex>();
     	vertices.addAll(graphVertices);
-    	for(int i=0; i<vertices.size();i++){
+    	if(modelGraph.GetMyEdgeCount()==0){
+    		System.out.println("System no edge loop entered");
+    		MyLabelling allIn = new MyLabelling(0);
+    		allIn.setInVerties(graphVertices);
+    		allAdmissibleLabellings.add(allIn);
+    		return allAdmissibleLabellings;
+    	}
+    	MyLabelling labelling = new MyLabelling(0);
+    	labelling.setInVerties(vertices);
+    	LinkedHashSet<MyVertex> illegallyIn =findAllIllegIn(labelling);
+    	if(illegallyIn.size()==vertices.size()){
+    		System.out.println("All illegally if statement entered");
+    		return(this.allAdmissibleLabellings());
+    	}
+    	
+    	for(int i=0; i<=vertices.size();i++){
+    		System.out.println("for loop entered for the )"+i+"th time");
     		LinkedHashSet<MyVertex> currentVertexOrder = reorderSet(vertices);
     		MyLabelling labelling1 = new MyLabelling(0);
     		labelling1.setInVerties(currentVertexOrder);
     		possibleCombinations.add(labelling1);
     		while(hasillegallyIn(possibleCombinations)){
-    			LinkedHashSet<MyLabelling> possibleCombinations1 = new LinkedHashSet<MyLabelling>();
+    			System.out.print("Illegally in loop entered");
+    				int counter =0;
+    				Iterator<MyLabelling> possibleCombinationIterator =possibleCombinations.iterator();
+    				while(possibleCombinationIterator.hasNext()){
+    					MyLabelling test = possibleCombinationIterator.next();
+    					test.correctLabels();
+    					if(!(hasillegallyIn(test))){
+    						counter++;
+    					}
+    			}
+    					if(counter==possibleCombinations.size() && i==vertices.size()){
+    						System.out.println("Illegal labels if statement entered");
+    						return allAdmissibleLabellings;
+    					}
+    					else if(counter==possibleCombinations.size()){
+    					possibleCombinations.clear();
+    					}
     			Iterator<MyLabelling> possibleCombinationsIterator = possibleCombinations.iterator();
     			while(possibleCombinationsIterator.hasNext()){
+    				System.out.println("addmissible are: " + allAdmissibleLabellings);
     				LinkedHashSet<ArrayList<MyVertex>> illegInCombinations = new LinkedHashSet<ArrayList<MyVertex>>();
     				MyLabelling labelling2 = possibleCombinationsIterator.next();
+    				labelling2.setInVerties(labelling2.getInVertices());
+    				labelling2.setOutVertices(labelling2.getOutVertices());
+    				labelling2.setUndecVertices(labelling2.getUndecVertices());
+    				if(hasillegallyIn(labelling2)){
     				LinkedHashSet<MyVertex> illegIn =findAllIllegIn(labelling2);
     				ArrayList<MyVertex> illegInArray =new  ArrayList<MyVertex>();
     				illegInArray.addAll(illegIn);
     				permute(illegInArray, illegInCombinations, 0);
     				Iterator<ArrayList<MyVertex>> illegInCombinationIterator = illegInCombinations.iterator();
     				while(illegInCombinationIterator.hasNext()){
+    					System.out.println("addmissible are: " + allAdmissibleLabellings);
     					MyLabelling labelling3 = new MyLabelling(2);
     					LinkedHashSet<MyVertex> l2InVertices = new LinkedHashSet<MyVertex>();
     					l2InVertices.addAll(labelling2.getInVertices());
@@ -693,21 +760,37 @@ public class Model extends java.util.Observable {
 			    						if(!(isLegallyOut(v))){
 			    							labelling3.deleteFromOutVertices(v);
 			    							labelling3.addUndecVertex(v);
+			    							
 			    						}
 		    						
 			    					}	
 		    					}
     						}
     					}
-    					possibleCombinations1.add(labelling3);
+    					if(!(alreadyContains(possibleCombinations1, labelling3))){
+    						possibleCombinations1.add(labelling3);
+    					}
     				}
-    				
-    						
+//    				possibleCombinations.addAll(possibleCombinations1);	
     			}
-    			possibleCombinations.containsAll(possibleCombinations1);
+    			}
+    			System.out.println("addmissible are: " + allAdmissibleLabellings);
+    			if(!(alreadyContains(possibleCombinations, possibleCombinations1))){
+    			possibleCombinations.remove(labelling1);
+    			possibleCombinations.addAll(possibleCombinations1);
+    			}
+    			possibleCombinations1.clear();
     		}
+    		if(!(alreadyContains(allAdmissibleLabellings, possibleCombinations))){
+    		allAdmissibleLabellings.addAll(possibleCombinations);
+    		}
+    		possibleCombinations.clear();
     	}
+    	
     	allAdmissibleLabellings.addAll(possibleCombinations);
+    	System.out.println("addmissible are: " + allAdmissibleLabellings);
+    	System.out.println("returned like normal");
     	return allAdmissibleLabellings;
+    	
     }
 } 

@@ -368,6 +368,32 @@ public class ModelTest {
 	}
 	
 	@Test 
+	public void testCheckAllLabels(){
+		MyLabelling l1 = new MyLabelling(1);
+		MyLabelling l2 = new MyLabelling(2);
+		Model m = new Model();
+		MyVertex v1 = new MyVertex(1);
+		MyVertex v2 = new MyVertex(2);
+		l1.addInVertex(v1);
+		l2.addInVertex(v1);
+		l1.addOutVertex(v2);
+		l2.addOutVertex(v2);
+		LinkedHashSet<MyLabelling> set = new LinkedHashSet<MyLabelling>();
+		set.add(l2);
+		set.add(l1);
+		assertEquals(m.checkAllLabels(set), 2);
+		l2.deleteFromInVertices(v1);
+		l2.addOutVertex(v1);
+		v1.setLabel("IN");
+		assertEquals(m.checkAllLabels(set), 1);
+		v1.setLabel("OUT");
+		assertEquals(m.checkAllLabels(set), 0);
+		
+		
+		
+	}
+	
+	@Test 
 	public void testAllAdmissibleLabellings(){
 		Model m = new Model();
 		MyVertex v1= m.modelGraph.addMyVertex();
@@ -380,6 +406,20 @@ public class ModelTest {
 		m.modelGraph.addMyEdge(v2, v3);
 		m.modelGraph.addMyEdge(v3, v4);
 		System.out.println(m.allAdmissibleLabellings());
-		System.out.println(m.allAdmissibleLabelling2());
+		System.out.println("all addmissible outcome " +m.allAdmissibleLabelling2());
+	}
+	
+	
+	@Test 
+	public void testAllAdmissibleLabellings2(){
+		Model m = new Model();
+		MyVertex v1= m.modelGraph.addMyVertex();
+		MyVertex v2=m.modelGraph.addMyVertex();
+		MyVertex v3= m.modelGraph.addMyVertex();
+		m.modelGraph.addMyEdge(v1, v2);
+		m.modelGraph.addMyEdge(v2, v3);
+		System.out.println(m.allAdmissibleLabellings());
+		System.out.println("all addmissible outcome 2" +m.allAdmissibleLabelling2());
+		
 	}
 }
