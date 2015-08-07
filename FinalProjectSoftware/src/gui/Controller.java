@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.LinkedHashSet;
 
 import javax.swing.JOptionPane;
 
@@ -33,12 +34,14 @@ class Controller implements ActionListener,ItemListener {
 
 		  if (src == MyView.addVertexButton) {
 			  deleteVertexFlag=false;
+			  clickedFlag=false;
+			  deleteEdgeFlag=false;
 			  MyView.viewVV.getPickedVertexState().clear();
 			  MyView.viewEdgePickedState.clear();
 			  MyView.changeToNoPickingMouse();
 			  MyView.messageFromController.setText("");
 			  MyView.clearSemanticsInfoBoxes();
-//			  MyView.graphBuildPanel.add(MyView.messageFromController);
+//			  MyView.tBoxPanel.add(MyView.messageFromController);
 			System.out.println("AddVertexButton Pressed");
 			MyModel.resetLabels();
 			MyModel.addVertex();
@@ -56,7 +59,7 @@ class Controller implements ActionListener,ItemListener {
 //			  MyView.clearSemanticsInfoBoxes();
 			  MyView.askForFromVertex();
 			  MyView.messageFromController.setText("Please select an attacking argument and then select enter when you are done.");
-			  MyView.graphBuildPanel.add(MyView.messageFromController);
+			  MyView.informationPanel.add(MyView.messageFromController);
 		  }
 		  else if(src==MyView.resetGraph){
 			  deleteVertexFlag=false;
@@ -70,7 +73,7 @@ class Controller implements ActionListener,ItemListener {
 				  MyView.messageFromController.setText("");
 				  MyView.graphString.setText("");
 				  MyView.groundedSemanticsInfo.setText("");
-				  MyView.preferredSemanticsInfo.setText("");
+				  MyView.admissibleSemanticsInfo.setText("");
 			  } 
 		  }
 		  else if(src==MyView.deleteVertexButton){
@@ -89,21 +92,35 @@ class Controller implements ActionListener,ItemListener {
 			  MyView.deleteEdge=null;
 			  MyView.deleteEdge();
 		  }
+		  else if(src==MyView.semanticsButton){
+			  System.out.print("Semantics button pressed");
+			  MyView.changeToSemantics();
+		  }
+		  else if(src==MyView.buildButton){
+			  System.out.print("Build button pressed");
+			  MyView.changeToBuild();
+		  }
 		  else if (src==MyView.groundedLabellingButton){
 			  System.out.println("Grounded labelling button pressed");
+			  MyModel.resetLabels();
 			  MyLabelling l1=MyModel.groundedLabelling();
 			  MyView.groundedSemanticsInfo.setText("The grounded labelling for your current graph is: \n "+l1.DisplayLabelling());
 		  }
-		  else if (src==MyView.preferredLabellingButton){
+		  else if (src==MyView.admissibleLabellingButton){
 			  System.out.println("Preffered labelling button pressed");
+			  MyModel.resetLabels();
 			  MyLabelling l1=MyModel.admissibleLabelling();
-			  MyView.preferredSemanticsInfo.setText("The Preferred labelling for your current graph is: \n "+l1.DisplayLabelling());
+			  MyView.admissibleSemanticsInfo.setText("The Preferred labelling for your current graph is: \n "+l1.DisplayLabelling());
 		  }
-		  else if(src==MyView.allAddmissibleLabellingButton){
+		  else if(src==MyView.allAdmissibleLabellingButton){
 			  System.out.println("All Admissible Labelling button pressed");
+			  MyModel.resetLabels();
 			  String string = MyModel.allAdmissibleLabelling2().toString();
 			  System.out.println("All admissible labelling" + string);
-			  MyView.openAdmissibleFrame(string);
+			  MyView.allAdmissibleSemanticInfo.setText(MyModel.allAdmissibleString(MyModel.allAdmissibleLabelling2()));
+			  LinkedHashSet<MyLabelling> allAdmissibleLabellings = MyModel.allAdmissibleLabelling2();
+			  MyModel.displayAnAdmissibleLabelling(allAdmissibleLabellings);
+//			  MyView.openAdmissibleFrame(string);
 		  }
 		  else if((src==MyView.enterButton) ){
 			  System.out.println("EnterButton Pressed");
@@ -151,7 +168,7 @@ class Controller implements ActionListener,ItemListener {
 						  System.out.print(clickedFlag);
 							clickedFlag=true;
 							MyView.messageFromController.setText("The vertex used will be "+ MyView.currentVertex);
-							MyView.graphBuildPanel.add(MyView.messageFromController);
+							MyView.tBoxPanel.add(MyView.messageFromController);
 							from =MyView.currentVertex;
 							MyModel.addEdge(from);
 							System.out.println("from vertex is "+from);

@@ -422,4 +422,101 @@ public class ModelTest {
 		System.out.println("all addmissible outcome 2" +m.allAdmissibleLabelling2());
 		
 	}
+	
+	@Test
+	public void testDisplayAnAdmissiblelabelling(){
+		Model m = new Model();
+		MyVertex v1= m.modelGraph.addMyVertex();
+		MyVertex v2=m.modelGraph.addMyVertex();
+		MyVertex v3= m.modelGraph.addMyVertex();
+		m.modelGraph.addMyEdge(v1, v2);
+		m.modelGraph.addMyEdge(v2, v3);
+
+		System.out.println("all addmissible outcome 2" +m.allAdmissibleLabelling2());
+		m.displayAnAdmissibleLabelling(m.allAdmissibleLabelling2());
+		System.out.print("vertex 1 label is "+v1.getLabel()+ " \n Vertex 2 label is "+ v2.getLabel()+" \n Vertex 3's label is "+ v3.getLabel());
+	}
+	
+	@Test
+	public void testSuperIllegallyIn(){
+		Model m = new Model();
+
+		MyVertex v1= m.modelGraph.addMyVertex();
+		MyVertex v2=m.modelGraph.addMyVertex();
+		MyVertex v3= m.modelGraph.addMyVertex();
+		m.modelGraph.addMyEdge(v1, v2);
+		m.modelGraph.addMyEdge(v2, v3);
+		MyLabelling labelling = new MyLabelling(0);
+		labelling.addInVertex(v1);
+		labelling.addInVertex(v2);
+		labelling.addUndecVertex(v3);
+		assertTrue(m.superIllegallyIn(v2, labelling));
+		
+		Model m1 = new Model();
+		MyVertex v11= m1.modelGraph.addMyVertex();
+		MyVertex v22=m1.modelGraph.addMyVertex();
+		MyVertex v33= m1.modelGraph.addMyVertex();
+		m1.modelGraph.addMyEdge(v11, v22);
+		m1.modelGraph.addMyEdge(v22, v33);
+		MyLabelling labelling1 = new MyLabelling(1);
+		labelling1.addUndecVertex(v11);
+		labelling1.addInVertex(v22);
+		labelling1.addOutVertex(v33);
+		assertTrue(m1.superIllegallyIn(v22, labelling1));
+	}
+	
+	@Test 
+	public void testFindSuperIllegallyIn(){
+		Model m= new Model();
+		MyVertex v1= m.modelGraph.addMyVertex();
+		MyVertex v2=m.modelGraph.addMyVertex();
+		MyVertex v3= m.modelGraph.addMyVertex();
+		MyVertex v4 = m.modelGraph.addMyVertex();
+		m.modelGraph.addMyEdge(v1, v2);
+		m.modelGraph.addMyEdge(v2, v3);
+		m.modelGraph.addMyEdge(v3, v4);
+		MyLabelling labelling = new MyLabelling(1);
+		labelling.addInVertex(v2);
+		labelling.addInVertex(v4);
+		labelling.addInVertex(v1);
+		labelling.addUndecVertex(v3);
+		LinkedHashSet<MyVertex> superIllegallyIn= m.findSuperIllegallyIn(labelling);
+		assertTrue(superIllegallyIn.contains(v2));
+		assertTrue(superIllegallyIn.contains(v4));
+		assertFalse(superIllegallyIn.contains(v1));
+	}
+	
+	@Test
+	public void testTransitionSequence(){
+		Model m= new Model();
+		MyVertex v1= m.modelGraph.addMyVertex();
+		MyVertex v2=m.modelGraph.addMyVertex();
+		MyVertex v3= m.modelGraph.addMyVertex();
+		MyVertex v4 = m.modelGraph.addMyVertex();
+		MyVertex v5 = m.modelGraph.addMyVertex();
+		m.modelGraph.addMyEdge(v1, v2);
+		m.modelGraph.addMyEdge(v2, v3);
+		m.modelGraph.addMyEdge(v3, v4);
+		m.modelGraph.addMyEdge(v3, v2);
+		m.modelGraph.addMyEdge(v5, v3);
+//		Model m = new Model();
+//		MyVertex v1= m.modelGraph.addMyVertex();
+//		MyVertex v2=m.modelGraph.addMyVertex();
+//		MyVertex v3= m.modelGraph.addMyVertex();
+//		MyVertex v4= m.modelGraph.addMyVertex();
+//		m.modelGraph.addMyEdge(v1, v2);
+//		m.modelGraph.addMyEdge(v2, v1);
+//		m.modelGraph.addMyEdge(v1, v3);
+//		m.modelGraph.addMyEdge(v2, v3);
+//		m.modelGraph.addMyEdge(v3, v4);
+		MyLabelling labelling = new MyLabelling(0);
+		labelling.addInVertex(v1);
+		labelling.addInVertex(v2);
+		labelling.addInVertex(v3);
+		labelling.addInVertex(v4);
+		labelling.addInVertex(v5);
+		MyLabelling labelling1 =m.transitionSequence(labelling);
+		System.out.println("The Final Labelling after the transition sequence is "+labelling1);
+		
+	}
 }

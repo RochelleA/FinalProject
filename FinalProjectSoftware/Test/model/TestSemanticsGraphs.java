@@ -1,5 +1,7 @@
 package model;
 
+import java.util.LinkedHashSet;
+
 import core.*;
 import static org.junit.Assert.*;
 
@@ -21,6 +23,11 @@ public class TestSemanticsGraphs {
 		MyEdge e5 = m2.modelGraph.addMyEdge(v4, v5);
 		MyEdge e6 = m2.modelGraph.addMyEdge(v5, v3);
 		System.out.println(m2.groundedLabelling().toString());
+		MyLabelling labelling = new MyLabelling(0);
+		labelling.setInVerties(new LinkedHashSet<MyVertex>(m2.modelGraph.getMyVertices()));
+		System.out.println("The transistion sequence is " +m2.transitionSequence(labelling));
+		
+		
 		
 		Model m1 = new Model();
 		MyVertex v6 =m1.modelGraph.addMyVertex();
@@ -34,6 +41,9 @@ public class TestSemanticsGraphs {
 		v7.setLabel("OUT");
 		v6.setLabel("OUT");
 		System.out.print("is Legally Out? "+ m1.isLegallyOut(v6)+"\n");
+		MyLabelling labelling1 = new  MyLabelling(1);
+		labelling1.setInVerties(new LinkedHashSet<MyVertex>(m1.modelGraph.getMyVertices()));
+		System.out.println("The transistion sequence is " +m1.transitionSequence(labelling1));
 		
 		
 	}

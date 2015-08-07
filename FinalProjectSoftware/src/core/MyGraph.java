@@ -224,6 +224,19 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		return false;
 	}
 	
+	public MyVertex getMyVertex(MyVertex v){
+		LinkedHashSet<MyVertex> vertices = new LinkedHashSet<MyVertex>(this.getMyVertices());
+		Iterator<MyVertex> verticesIterator = vertices.iterator();
+		while(verticesIterator.hasNext()){
+			MyVertex currentvertex = verticesIterator.next();
+			if(currentvertex.equals(v)){
+				return currentvertex;
+			}
+		}
+		throw new IllegalArgumentException("Vertex not in graph");
+		
+	}
+	
 	public boolean findMyEdge(MyEdge e){
 		LinkedHashSet<MyEdge> edges = new LinkedHashSet<MyEdge>(this.getMyEdges());
 		Iterator<MyEdge> edgesIterator = edges.iterator();
