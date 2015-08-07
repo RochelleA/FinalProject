@@ -53,8 +53,11 @@ public class MyEdge implements IMyEdge {
 	public void setLabel(MyVertex vl1, MyVertex vl2){
 		this.label="Att("+vl1.getId()+","+vl2.getId()+")";
 	}
+	public void updateLabel(){
+		this.setLabel(from,to);
+	}
 	public String toString() {
-        return "Att";
+        return "Att["+this.from+","+this.to+"]";
 	}
 
 	public boolean equals(Object other) {
@@ -62,7 +65,7 @@ public class MyEdge implements IMyEdge {
 		    if (other == null) return false;
 		    if (getClass() != other.getClass()) return false;
 		    MyEdge edge = (MyEdge)other;
-		    return (id == edge.id && to == edge.to && from==edge.from );
+		    return (to.equals(edge.getTo()) && from.equals(edge.getFrom()));
 		  }
 		
 
