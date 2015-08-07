@@ -1,6 +1,7 @@
 package core;
 
-import java.util.HashSet;
+
+
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
@@ -10,7 +11,7 @@ public class MyLabelling implements IMyLabelling {
 	LinkedHashSet<MyVertex> InLabels;
 	LinkedHashSet<MyVertex> OutLabels;
 	LinkedHashSet<MyVertex> UndecLabels;
-	private LinkedHashSet<MyVertex> NotLabelledVertices;
+	LinkedHashSet<MyVertex> NotLabelledVertices;
 	
 
 	public MyLabelling(int id) {
@@ -18,7 +19,7 @@ public class MyLabelling implements IMyLabelling {
 		InLabels= new LinkedHashSet<MyVertex>();
 		OutLabels = new LinkedHashSet<MyVertex>();
 		UndecLabels = new LinkedHashSet<MyVertex>();
-		setNotLabelledVertices(new LinkedHashSet<MyVertex>());
+		NotLabelledVertices= new LinkedHashSet<MyVertex>();
 	}
 
 	@Override
@@ -37,6 +38,7 @@ public class MyLabelling implements IMyLabelling {
 		else{
 			v.setLabel("IN");
 			InLabels.add(v);
+			System.out.println("vertex "+v + "has label" + v.getLabel());
 		}
 		return true;
 	}
@@ -46,6 +48,7 @@ public class MyLabelling implements IMyLabelling {
 			throw new IllegalArgumentException("This vertex is not in the in hashset");
 		}
 		else{
+			NotLabelledVertices.add(v);
 			InLabels.remove(v);
 			v.setLabel("NONE");
 		}
@@ -55,9 +58,12 @@ public class MyLabelling implements IMyLabelling {
 	public void setInVerties(LinkedHashSet<MyVertex> h1){
 		Iterator<MyVertex> I = h1.iterator();
 		while(I.hasNext()){
-			I.next().setLabel("IN");
+			MyVertex v =I.next();
+			v.setLabel("IN");
+			System.out.println("vertex "+v + "has label" + v.getLabel());
 		}
 		InLabels=h1;
+		NotLabelledVertices.removeAll(h1);
 			}
 
 	
@@ -80,12 +86,24 @@ public class MyLabelling implements IMyLabelling {
 		}
 		
 	}
+	public void setOutVertices(LinkedHashSet<MyVertex> h1){
+		Iterator<MyVertex> I = h1.iterator();
+		while(I.hasNext()){
+			MyVertex v =I.next();
+			v.setLabel("OUT");
+			System.out.println("vertex "+v + "has label" + v.getLabel());
+		}
+		OutLabels=h1;
+		NotLabelledVertices.removeAll(h1);
+			}
 	
 	public boolean deleteFromOutVertices(MyVertex v){
 		if(!(this.OutLabels.contains(v))){
 			throw  new IllegalArgumentException("This vertex is not in the out hashset");
 		}
 		else{
+			v.setLabel("NONE");
+			NotLabelledVertices.add(v);
 			OutLabels.remove(v);
 		}
 		return true;
@@ -106,6 +124,7 @@ public class MyLabelling implements IMyLabelling {
 		}
 		v.setLabel("UNDEC");
 		UndecLabels.add(v);
+		
 		return true;
 	}
 	
@@ -114,6 +133,8 @@ public class MyLabelling implements IMyLabelling {
 			throw new IllegalArgumentException("This vertex is not in the undec hashset");
 		}
 		else{
+			NotLabelledVertices.add(v);
+			v.setLabel("NONE");
 			UndecLabels.remove(v);
 		}
 		return true;
@@ -122,9 +143,13 @@ public class MyLabelling implements IMyLabelling {
 	public void setUndecVertices(LinkedHashSet<MyVertex> h1){
 		Iterator<MyVertex> I = h1.iterator();
 		while(I.hasNext()){
-			I.next().setLabel("UNDEC");
+			MyVertex v =I.next();
+			v.setLabel("UNDEC");
+			UndecLabels.add(v);
+			System.out.println("vertex "+v + "has label" + v.getLabel());
 		}
 		UndecLabels=h1;
+		NotLabelledVertices.removeAll(h1);
 			}
 
 	@Override
@@ -152,13 +177,39 @@ public class MyLabelling implements IMyLabelling {
 		String string = "{"+ inString + "," + outString +"," + undecString + "}";
 		return string;
 	}
-
+	public boolean findMyVertex(MyVertex v, LinkedHashSet<MyVertex> set){
+		LinkedHashSet<MyVertex> vertices = set;
+		Iterator<MyVertex> verticesIterator = vertices.iterator();
+		while(verticesIterator.hasNext()){
+			MyVertex currentvertex = verticesIterator.next();
+			if(currentvertex.equals(v)){
+				return true;
+			}
+		}
+		return false;
+	}
+	public boolean containsAllVertices(LinkedHashSet<MyVertex> set, LinkedHashSet<MyVertex> set1){
+		Iterator<MyVertex> setIterator = set.iterator();
+		// This counts the number of vertices in the collection that are the same as in the graph.
+		int sameVertexCount=0;
+		while(setIterator.hasNext()){
+			MyVertex currentVertex = setIterator.next();
+			if(this.findMyVertex(currentVertex,set1)){
+				sameVertexCount++;
+			}
+		}
+		if(sameVertexCount==set.size()){
+			return true;
+		}
+		return false;
+		}
+		
+	@Override
 	public boolean equals(Object label2) {
-		if (label2 == this) return true;
 	    if (label2 == null) return false;
 	    if (getClass() != label2.getClass()) return false;
 	    MyLabelling label = (MyLabelling)label2;
-	    return (InLabels.equals(label.InLabels) && OutLabels.equals(label.OutLabels) && UndecLabels.equals(label.UndecLabels) && id==label.id);
+	    return (label.containsAllVertices(label.InLabels,this.InLabels) && label.containsAllVertices(label.OutLabels, this.OutLabels) && label.containsAllVertices(label.UndecLabels, this.UndecLabels) && label.containsAllVertices(label.NotLabelledVertices, this.NotLabelledVertices));
 	  }
 	
 
@@ -190,8 +241,81 @@ public void setNotLabelledVertices(LinkedHashSet<MyVertex> notLabelledVertices) 
 }
 
 public String DisplayLabelling(){
-	String display ="In labelled arguments:  "+InLabels.toString()+"\n Out labelled arguments:  "+OutLabels.toString()+"\n Undecided Labelled arguments: "+UndecLabels.toString();
+	String inString;
+	String outString;
+	String undecString;
+	if(InLabels.isEmpty()){
+		inString= "\u00D8";
+	}
+	else 
+		inString=InLabels.toString();
+	if(OutLabels.isEmpty()){
+		outString="\u00D8";
+	}
+	else 
+		outString=OutLabels.toString();
+	if(UndecLabels.isEmpty()){
+		undecString="\u00D8";
+	}
+	else{
+		undecString=UndecLabels.toString();
+	}
+	String display ="In labelled arguments:  "+inString+"\n Out labelled arguments:  "+outString+"\n Undecided labelled arguments: "+undecString;
 	return display;
 }
+
+public boolean checkAllLabels(){
+	int inCount=0;
+	Iterator<MyVertex> inIterator = InLabels.iterator();
+	while(inIterator.hasNext()){
+		if(inIterator.next().getLabel()=="IN"){
+			inCount++;
+			
+		}
+	}
+	if(inCount==InLabels.size()){
+		int outCount=0;
+		Iterator<MyVertex> outIterator = OutLabels.iterator();
+		while(outIterator.hasNext()){
+			if(outIterator.next().getLabel()=="OUT"){
+				outCount++;
+			}
+		}
+			if(outCount==OutLabels.size()){
+				int undecCount=0;
+				Iterator<MyVertex> undecIterator = UndecLabels.iterator();
+				while(undecIterator.hasNext()){
+					if(undecIterator.next().getLabel()=="UNDEC"){
+						undecCount++;
+					}
+				}
+					if(undecCount==UndecLabels.size()){
+						int notCount=0;
+						Iterator<MyVertex> notIterator = NotLabelledVertices.iterator();
+						while(notIterator.hasNext()){
+							if(notIterator.next().getLabel()=="NONE"){
+								notCount++;
+							}
+						}
+							if(notCount==NotLabelledVertices.size()){
+								return true;
+							}
+						
+					}
+				
+			}
+	}
+		
+	return false;
+}
+
+public void correctLabels(){
+	this.setInVerties(InLabels);
+	this.setOutVertices(OutLabels);
+	this.setUndecVertices(UndecLabels);
+	this.setNotLabelledVertices(NotLabelledVertices);
+}
+
+
 }
 

@@ -120,7 +120,7 @@ public class MyEdgeTest {
 		MyVertex v4 = new MyVertex(3);
 		e3.setFrom(v4);
 		assertFalse(e1.equals(e3));
-		assertFalse(e1.equals(e4));
+		assertTrue(e1.equals(e4));
 		assertTrue(e1.equals(e2));
 		}
 

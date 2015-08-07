@@ -58,9 +58,8 @@ public class MyVertex implements IMyVertex {
         return "V"+id;
 	}
 	
-
+	@Override
 	public boolean equals(Object vertex2) {
-		if (vertex2 == this) return true;
 	    if (vertex2 == null) return false;
 	    if (getClass() != vertex2.getClass()) return false;
 	    MyVertex vertex = (MyVertex)vertex2;

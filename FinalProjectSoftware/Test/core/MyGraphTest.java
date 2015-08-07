@@ -143,6 +143,28 @@ public void testGetInLabelledVertices(){
 }
 
 @Test
+public void testGetOutLabelledVertices(){
+	MyGraph g6= new MyGraph();
+	MyVertex v1=g6.addMyVertex();
+	MyVertex v2 =g6.addMyVertex();
+	v2.setLabel("OUT");
+	HashSet<MyVertex > h1 =g6.getOutLabelledVertices();
+	assertTrue(h1.contains(v2));
+	assertFalse(h1.contains(v1));
+}
+
+@Test
+public void testGetUndecLabelledVertices(){
+	MyGraph g6= new MyGraph();
+	MyVertex v1=g6.addMyVertex();
+	MyVertex v2 =g6.addMyVertex();
+	v2.setLabel("UNDEC");
+	HashSet<MyVertex > h1 =g6.getUndecLabelledVertices();
+	assertTrue(h1.contains(v2));
+	assertFalse(h1.contains(v1));
+}
+
+@Test
 public void testResetGraph(){
 	MyGraph g6= new MyGraph();
 	MyVertex v1=g6.addMyVertex();
@@ -153,5 +175,68 @@ public void testResetGraph(){
 	assertTrue(g6.getMyEdges().isEmpty());
 	assertTrue(g6.vertexCount==0);
 	assertTrue(g6.edgeCount==0);
+}
+
+@Test 
+public void tesFindMyVertex(){
+	MyGraph g6= new MyGraph();
+	MyVertex v1= g6.addMyVertex();
+	MyVertex v2 = new MyVertex(0);
+	assertTrue(g6.findMyVertex(v1));
+	assertFalse(g6.findMyVertex(v2));
+	
+}
+
+@Test 
+public void testFindMyEdge(){
+	MyGraph g6= new MyGraph();
+	MyVertex v1=g6.addMyVertex();
+	MyVertex v2 =g6.addMyVertex();
+	MyEdge e = g6.addMyEdge(v1, v2);
+	MyEdge e1 = new MyEdge(0);
+	assertTrue(g6.findMyEdge(e));
+	assertFalse(g6.findMyEdge(e1));
+}
+
+@Test 
+public void testContainsAllVertices(){
+	MyGraph g = new MyGraph();
+	MyGraph g1 = new MyGraph();
+	g1.addMyVertex();
+	g.addMyVertex();
+	g.addMyVertex();
+	g1.addMyVertex();
+	assertTrue(g.containsAllVertices(g1.getMyVertices()));
+}
+
+@Test 
+public void testContainsAllEdges(){
+	MyGraph g = new MyGraph();
+	MyGraph g1 = new MyGraph();
+	 MyVertex g1v= g1.addMyVertex();
+	MyVertex gv= g.addMyVertex();
+	MyVertex gv1= g.addMyVertex();
+	MyVertex g1v1=g1.addMyVertex();
+	g.addMyEdge(gv, gv1);
+	g1.addMyEdge(g1v, g1v1);
+	System.out.println("g to string" + g.toString()+"\n g1 to string: "+ g1.toString());
+	assertTrue(g.containsAllEdges(g1.getMyEdges()));
+}
+
+@Test 
+public void testEquals(){
+	MyGraph g = new MyGraph();
+	MyGraph g1 = new MyGraph();
+	assertTrue(g.equals(g1));
+	 MyVertex g1v= g1.addMyVertex();
+	MyVertex gv= g.addMyVertex();
+	System.out.println("g to string" + g.toString()+"g1 to string: "+ g1.toString());
+	assertTrue(g.equals(g1));
+	MyVertex gv1= g.addMyVertex();
+	MyVertex g1v1=g1.addMyVertex();
+	g.addMyEdge(gv, gv1);
+	g1.addMyEdge(g1v, g1v1);
+	System.out.println("g to string" + g.toString()+"\n g1 to string: "+ g1.toString());
+	assertTrue(g.equals(g1));
 }
 }

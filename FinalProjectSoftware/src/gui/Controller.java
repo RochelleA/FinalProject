@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.LinkedHashSet;
 
 import javax.swing.JOptionPane;
 
@@ -31,34 +32,36 @@ class Controller implements ActionListener,ItemListener {
 	public void actionPerformed(ActionEvent e){
 		  Object src = e.getSource();
 
-		  if (src == MyView.AddVertexButton) {
+		  if (src == MyView.addVertexButton) {
 			  deleteVertexFlag=false;
-			  MyView.ViewVV.getPickedVertexState().clear();
-			  MyView.ViewEdgePickedState.clear();
+			  clickedFlag=false;
+			  deleteEdgeFlag=false;
+			  MyView.viewVV.getPickedVertexState().clear();
+			  MyView.viewEdgePickedState.clear();
 			  MyView.changeToNoPickingMouse();
-			  MyView.MessageFromController.setText("");
+			  MyView.messageFromController.setText("");
 			  MyView.clearSemanticsInfoBoxes();
-			  MyView.graphBuildPanel.add(MyView.MessageFromController);
+//			  MyView.tBoxPanel.add(MyView.messageFromController);
 			System.out.println("AddVertexButton Pressed");
 			MyModel.resetLabels();
 			MyModel.addVertex();
 		  }
-		  else if (src == MyView.AddEdgeButton) {
+		  else if (src == MyView.addEdgeButton) {
 			  deleteVertexFlag =false;
 			  clickedFlag=false;
 			  MyModel.v1=null;
 			  MyModel.v2=null;
 			  MyView.currentVertex=null;
 			  MyModel.resetLabels();
-			  MyView.ViewVV.getPickedEdgeState().clear();
-			  MyView.ViewVV.getPickedVertexState().clear();
+			  MyView.viewVV.getPickedEdgeState().clear();
+			  MyView.viewVV.getPickedVertexState().clear();
 			  System.out.println("AddEdgeButton Pressed");
 //			  MyView.clearSemanticsInfoBoxes();
 			  MyView.askForFromVertex();
-			  MyView.MessageFromController.setText("Please select an attacking argument and then select enter when you are done.");
-			  MyView.graphBuildPanel.add(MyView.MessageFromController);
+			  MyView.messageFromController.setText("Please select an attacking argument and then select enter when you are done.");
+			  MyView.informationPanel.add(MyView.messageFromController);
 		  }
-		  else if(src==MyView.ResetGraph){
+		  else if(src==MyView.resetGraph){
 			  deleteVertexFlag=false;
 			  deleteEdgeFlag=false;
 			  clickedFlag=false;
@@ -67,90 +70,110 @@ class Controller implements ActionListener,ItemListener {
 			  int selection= JOptionPane.showConfirmDialog(null, "Are you sure you want to reset the graph?", "Reset Graph?",JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE);
 			  if(selection==JOptionPane.YES_OPTION){
 				  MyModel.resetMyGraph();
-				  MyView.MessageFromController.setText("");
-				  MyView.GraphString.setText("");
-				  MyView.GroundedSemanticsInfo.setText("");
-				  MyView.PreferredSemanticsInfo.setText("");
+				  MyView.messageFromController.setText("");
+				  MyView.graphString.setText("");
+				  MyView.groundedSemanticsInfo.setText("");
+				  MyView.admissibleSemanticsInfo.setText("");
 			  } 
 		  }
-		  else if(src==MyView.DeleteVertexButton){
+		  else if(src==MyView.deleteVertexButton){
 			  System.out.println("Delete vertex button is pressed");
 			  deleteVertexFlag=true;
-			  MyView.ViewEdgePickedState.clear();
-			  MyView.ViewEdgePickedState.clear();
+			  MyView.viewEdgePickedState.clear();
+			  MyView.viewEdgePickedState.clear();
 			  MyView.deleteVertex=null;
-			  MyView.deleteMyVertex();
+			  MyView.deleteVertex();
 		  }
-		  else if(src==MyView.DeleteEdgeButton){
+		  else if(src==MyView.deleteEdgeButton){
 			  deleteEdgeFlag=true;
 			  System.out.println("Delete edge button is pressed");
-			  MyView.ViewEdgePickedState.clear();
-			  MyView.ViewEdgePickedState.clear();
+			  MyView.viewEdgePickedState.clear();
+			  MyView.viewEdgePickedState.clear();
 			  MyView.deleteEdge=null;
-			  MyView.deleteMyEdge();
+			  MyView.deleteEdge();
 		  }
-		  else if (src==MyView.GroundedLabellingButton){
+		  else if(src==MyView.semanticsButton){
+			  System.out.print("Semantics button pressed");
+			  MyView.changeToSemantics();
+		  }
+		  else if(src==MyView.buildButton){
+			  System.out.print("Build button pressed");
+			  MyView.changeToBuild();
+		  }
+		  else if (src==MyView.groundedLabellingButton){
 			  System.out.println("Grounded labelling button pressed");
-			  MyLabelling l1=MyModel.GroundedLabelling();
-			  MyView.GroundedSemanticsInfo.setText("The grounded labelling for your current graph is: \n "+l1.DisplayLabelling());
+			  MyModel.resetLabels();
+			  MyLabelling l1=MyModel.groundedLabelling();
+			  MyView.groundedSemanticsInfo.setText("The grounded labelling for your current graph is: \n "+l1.DisplayLabelling());
 		  }
-		  else if (src==MyView.PreferredLabellingButton){
+		  else if (src==MyView.admissibleLabellingButton){
 			  System.out.println("Preffered labelling button pressed");
-			  MyLabelling l1=MyModel.AdmissibleLabelling();
-			  MyView.PreferredSemanticsInfo.setText("The Preferred labelling for your current graph is: \n "+l1.DisplayLabelling());
+			  MyModel.resetLabels();
+			  MyLabelling l1=MyModel.admissibleLabelling();
+			  MyView.admissibleSemanticsInfo.setText("The Preferred labelling for your current graph is: \n "+l1.DisplayLabelling());
 		  }
-		  else if((src==MyView.EnterButton) ){
+		  else if(src==MyView.allAdmissibleLabellingButton){
+			  System.out.println("All Admissible Labelling button pressed");
+			  MyModel.resetLabels();
+			  String string = MyModel.allAdmissibleLabelling2().toString();
+			  System.out.println("All admissible labelling" + string);
+			  MyView.allAdmissibleSemanticInfo.setText(MyModel.allAdmissibleString(MyModel.allAdmissibleLabelling2()));
+			  LinkedHashSet<MyLabelling> allAdmissibleLabellings = MyModel.allAdmissibleLabelling2();
+			  MyModel.displayAnAdmissibleLabelling(allAdmissibleLabellings);
+//			  MyView.openAdmissibleFrame(string);
+		  }
+		  else if((src==MyView.enterButton) ){
 			  System.out.println("EnterButton Pressed");
 			  System.out.println("current"+MyView.currentVertex);
 			  System.out.println("deleteCurrent "+MyView.deleteVertex);
 			  System.out.println(deleteEdgeFlag);
 			  if(deleteEdgeFlag==true && MyView.deleteEdge!=null){
-				  MyView.ViewVV.setPickedVertexState(MyView.ViewVertexPickedState);
+				  MyView.viewVV.setPickedVertexState(MyView.viewVertexPickedState);
 				  int selection= JOptionPane.showConfirmDialog(null, "Are you sure you want to delete attack "+ MyView.deleteEdge.getLabel() +"? This action can not be undone.", "Delete Attack?",JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE);
 				  if(selection==JOptionPane.YES_OPTION){
-					  MyModel.deleteMyEdge(MyView.deleteEdge);
+					  MyModel.deleteEdge(MyView.deleteEdge);
 					  MyModel.resetLabels();
 					  MyView.clearSemanticsInfoBoxes();
 					  MyView.deleteVertex=null;
-					  MyView.MessageFromController.setText("");
+					  MyView.messageFromController.setText("");
 				  }
 				  else{
-					  MyView.ViewEdgePickedState.clear();
-					  MyView.ViewVertexPickedState.clear();
-					  MyView.colourGraph(MyModel.ModelGraph);
+					  MyView.viewEdgePickedState.clear();
+					  MyView.viewVertexPickedState.clear();
+					  MyView.colourGraph(MyModel.modelGraph);
 				  } 
 			  }
 			  if(MyView.deleteVertex!=null&&deleteVertexFlag==true){
 				  int selection= JOptionPane.showConfirmDialog(null, "Are you sure you want to delete argument "+ MyView.deleteVertex +"? This action can not be undone.", "Delete Argument?",JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE);
 				  if(selection==JOptionPane.YES_OPTION){
-					  MyModel.deleteMyVertex(MyView.deleteVertex);
+					  MyModel.deleteVertex(MyView.deleteVertex);
 					  MyModel.resetLabels();
 					  MyView.clearSemanticsInfoBoxes();
 					  MyView.deleteVertex=null;
-					  MyView.MessageFromController.setText("");
+					  MyView.messageFromController.setText("");
 				  }
 				  else{
-					  MyView.ViewEdgePickedState.clear();
-					  MyView.ViewVertexPickedState.clear();
-					  MyView.colourGraph(MyModel.ModelGraph);
+					  MyView.viewEdgePickedState.clear();
+					  MyView.viewVertexPickedState.clear();
+					  MyView.colourGraph(MyModel.modelGraph);
 				  }
 
 			  }
 			  else if(MyView.currentVertex==null){
-				 MyView.MessageFromController.setText("You have not select a vertex. Please select a vertex.");
+				 MyView.messageFromController.setText("You have not select a vertex. Please select a vertex.");
 			  }
 			  else{ 
 				  {
 					  if(clickedFlag==false){
 						  System.out.print(clickedFlag);
 							clickedFlag=true;
-							MyView.MessageFromController.setText("The vertex used will be "+ MyView.currentVertex);
-							MyView.graphBuildPanel.add(MyView.MessageFromController);
+							MyView.messageFromController.setText("The vertex used will be "+ MyView.currentVertex);
+							MyView.tBoxPanel.add(MyView.messageFromController);
 							from =MyView.currentVertex;
 							MyModel.addEdge(from);
 							System.out.println("from vertex is "+from);
-							MyView.ViewEdgePickedState.clear();
-							MyView.ViewVertexPickedState.clear();
+							MyView.viewEdgePickedState.clear();
+							MyView.viewVertexPickedState.clear();
 							MyView.changeToNoPickingMouse();
 							MyView.askForToVertex();
 						  }
@@ -158,7 +181,7 @@ class Controller implements ActionListener,ItemListener {
 						 System.out.print(clickedFlag);
 						 
 						 if (from ==MyView.currentVertex){
-							 MyView.MessageFromController.setText("You have selected the same attacking and attacked argument. Please start again.");
+							 MyView.messageFromController.setText("You have selected the same attacking and attacked argument. Please start again.");
 								MyView.currentVertex=null;
 								MyModel.v1=null;
 //								MyView.ViewVertexPickedState.clear();
@@ -166,12 +189,12 @@ class Controller implements ActionListener,ItemListener {
 						 }
 						 else{
 							 clickedFlag=false;
-						 MyView.MessageFromController.setText("The argument used will be "+ MyView.currentVertex);
+						 MyView.messageFromController.setText("The argument used will be "+ MyView.currentVertex);
 							to =MyView.currentVertex;
 							MyModel.addEdge(to);
 							System.out.println("to vertex is "+to);
-							MyView.ViewEdgePickedState.clear();
-							MyView.ViewVertexPickedState.clear();
+							MyView.viewEdgePickedState.clear();
+							MyView.viewVertexPickedState.clear();
 							 MyView.clearSemanticsInfoBoxes();
 							MyView.changeToNoPickingMouse();
 							MyView.currentVertex=null;
