@@ -38,7 +38,6 @@ public class MyLabelling implements IMyLabelling {
 		else{
 			v.setLabel("IN");
 			InLabels.add(v);
-			System.out.println("vertex "+v + "has label" + v.getLabel());
 		}
 		return true;
 	}
@@ -60,7 +59,6 @@ public class MyLabelling implements IMyLabelling {
 		while(I.hasNext()){
 			MyVertex v =I.next();
 			v.setLabel("IN");
-			System.out.println("vertex "+v + "has label" + v.getLabel());
 		}
 		InLabels=h1;
 		NotLabelledVertices.removeAll(h1);
@@ -91,7 +89,6 @@ public class MyLabelling implements IMyLabelling {
 		while(I.hasNext()){
 			MyVertex v =I.next();
 			v.setLabel("OUT");
-			System.out.println("vertex "+v + "has label" + v.getLabel());
 		}
 		OutLabels=h1;
 		NotLabelledVertices.removeAll(h1);
@@ -146,7 +143,6 @@ public class MyLabelling implements IMyLabelling {
 			MyVertex v =I.next();
 			v.setLabel("UNDEC");
 			UndecLabels.add(v);
-			System.out.println("vertex "+v + "has label" + v.getLabel());
 		}
 		UndecLabels=h1;
 		NotLabelledVertices.removeAll(h1);

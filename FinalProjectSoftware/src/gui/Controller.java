@@ -117,10 +117,19 @@ class Controller implements ActionListener,ItemListener {
 			  MyModel.resetLabels();
 			  String string = MyModel.allAdmissibleLabelling2().toString();
 			  System.out.println("All admissible labelling" + string);
-			  MyView.allAdmissibleSemanticInfo.setText(MyModel.allAdmissibleString(MyModel.allAdmissibleLabelling2()));
+			  MyView.allAdmissibleSemanticInfo.setText(MyModel.labellingSetString(MyModel.allAdmissibleLabelling2()));
 			  LinkedHashSet<MyLabelling> allAdmissibleLabellings = MyModel.allAdmissibleLabelling2();
-			  MyModel.displayAnAdmissibleLabelling(allAdmissibleLabellings);
+			  MyModel.displayAdmissibleLabelling(allAdmissibleLabellings);
 //			  MyView.openAdmissibleFrame(string);
+		  }
+		  else if((src==MyView.preferredButton)){
+			  System.out.println("Preferred Button pressed ");
+			  MyModel.resetLabels();
+			  String s = MyModel.labellingSetString(MyModel.preferredLabelling());
+			  System.out.println(s);
+//			  MyView.preferredSemanticsInfo.setText("The preferred labllings are: \n"+s);
+			  MyView.preferredSemanticsInfo.setText("The preferred labllings are: \n"+MyModel.preferredLabelling());
+			  
 		  }
 		  else if((src==MyView.enterButton) ){
 			  System.out.println("EnterButton Pressed");

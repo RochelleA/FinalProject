@@ -25,8 +25,9 @@ public class TestSemanticsGraphs {
 		System.out.println(m2.groundedLabelling().toString());
 		MyLabelling labelling = new MyLabelling(0);
 		labelling.setInVerties(new LinkedHashSet<MyVertex>(m2.modelGraph.getMyVertices()));
+		System.out.println("The addmissible labellings are: "+ m2.labellingSetString(m2.allAdmissibleLabelling2()));
 		System.out.println("The transistion sequence is " +m2.transitionSequence(labelling));
-		
+		System.out.println("The preferred Labelling is: "+m2.preferredLabelling());
 		
 		
 		Model m1 = new Model();
@@ -44,6 +45,7 @@ public class TestSemanticsGraphs {
 		MyLabelling labelling1 = new  MyLabelling(1);
 		labelling1.setInVerties(new LinkedHashSet<MyVertex>(m1.modelGraph.getMyVertices()));
 		System.out.println("The transistion sequence is " +m1.transitionSequence(labelling1));
+		System.out.println("The preferred labelling is: "+m1.preferredLabelling());
 		
 		
 	}

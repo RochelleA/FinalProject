@@ -407,6 +407,7 @@ public class ModelTest {
 		m.modelGraph.addMyEdge(v3, v4);
 		System.out.println(m.allAdmissibleLabellings());
 		System.out.println("all addmissible outcome " +m.allAdmissibleLabelling2());
+		System.out.println("Preferred Labellings are: " + m.preferredLabelling());
 	}
 	
 	
@@ -433,7 +434,7 @@ public class ModelTest {
 		m.modelGraph.addMyEdge(v2, v3);
 
 		System.out.println("all addmissible outcome 2" +m.allAdmissibleLabelling2());
-		m.displayAnAdmissibleLabelling(m.allAdmissibleLabelling2());
+		m.displayAdmissibleLabelling(m.allAdmissibleLabelling2());
 		System.out.print("vertex 1 label is "+v1.getLabel()+ " \n Vertex 2 label is "+ v2.getLabel()+" \n Vertex 3's label is "+ v3.getLabel());
 	}
 	
@@ -484,6 +485,23 @@ public class ModelTest {
 		assertTrue(superIllegallyIn.contains(v2));
 		assertTrue(superIllegallyIn.contains(v4));
 		assertFalse(superIllegallyIn.contains(v1));
+		Model m1 = new Model();
+		MyVertex v11 = m1.modelGraph.addMyVertex();
+		MyVertex v22 = m1.modelGraph.addMyVertex();
+		MyVertex v33 = m1.modelGraph.addMyVertex();
+		MyVertex v44 = m1.modelGraph.addMyVertex();
+		MyVertex v55 = m1.modelGraph.addMyVertex();
+		m1.modelGraph.addMyEdge(v11, v22);
+		m1.modelGraph.addMyEdge(v22, v33);
+		m1.modelGraph.addMyEdge(v33, v44);
+		m1.modelGraph.addMyEdge(v44, v55);
+		MyLabelling l1= new MyLabelling(0);
+		l1.setInVerties(new LinkedHashSet<MyVertex>(m1.modelGraph.getMyVertices()));
+		LinkedHashSet<MyVertex> set =m1.findSuperIllegallyIn(l1);
+		assertTrue(set.contains(v22));
+		assertFalse(set.contains(v33));
+		assertFalse(set.contains(v44));
+		assertFalse(set.contains(v55));
 	}
 	
 	@Test
@@ -517,6 +535,25 @@ public class ModelTest {
 		labelling.addInVertex(v5);
 		MyLabelling labelling1 =m.transitionSequence(labelling);
 		System.out.println("The Final Labelling after the transition sequence is "+labelling1);
+		System.out.println("Preferred labellings are " + m.preferredLabelling());
 		
+	}
+	
+	@Test 
+	public void testFindLabelling(){
+		Model m = new Model();
+
+		MyVertex v1= m.modelGraph.addMyVertex();
+		MyVertex v2=m.modelGraph.addMyVertex();
+		MyVertex v3= m.modelGraph.addMyVertex();
+		m.modelGraph.addMyEdge(v1, v2);
+		m.modelGraph.addMyEdge(v2, v3);
+		Preferred set = new Preferred();
+		set.getLabelling().setInVerties(new LinkedHashSet<MyVertex>(m.modelGraph.getMyVertices()));
+		System.out.println("The candidateLabellings are" + set.getCandidateLabelling());
+		System.out.println("The labelling is "+set.getLabelling());
+		m.findLabelling(set);
+		System.out.println("The candidateLabellings are" + set.getCandidateLabelling());
+		System.out.println("The labelling is "+set.getLabelling());
 	}
 }

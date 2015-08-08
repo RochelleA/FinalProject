@@ -410,6 +410,7 @@ class View extends JFrame implements java.util.Observer {
 	viewEdgePickedState.addItemListener(controller1);
 	semanticsButton.addActionListener(controller);
 	buildButton.addActionListener(controller);
+	preferredButton.addActionListener(controller);
 	} 
 	
 	public void displayGraph(MyGraph g1){

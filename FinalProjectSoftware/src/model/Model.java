@@ -355,17 +355,12 @@ public class Model extends java.util.Observable {
 	
 	public MyLabelling transitionStep(MyLabelling labelling){
 		  LinkedHashSet<MyVertex> tempInVertices = new LinkedHashSet<MyVertex>(labelling.getInVertices());
-		  System.out.println("(Temp in) current labelling in vertices are: " +tempInVertices.toString());
 			Iterator<MyVertex> verticesIterator= tempInVertices.iterator();
 			MyVertex currentVertex;
 			while(verticesIterator.hasNext()){
 				currentVertex = verticesIterator.next();
-				System.out.print("current Vertex is: "+currentVertex.toString());
-				System.out.println("l1 in vertices are" +labelling.getInVertices().toString());
 				verticesIterator.remove();
 				if(!(this.isLegallyIn(currentVertex))){
-					System.out.println("If 1 entered");
-					System.out.println("l1 in vertices are" +labelling.getInVertices().toString());
 					labelling.deleteFromInVertices(currentVertex);
 					labelling.addOutVertex(currentVertex);
 					LinkedHashSet<MyVertex> illegOutVerticesCheck= new LinkedHashSet<MyVertex>(this.modelGraph.getmygraph().getSuccessors(currentVertex));
@@ -375,7 +370,6 @@ public class Model extends java.util.Observable {
 						MyVertex v = illegalIterator.next();
 						if(v.isOut()){
 							if(!(this.isLegallyOut(v))){
-								System.out.println("If 2 entered");
 								labelling.deleteFromOutVertices(v);
 								labelling.addUndecVertex(v);
 							}
@@ -773,7 +767,7 @@ public class Model extends java.util.Observable {
     	
     }
     
-    public void displayAnAdmissibleLabelling(LinkedHashSet<MyLabelling> set){
+    public void displayAdmissibleLabelling(LinkedHashSet<MyLabelling> set){
     	Iterator<MyLabelling> setIterator = set.iterator();
     	MyLabelling labelling =setIterator.next();
     	Iterator<MyVertex> inIterator = labelling.getInVertices().iterator();
@@ -792,7 +786,7 @@ public class Model extends java.util.Observable {
     	notifyObservers(modelGraph);
     	
     }
-    public String allAdmissibleString( LinkedHashSet<MyLabelling> set){
+    public String labellingSetString( LinkedHashSet<MyLabelling> set){
     	String s="";
     	Iterator<MyLabelling> setIterator = set.iterator();
     	while(setIterator.hasNext()){
@@ -823,6 +817,18 @@ public class Model extends java.util.Observable {
     	return false;
     }
     
+    public boolean hasSuperIllegallyIn(MyLabelling labelling){
+    	LinkedHashSet<MyVertex> inVertices = labelling.getInVertices();
+    	Iterator<MyVertex> inVerticesIterator = inVertices.iterator();
+    	while(inVerticesIterator.hasNext()){
+    		if(superIllegallyIn(inVerticesIterator.next(), labelling)){
+    			return true;
+    		}
+    	}
+    	
+    	return false;
+    }
+    
     public LinkedHashSet<MyVertex> findSuperIllegallyIn(MyLabelling labelling ){
     	LinkedHashSet<MyVertex> inVertices = labelling.getInVertices();
     	LinkedHashSet<MyVertex> superIllegallyIn = new LinkedHashSet<MyVertex>();
@@ -841,7 +847,6 @@ public class Model extends java.util.Observable {
     	if(this.isLegallyIn(vertex)){
     		return labelling;
     	}
-			System.out.println("If 1 entered");
 			System.out.println("l1 in vertices are" +labelling.getInVertices().toString());
 			labelling.deleteFromInVertices(vertex);
 			labelling.addOutVertex(vertex);
@@ -863,16 +868,108 @@ public class Model extends java.util.Observable {
     }
     
     public MyLabelling transitionSequence(MyLabelling labelling){
-    	counter++;
-    	System.out.print("Transition counter is "+ counter);
+    	int transitionNumber=0;
+    	System.out.println("Lablling "+transitionNumber +" is: "+labelling);
     	while(this.hasillegallyIn(labelling)){
     		LinkedHashSet<MyVertex> illegIn=this.findAllIllegIn(labelling);
     		Iterator<MyVertex> illegInIterator =illegIn.iterator();
-    		while(illegInIterator.hasNext()){
-    			MyVertex currentVertex = illegInIterator.next();
-    		labelling=this.transitionStep(currentVertex,labelling);
-    		}
+//    		while(illegInIterator.hasNext()){
+//    			MyVertex currentVertex = illegInIterator.next();
+//    		labelling=this.transitionStep(currentVertex,labelling);
+    		labelling=this.transitionStep(illegInIterator.next(),labelling);
+    		transitionNumber++;
+    		System.out.println("Lablling "+transitionNumber +" is: "+labelling);
+//    		}
     	}
     	return labelling; 
+    }
+    
+    public LinkedHashSet<MyLabelling> preferredLabelling(){
+    	Preferred set = new Preferred();
+    	set.getLabelling().setInVerties(new LinkedHashSet<MyVertex>(this.modelGraph.getMyVertices()));
+    	return findLabelling(set).getCandidateLabelling();
+    	
+    }
+    
+    public Preferred findLabelling(Preferred previousSet){
+    	Preferred set = new Preferred();
+    	previousSet.getLabelling().correctLabels();
+    	MyLabelling previousLabelling = previousSet.getLabelling();
+    	LinkedHashSet<MyLabelling> iCandidateLabelling =previousSet.getCandidateLabelling();
+    	MyLabelling iLabelling =previousLabelling;
+    	iLabelling.correctLabels();
+    	if(!(previousSet.getCandidateLabelling().isEmpty())){
+    		    		Iterator<MyLabelling> candidateLabellingIterator= iCandidateLabelling.iterator();
+    		while(candidateLabellingIterator.hasNext()){
+    			if(iLabelling.getInVertices().size()<candidateLabellingIterator.next().getInVertices().size()){
+    				return set;
+    			}
+    		}
+    	}
+    	
+    	if(!(this.hasillegallyIn(iLabelling))){
+    		LinkedHashSet<MyLabelling> tempCandidateLabelling = new LinkedHashSet<MyLabelling>();
+    		tempCandidateLabelling.addAll(iCandidateLabelling);
+    		Iterator<MyLabelling> tempCandidateLabellingIterator = tempCandidateLabelling.iterator();
+    		while(tempCandidateLabellingIterator.hasNext()){
+    			MyLabelling labelling1 =tempCandidateLabellingIterator.next();
+    			if(labelling1.getInVertices().size()<iLabelling.getInVertices().size()){
+    				iCandidateLabelling.remove(labelling1);
+    			}
+    		}
+    		MyLabelling testLabelling = new MyLabelling(0);
+    		testLabelling.setInVerties(new LinkedHashSet<MyVertex>(iLabelling.getInVertices()));
+    		testLabelling.setOutVertices(new LinkedHashSet<MyVertex>(iLabelling.getOutVertices()));
+    		testLabelling.setUndecVertices(new LinkedHashSet<MyVertex>(iLabelling.getUndecVertices()));
+    		if(!(alreadyContains(iCandidateLabelling, testLabelling))){
+    		iCandidateLabelling.add(testLabelling);
+    		}
+    		set.setCandidateLabelling(iCandidateLabelling);
+    		return set;
+    	}
+    	else{
+    		if(hasSuperIllegallyIn(iLabelling)){
+    			LinkedHashSet<MyVertex> supperIllegVertices =this.findSuperIllegallyIn(iLabelling);
+    			Iterator<MyVertex> superIllegVerticesIterator = supperIllegVertices.iterator();
+    			MyVertex vertex =superIllegVerticesIterator.next();
+    			MyLabelling transitionLabelling = transitionStep(vertex, iLabelling);
+    			Preferred transitionPreferred = new Preferred();
+    			transitionPreferred.setCandidateLabelling(iCandidateLabelling);
+    			transitionPreferred.setLabelling(transitionLabelling);
+    			set =findLabelling(transitionPreferred);
+    		}
+    		else{
+    			LinkedHashSet<MyVertex> IllegIn =this.findAllIllegIn(iLabelling);
+    			Iterator<MyVertex> IllegInIterator = IllegIn.iterator();
+    			LinkedHashSet<MyVertex> illegInCopy =new LinkedHashSet<MyVertex>();
+    			illegInCopy.addAll(IllegIn);
+    			while(IllegInIterator.hasNext()){
+    				if(!(iLabelling.getInVertices().containsAll(IllegIn))){
+    					Iterator<MyVertex> illegInCopyIterator = illegInCopy.iterator();
+    					while(illegInCopyIterator.hasNext()){
+    						MyVertex vertex =illegInCopyIterator.next();
+    						if(vertex.getLabel()=="OUT"){
+    							iLabelling.deleteFromOutVertices(vertex);
+    							iLabelling.addInVertex(vertex);
+    						}
+    						if(vertex.getLabel()=="UNDEC"){
+    							iLabelling.deleteFromUndecVertices(vertex);
+    							iLabelling.addInVertex(vertex);
+    					
+    						}
+    					}
+    				}
+    				MyVertex currentVertex =IllegInIterator.next();
+    				MyLabelling transitionLabelling = transitionStep(currentVertex, iLabelling);
+        			Preferred transitionPreferred = new Preferred();
+        			transitionPreferred.setCandidateLabelling(iCandidateLabelling);
+        			transitionPreferred.setLabelling(transitionLabelling);
+        			set=findLabelling(transitionPreferred);
+    			}
+    		}
+    	}
+    	
+    	return set;
+    	
     }
 } 
