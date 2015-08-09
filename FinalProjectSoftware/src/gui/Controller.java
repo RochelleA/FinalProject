@@ -44,7 +44,7 @@ class Controller implements ActionListener,ItemListener {
 //			  MyView.tBoxPanel.add(MyView.messageFromController);
 			System.out.println("AddVertexButton Pressed");
 			MyModel.resetLabels();
-			MyModel.addVertex();
+			MyModel.addMyVertex();
 		  }
 		  else if (src == MyView.addEdgeButton) {
 			  deleteVertexFlag =false;

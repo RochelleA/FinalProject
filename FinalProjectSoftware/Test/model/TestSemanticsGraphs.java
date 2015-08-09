@@ -10,6 +10,26 @@ public class TestSemanticsGraphs {
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
+		
+		Model m3 = new Model();
+		MyVertex v31 = m3.addMyVertex();
+		MyVertex v32 = m3.addMyVertex();
+		MyVertex v33=m3.addMyVertex();
+		MyVertex v34 = m3.addMyVertex();
+		MyVertex v35 = m3.addMyVertex();
+		MyVertex v36 = m3.addMyVertex();
+		MyEdge e31 = m3.modelGraph.addMyEdge(v31, v32);
+		MyEdge e32 = m3.modelGraph.addMyEdge(v31, v34);
+		MyEdge e33 = m3.modelGraph.addMyEdge(v34, v31);
+		MyEdge e34 = m3.modelGraph.addMyEdge(v35, v32);
+		MyEdge e35 = m3.modelGraph.addMyEdge(v32, v35);
+		MyEdge e36 = m3.modelGraph.addMyEdge(v36, v35);
+		MyEdge e37 = m3.modelGraph.addMyEdge(v36, v33);
+		System.out.println("Model 3's addmissible labellings are: "+m3.allAdmissibleLabelling2());
+		System.out.println("Model 3's preferred labellings are:" +m3.preferredLabelling());
+		
+		
+				
 		Model m2 = new Model();
 		MyVertex v1= m2.modelGraph.addMyVertex();
 		MyVertex v2= m2.modelGraph.addMyVertex();
@@ -46,6 +66,7 @@ public class TestSemanticsGraphs {
 		labelling1.setInVerties(new LinkedHashSet<MyVertex>(m1.modelGraph.getMyVertices()));
 		System.out.println("The transistion sequence is " +m1.transitionSequence(labelling1));
 		System.out.println("The preferred labelling is: "+m1.preferredLabelling());
+		
 		
 		
 	}

@@ -701,6 +701,13 @@ class View extends JFrame implements java.util.Observer {
 	public void clearSemanticsInfoBoxes(){
 		groundedSemanticsInfo.setText("");
 		admissibleSemanticsInfo.setText("");
+		allAdmissibleSemanticInfo.setText("");
+		preferredSemanticsInfo.setText("");
+	}
+	
+	public void clearBuildInforBoxes(){
+		messageFromController.setText("");
+		graphString.setText("");
 	}
 	
 	public void openAdmissibleFrame(String string){
@@ -708,6 +715,7 @@ class View extends JFrame implements java.util.Observer {
 	}
 	
 	public void changeToSemantics(){
+		messageFromController.setText("");
 		graphChangePanel.remove(buttonsPanel);
 		graphChangePanel.remove(informationPanel);
 		graphChangePanel.add(graphSemanticsPanel);

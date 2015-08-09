@@ -21,6 +21,14 @@ public class MyLabelling implements IMyLabelling {
 		UndecLabels = new LinkedHashSet<MyVertex>();
 		NotLabelledVertices= new LinkedHashSet<MyVertex>();
 	}
+	
+	public MyLabelling(int id, LinkedHashSet<MyVertex> inVertices,LinkedHashSet<MyVertex> outVertices,LinkedHashSet<MyVertex> UndecVertices){
+		this.id=id;
+		this.InLabels=inVertices;
+		this.OutLabels=outVertices;
+		this.UndecLabels=UndecVertices;	
+		this.NotLabelledVertices= new LinkedHashSet<MyVertex>();
+	}
 
 	@Override
 	public LinkedHashSet<MyVertex> getInVertices() {

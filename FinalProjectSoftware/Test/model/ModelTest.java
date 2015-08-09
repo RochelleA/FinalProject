@@ -17,7 +17,7 @@ public class ModelTest {
 	@Test
 	public void testAddvertex(){
 		Model m= new Model();
-		MyVertex v1=m.addVertex();
+		MyVertex v1=m.addMyVertex();
 		assertTrue(m.modelGraph.getMyVertices().contains(v1));
 
 	}
@@ -25,7 +25,7 @@ public class ModelTest {
 	@Test 
 	public void testDeleteVertex(){
 		Model m= new Model();
-		MyVertex v1=m.addVertex();
+		MyVertex v1=m.addMyVertex();
 		m.deleteVertex(v1);
 		assertTrue(!(m.modelGraph.getMyVertices().contains(v1)));	
 	}
@@ -33,9 +33,9 @@ public class ModelTest {
 	@Test 
 	public void testAddEdge(){
 		Model m = new Model();
-		MyVertex v11 = m.addVertex();
+		MyVertex v11 = m.addMyVertex();
 		
-		MyVertex v22 = m.addVertex();
+		MyVertex v22 = m.addMyVertex();
 		m.addEdge(v11);
 		assertEquals(v11,m.v1);
 		MyEdge e = m.addEdge(v22);
@@ -46,9 +46,9 @@ public class ModelTest {
 	@Test
 	public void testDeleteEdge(){
 		Model m = new Model();
-		MyVertex v11 = m.addVertex();
+		MyVertex v11 = m.addMyVertex();
 		
-		MyVertex v22 = m.addVertex();
+		MyVertex v22 = m.addMyVertex();
 		m.addEdge(v11);
 		assertEquals(v11,m.v1);
 		MyEdge e = m.addEdge(v22);
@@ -59,8 +59,8 @@ public class ModelTest {
 	@Test 
 	public void testResetGraph(){
 		Model model = new Model();
-		MyVertex v1 =model.addVertex();
-		MyVertex v2 = model.addVertex();
+		MyVertex v1 =model.addMyVertex();
+		MyVertex v2 = model.addMyVertex();
 		model.addEdge(v1);
 		model.addEdge(v2);
 		assertTrue(!(model.modelGraph.getMyVertices().isEmpty()));
@@ -548,12 +548,9 @@ public class ModelTest {
 		MyVertex v3= m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v2, v3);
-		Preferred set = new Preferred();
-		set.getLabelling().setInVerties(new LinkedHashSet<MyVertex>(m.modelGraph.getMyVertices()));
-		System.out.println("The candidateLabellings are" + set.getCandidateLabelling());
-		System.out.println("The labelling is "+set.getLabelling());
-		m.findLabelling(set);
-		System.out.println("The candidateLabellings are" + set.getCandidateLabelling());
-		System.out.println("The labelling is "+set.getLabelling());
+		LinkedHashSet<MyLabelling> candidateLabelling = new LinkedHashSet<MyLabelling>();
+		MyLabelling labelling = new MyLabelling(0, new LinkedHashSet<MyVertex>(m.modelGraph.getMyVertices()), new LinkedHashSet<MyVertex>(), new LinkedHashSet<MyVertex>());
+		System.out.println("The candidate labellings are: "+m.findLabelling(candidateLabelling, labelling));
+
 	}
 }
