@@ -46,6 +46,10 @@ public class MyLabelling implements IMyLabelling {
 		else{
 			v.setLabel("IN");
 			InLabels.add(v);
+			if(this.NotLabelledVertices.contains(v)){
+				NotLabelledVertices.remove(v);
+			}
+			
 		}
 		return true;
 	}
@@ -88,6 +92,10 @@ public class MyLabelling implements IMyLabelling {
 		}
 		else{v.setLabel("OUT");
 		OutLabels.add(v);
+		if(this.NotLabelledVertices.contains(v)){
+			NotLabelledVertices.remove(v);
+		}
+		
 		return true;
 		}
 		
@@ -129,6 +137,9 @@ public class MyLabelling implements IMyLabelling {
 		}
 		v.setLabel("UNDEC");
 		UndecLabels.add(v);
+		if(this.NotLabelledVertices.contains(v)){
+			NotLabelledVertices.remove(v);
+		}
 		
 		return true;
 	}

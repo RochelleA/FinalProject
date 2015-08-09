@@ -44,65 +44,63 @@ class View extends JFrame implements java.util.Observer {
 	private static final long serialVersionUID = 2118299654730994785L;
 
 	private JPanel contentPane;
-	JPanel graphVisualPanel = new JPanel();
-	JPanel graphChangePanel;
+	private JPanel graphVisualPanel = new JPanel();
+	private JPanel graphChangePanel;
 //	JPanel graphBuildPanel = new JPanel();
-	JPanel graphSemanticsPanel = new JPanel();
-	JPanel mainPanel = new JPanel();
-	JPanel informationPanel = new JPanel();
-	JPanel titlePanel = new JPanel();
-	JPanel tBoxPanel = new  JPanel();
-	JPanel buttonsPanel = new JPanel();
-	JPanel groundedSemanticsPanel= new JPanel();
-	JPanel preferredSemanticsPanel = new JPanel();
-	JPanel semanticsLabelPanel = new JPanel();
-	JPanel semanticsContentsPanel = new JPanel();
-	JPanel allAdmissibleSemanticsPanel = new JPanel();
-	JPanel admissibleSemanticsPanel = new JPanel();
-	JPanel graphLabelPanel = new JPanel();
-	JPanel changeToBuild = new JPanel();
-	private  JLabel graphVisualLabel = new JLabel("Graph Visualisation",SwingConstants.CENTER);
-	private  JLabel graphEditingLabel = new JLabel("Graph Editor");
-	private  JLabel graphSemanticslLabel = new JLabel("Graph Semantics");
-	JButton addVertexButton = new JButton("Add Argument");
-	JButton addEdgeButton = new JButton("Add Attack");
-	JButton enterButton = new JButton("Enter");
-	JButton resetGraph = new JButton("Reset Graph");
-	JButton deleteVertexButton = new JButton("Delete Argument");
-	JButton deleteEdgeButton = new JButton("Delete Attack");
-	JButton semanticsButton = new JButton("Change to Semantics View");
-	JButton buildButton = new JButton("Return to Build View");
-	JButton groundedLabellingButton = new JButton("Grounded Labelling");
-	JButton admissibleLabellingButton = new JButton("Admissible Labelling");
-	JButton allAdmissibleLabellingButton = new JButton("All Admissble Labelling");
-	JButton preferredButton = new JButton("Preferred Labelling");
-	public JTextArea groundedSemanticsInfo = new JTextArea();
-	public JTextArea admissibleSemanticsInfo = new JTextArea();
-	public JTextArea preferredSemanticsInfo = new JTextArea();
-	static JTextArea areYouReady = new JTextArea();
-	public JTextArea allAdmissibleSemanticInfo = new JTextArea();
+	private JPanel graphSemanticsPanel = new JPanel();
+	private JPanel mainPanel = new JPanel();
+	private JPanel informationPanel = new JPanel();
+	private JPanel titlePanel = new JPanel();
+	private JPanel buttonsPanel = new JPanel();
+	private JPanel groundedSemanticsPanel= new JPanel();
+	private JPanel preferredSemanticsPanel = new JPanel();
+	private JPanel semanticsLabelPanel = new JPanel();
+	private JPanel semanticsContentsPanel = new JPanel();
+	private JPanel admissibleSemanticsPanel = new JPanel();
+	private JPanel graphLabelPanel = new JPanel();
+	private JPanel changeToBuild = new JPanel();
+	private JLabel graphVisualLabel = new JLabel("Graph Visualisation",SwingConstants.CENTER);
+	private JLabel graphEditingLabel = new JLabel("Graph Editor");
+	private JLabel graphSemanticslLabel = new JLabel("Graph Semantics");
+	private JButton addVertexButton = new JButton("Add Argument");
+	private JButton addEdgeButton = new JButton("Add Attack");
+	private JButton enterButton = new JButton("Enter");
+	private JButton resetGraph = new JButton("Reset Graph");
+	private JButton deleteVertexButton = new JButton("Delete Argument");
+	private JButton deleteEdgeButton = new JButton("Delete Attack");
+	private JButton semanticsButton = new JButton("Change to Semantics View");
+	private JButton buildButton = new JButton("Return to Build View");
+	private JButton groundedLabellingButton = new JButton("Grounded Labelling");
+	private JButton admissibleLabellingButton = new JButton("Admissible Labelling");
+	private JButton allAdmissibleLabellingButton = new JButton("All Admissble Labelling");
+	private JButton preferredButton = new JButton("Preferred Labelling");
+	private JTextArea groundedSemanticsInfo = new JTextArea();
+	private JTextArea admissibleSemanticsInfo = new JTextArea();
+	private JTextArea preferredSemanticsInfo = new JTextArea();
+	private JTextArea areYouReady = new JTextArea();
+	private JTextArea allAdmissibleSemanticInfo = new JTextArea();
 	private JScrollPane allAdmissiblePane =  new JScrollPane(allAdmissibleSemanticInfo);
-	Color panelColour = new Color(105, 105, 105);
-	Color borderColour = new Color(82, 82, 82);
-	Color buttonColour = new Color(184, 184, 184);
-	Color tBoxColour = new Color(128, 128, 128);
-	Color titleColour = new Color(230, 230, 230);
-	Border standardBorder = new BevelBorder(BevelBorder.LOWERED, borderColour, borderColour);
-	Border marginBorder = new EmptyBorder(new Insets(5, 5, 5, 5));
-	Border compoundBorder = new CompoundBorder(standardBorder,marginBorder);
-	Font largeTextFont =  new Font("univers", Font.BOLD, 14);
-	Font labelFont = new Font("univers", Font.BOLD, 16);
-	Font smallTBoxFont = new Font("caslon", Font.BOLD, 12);
-	Font largeTBoxFont = new Font("caslon", Font.BOLD, 14);
-	Font buttonFont = new Font("caslon", Font.BOLD, 12);
-	JTextArea graphString= new JTextArea();
-	JTextArea messageFromController= new JTextArea();
+	private Color panelColour = new Color(105, 105, 105);
+	private Color borderColour = new Color(82, 82, 82);
+	private Color buttonColour = new Color(184, 184, 184);
+	private Color tBoxColour = new Color(128, 128, 128);
+	private Color titleColour = new Color(230, 230, 230);
+	private Border standardBorder = new BevelBorder(BevelBorder.LOWERED, borderColour, borderColour);
+	private Border marginBorder = new EmptyBorder(new Insets(5, 5, 5, 5));
+	private Border compoundBorder = new CompoundBorder(standardBorder,marginBorder);
+	private Font largeTextFont =  new Font("univers", Font.BOLD, 14);
+	private Font labelFont = new Font("univers", Font.BOLD, 16);
+	private Font smallTBoxFont = new Font("caslon", Font.BOLD, 12);
+	private Font largeTBoxFont = new Font("caslon", Font.BOLD, 14);
+	private Font buttonFont = new Font("caslon", Font.BOLD, 12);
+	private JTextArea graphString= new JTextArea();
+	private JTextArea messageFromController= new JTextArea();
 	private JPanel displayGraph = new JPanel();
 	private MyGraph viewGraph = new MyGraph();
 	private CircleLayout<MyVertex, MyEdge> viewLayout;
-	VisualizationViewer<MyVertex,MyEdge> viewVV;
-	PickedState<MyVertex> viewVertexPickedState;
-	PickedState<MyEdge> viewEdgePickedState;
+	private VisualizationViewer<MyVertex,MyEdge> viewVV;
+	private PickedState<MyVertex> viewVertexPickedState;
+	private PickedState<MyEdge> viewEdgePickedState;
 	private DefaultModalGraphMouse<MyVertex, MyEdge> gm;
 	MyVertex currentVertex;
 	MyVertex deleteVertex;
@@ -294,17 +292,17 @@ class View extends JFrame implements java.util.Observer {
 		areYouReady.setBounds(30, 180, 300, 30);
 		
 		informationPanel.setLayout(null);
-		informationPanel.add(graphString);
+		informationPanel.add(getGraphString());
 		informationPanel.add(messageFromController);
-		graphString.setBounds(30, 120,560, 150);
-		graphString.setLineWrap(true);
-		graphString.setWrapStyleWord(true);
-		graphString.setBorder(compoundBorder);
-		graphString.setBackground(tBoxColour);
-		graphString.setForeground(Color.white);
-		graphString.setMargin(new Insets(15, 15, 15, 15));
-		graphString.setFont(smallTBoxFont);
-		graphString.setEditable(false);
+		getGraphString().setBounds(30, 120,560, 150);
+		getGraphString().setLineWrap(true);
+		getGraphString().setWrapStyleWord(true);
+		getGraphString().setBorder(compoundBorder);
+		getGraphString().setBackground(tBoxColour);
+		getGraphString().setForeground(Color.white);
+		getGraphString().setMargin(new Insets(15, 15, 15, 15));
+		getGraphString().setFont(smallTBoxFont);
+		getGraphString().setEditable(false);
 		messageFromController.setBounds(30, 30, 560, 60);
 		messageFromController.setLineWrap(true);
 		messageFromController.setWrapStyleWord(true);
@@ -380,12 +378,157 @@ class View extends JFrame implements java.util.Observer {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.pack();
 		this.setVisible(true);
-		
-   
-
 	
 		}
+	
+	
 	 
+	public JTextArea getPreferredSemanticsInfo() {
+		return preferredSemanticsInfo;
+	}
+
+
+
+	public JPanel getChangeToBuild() {
+		return changeToBuild;
+	}
+
+
+
+	public JButton getBuildButton() {
+		return buildButton;
+	}
+
+
+
+	public JButton getGroundedLabellingButton() {
+		return groundedLabellingButton;
+	}
+
+
+
+	public JTextArea getGroundedSemanticsInfo() {
+		return groundedSemanticsInfo;
+	}
+
+
+
+	public JTextArea getAdmissibleSemanticsInfo() {
+		return admissibleSemanticsInfo;
+	}
+
+
+
+	public JTextArea getAllAdmissibleSemanticInfo() {
+		return allAdmissibleSemanticInfo;
+	}
+
+
+
+	public JScrollPane getAllAdmissiblePane() {
+		return allAdmissiblePane;
+	}
+
+
+
+	public VisualizationViewer<MyVertex, MyEdge> getViewVV() {
+		return viewVV;
+	}
+
+
+
+	public JButton getAddVertexButton() {
+		return addVertexButton;
+	}
+
+
+
+	public JButton getAddEdgeButton() {
+		return addEdgeButton;
+	}
+
+
+
+	public JButton getEnterButton() {
+		return enterButton;
+	}
+
+
+
+	public JButton getResetGraph() {
+		return resetGraph;
+	}
+
+
+
+	public JButton getDeleteVertexButton() {
+		return deleteVertexButton;
+	}
+
+
+
+	public JButton getDeleteEdgeButton() {
+		return deleteEdgeButton;
+	}
+
+
+
+	public JButton getSemanticsButton() {
+		return semanticsButton;
+	}
+
+
+
+	public JButton getAdmissibleLabellingButton() {
+		return admissibleLabellingButton;
+	}
+
+
+
+	public JButton getAllAdmissibleLabellingButton() {
+		return allAdmissibleLabellingButton;
+	}
+
+
+
+	public JButton getPreferredButton() {
+		return preferredButton;
+	}
+
+
+
+	public PickedState<MyVertex> getViewVertexPickedState() {
+		return viewVertexPickedState;
+	}
+
+
+
+	public void setViewVertexPickedState(PickedState<MyVertex> viewVertexPickedState) {
+		this.viewVertexPickedState = viewVertexPickedState;
+	}
+
+
+
+	public PickedState<MyEdge> getViewEdgePickedState() {
+		return viewEdgePickedState;
+	}
+
+
+
+	public void setViewEdgePickedState(PickedState<MyEdge> viewEdgePickedState) {
+		this.viewEdgePickedState = viewEdgePickedState;
+	}
+
+
+
+	public JTextArea getMessageFromController() {
+		return messageFromController;
+	}
+
+	public void setMessageFromController(JTextArea messageFromController) {
+		this.messageFromController = messageFromController;
+	}
+	
   	public void update(Observable obs, Object obj) {
   		System.out.println("Updated");
   		MyGraph y=(MyGraph)obj;
@@ -457,7 +600,7 @@ class View extends JFrame implements java.util.Observer {
 
 	public void displayGraphAsString(MyGraph g1){
   		String z= g1.toString();
-  		graphString.setText("Graph Represented as a string \n"+ z);
+  		getGraphString().setText("Graph Represented as a string \n"+ z);
 	}
 	
 	public void setPickingMode(){
@@ -530,11 +673,11 @@ class View extends JFrame implements java.util.Observer {
 		
 	}
 	
-	public MyVertex askForToVertex() {
+	public MyVertex askForToVertex(MyVertex from) {
 		viewVV.setPickedVertexState(viewVertexPickedState);
 		gm.setMode(Mode.PICKING);
 		viewVV.setGraphMouse(gm);
-		messageFromController.setText("Please select an attacked argument and then press enter when you are done.");
+		messageFromController.setText("The attacking vertex will be "+from+". Please select an attacked argument and then press enter when you are done.");
 		return currentVertex;
 		
 	}
@@ -707,7 +850,7 @@ class View extends JFrame implements java.util.Observer {
 	
 	public void clearBuildInforBoxes(){
 		messageFromController.setText("");
-		graphString.setText("");
+		getGraphString().setText("");
 	}
 	
 	public void openAdmissibleFrame(String string){
@@ -730,5 +873,17 @@ class View extends JFrame implements java.util.Observer {
 		titlePanel.setPreferredSize(new Dimension(650,80));
 		graphChangePanel.validate();
 		graphChangePanel.repaint();
+	}
+
+
+
+	public JTextArea getGraphString() {
+		return graphString;
+	}
+
+
+
+	public void setGraphString(JTextArea graphString) {
+		this.graphString = graphString;
 	}
 }

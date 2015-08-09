@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_Lo6CQDeeEeW_Q9xktlB8Hw" name="NewModel">
+  <packagedElement xmi:type="uml:Actor" xmi:id="_Z9_RcDeeEeW_Q9xktlB8Hw" name="Actor1"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_cMlP8DeeEeW_Q9xktlB8Hw" name="Add Argument"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_iHOpcDeeEeW_Q9xktlB8Hw" name="Add Attack"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_pZbrwDeeEeW_Q9xktlB8Hw" name="Delete Argument"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_-Uty4DeeEeW_Q9xktlB8Hw" name="Delete Attack"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_DD6F4DefEeW_Q9xktlB8Hw" name="Reset Graph"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_Om8EMDefEeW_Q9xktlB8Hw" memberEnd="_OnIRcDefEeW_Q9xktlB8Hw _OnJfkDefEeW_Q9xktlB8Hw">
+    <ownedEnd xmi:id="_OnIRcDefEeW_Q9xktlB8Hw" type="_Z9_RcDeeEeW_Q9xktlB8Hw" association="_Om8EMDefEeW_Q9xktlB8Hw"/>
+    <ownedEnd xmi:id="_OnJfkDefEeW_Q9xktlB8Hw" type="_cMlP8DeeEeW_Q9xktlB8Hw" association="_Om8EMDefEeW_Q9xktlB8Hw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_SnUwcDefEeW_Q9xktlB8Hw" memberEnd="_SnVXgDefEeW_Q9xktlB8Hw _SnV-kDefEeW_Q9xktlB8Hw">
+    <ownedEnd xmi:id="_SnVXgDefEeW_Q9xktlB8Hw" type="_Z9_RcDeeEeW_Q9xktlB8Hw" association="_SnUwcDefEeW_Q9xktlB8Hw"/>
+    <ownedEnd xmi:id="_SnV-kDefEeW_Q9xktlB8Hw" type="_iHOpcDeeEeW_Q9xktlB8Hw" association="_SnUwcDefEeW_Q9xktlB8Hw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_TkI-ADefEeW_Q9xktlB8Hw" memberEnd="_TkI-ATefEeW_Q9xktlB8Hw _TkKMIDefEeW_Q9xktlB8Hw">
+    <ownedEnd xmi:id="_TkI-ATefEeW_Q9xktlB8Hw" type="_Z9_RcDeeEeW_Q9xktlB8Hw" association="_TkI-ADefEeW_Q9xktlB8Hw"/>
+    <ownedEnd xmi:id="_TkKMIDefEeW_Q9xktlB8Hw" type="_pZbrwDeeEeW_Q9xktlB8Hw" association="_TkI-ADefEeW_Q9xktlB8Hw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_WT6-ADefEeW_Q9xktlB8Hw" memberEnd="_WT7lEDefEeW_Q9xktlB8Hw _WT8MIDefEeW_Q9xktlB8Hw">
+    <ownedEnd xmi:id="_WT7lEDefEeW_Q9xktlB8Hw" type="_Z9_RcDeeEeW_Q9xktlB8Hw" association="_WT6-ADefEeW_Q9xktlB8Hw"/>
+    <ownedEnd xmi:id="_WT8MIDefEeW_Q9xktlB8Hw" type="_-Uty4DeeEeW_Q9xktlB8Hw" association="_WT6-ADefEeW_Q9xktlB8Hw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_XmjDgDefEeW_Q9xktlB8Hw" memberEnd="_XmjqkDefEeW_Q9xktlB8Hw _XmlfwDefEeW_Q9xktlB8Hw">
+    <ownedEnd xmi:id="_XmjqkDefEeW_Q9xktlB8Hw" type="_Z9_RcDeeEeW_Q9xktlB8Hw" association="_XmjDgDefEeW_Q9xktlB8Hw"/>
+    <ownedEnd xmi:id="_XmlfwDefEeW_Q9xktlB8Hw" type="_DD6F4DefEeW_Q9xktlB8Hw" association="_XmjDgDefEeW_Q9xktlB8Hw"/>
+  </packagedElement>
+</uml:Model>

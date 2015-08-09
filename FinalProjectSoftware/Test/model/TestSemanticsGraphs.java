@@ -11,6 +11,17 @@ public class TestSemanticsGraphs {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
+		Model m4 = new Model();
+		MyVertex v41 = m4.addMyVertex();
+		MyVertex v42 = m4.addMyVertex();
+		MyVertex v43 = m4.addMyVertex();
+		MyVertex v44 = m4.addMyVertex();
+		MyEdge e41 = m4.modelGraph.addMyEdge(v44, v41);
+		MyEdge e42 = m4.modelGraph.addMyEdge(v44, v43);
+		MyEdge e43 =m4.modelGraph.addMyEdge(v43, v42);
+		System.out.println("The admissible labellings are: "+m4.labellingSetString(m4.allAdmissibleLabelling2()));
+		
+		
 		Model m3 = new Model();
 		MyVertex v31 = m3.addMyVertex();
 		MyVertex v32 = m3.addMyVertex();

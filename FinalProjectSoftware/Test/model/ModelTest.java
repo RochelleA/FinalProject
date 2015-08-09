@@ -37,10 +37,10 @@ public class ModelTest {
 		
 		MyVertex v22 = m.addMyVertex();
 		m.addEdge(v11);
-		assertEquals(v11,m.v1);
+		assertEquals(v11,m.getV1());
 		MyEdge e = m.addEdge(v22);
 		assertTrue(m.modelGraph.getMyEdges().contains(e));
-		assertEquals(null,m.v2);
+		assertEquals(null,m.getV2());
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class ModelTest {
 		
 		MyVertex v22 = m.addMyVertex();
 		m.addEdge(v11);
-		assertEquals(v11,m.v1);
+		assertEquals(v11,m.getV1());
 		MyEdge e = m.addEdge(v22);
 		m.deleteEdge(e);
 		assertTrue(!(m.modelGraph.getMyEdges().contains(e)));
@@ -78,52 +78,52 @@ public class ModelTest {
 	
 	
 	
-	@Test
-	public void testFindUnattackedVerticesHashSet() {
-		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		@SuppressWarnings("unused")
-		MyEdge e1 =m.modelGraph.addMyEdge(v1, v3);
-		ArrayList<MyVertex> a1 =m.findUnattackedVerticesArray();
-		assertTrue(a1.contains(v1));
-		assertTrue(a1.contains(v2));
-		assertFalse(a1.contains(v3));
-		HashSet<MyVertex> a2 = m.findUnattackedVerticesHashSet();
-		assertTrue(a2.contains(v1));
-		assertTrue(a2.contains(v2));
-		assertFalse(a2.contains(v3));
-	}
+//	@Test
+//	public void testFindUnattackedVerticesHashSet() {
+//		Model m = new Model();
+//		MyVertex v1= m.modelGraph.addMyVertex();
+//		MyVertex v2=m.modelGraph.addMyVertex();
+//		MyVertex v3= m.modelGraph.addMyVertex();
+//		@SuppressWarnings("unused")
+//		MyEdge e1 =m.modelGraph.addMyEdge(v1, v3);
+//		ArrayList<MyVertex> a1 =m.findUnattackedVerticesArray();
+//		assertTrue(a1.contains(v1));
+//		assertTrue(a1.contains(v2));
+//		assertFalse(a1.contains(v3));
+//		HashSet<MyVertex> a2 = m.findUnattackedVerticesHashSet();
+//		assertTrue(a2.contains(v1));
+//		assertTrue(a2.contains(v2));
+//		assertFalse(a2.contains(v3));
+//	}
 	
 	
-	@Test
-	public void testFindL1() {
-		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyLabelling L1= m.findL1();
-		HashSet<MyVertex> HIn1 = L1.getInVertices();
-		System.out.println("The In vertices are: "+ HIn1  +"The labelling is: "+L1.toString());
-		assertTrue(HIn1.contains(v1));
-		assertTrue(HIn1.contains(v2));
-		assertTrue(HIn1.contains(v3));
-		assertEquals(v3.getLabel(), "IN");
-		assertTrue(L1.getNotLabelledVertices().isEmpty());
-		@SuppressWarnings("unused")
-		MyEdge e1 =m.modelGraph.addMyEdge(v1, v3);
-		MyLabelling L2 = m.findL1();
-		HashSet<MyVertex> HIn2 = L2.getInVertices();
-		System.out.println("The In vertices are: " + HIn2+"The labelling is: "+ L2.toString()+ "The not labelled vertices are: "+ L2.getNotLabelledVertices());
-		assertTrue(HIn2.contains(v1));
-		assertTrue(HIn2.contains(v2));
-		assertFalse(HIn2.contains(v3));
-		assertTrue(L2.getNotLabelledVertices().isEmpty());
-		assertTrue(L2.getOutVertices().contains(v3));
-		assertEquals(v3.getLabel(), "OUT");
-
-	}
+//	@Test
+//	public void testFindL1() {
+//		Model m = new Model();
+//		MyVertex v1= m.modelGraph.addMyVertex();
+//		MyVertex v2=m.modelGraph.addMyVertex();
+//		MyVertex v3= m.modelGraph.addMyVertex();
+//		MyLabelling L1= m.findL1();
+//		HashSet<MyVertex> HIn1 = L1.getInVertices();
+//		System.out.println("The In vertices are: "+ HIn1  +"The labelling is: "+L1.toString());
+//		assertTrue(HIn1.contains(v1));
+//		assertTrue(HIn1.contains(v2));
+//		assertTrue(HIn1.contains(v3));
+//		assertEquals(v3.getLabel(), "IN");
+//		assertTrue(L1.getNotLabelledVertices().isEmpty());
+//		@SuppressWarnings("unused")
+//		MyEdge e1 =m.modelGraph.addMyEdge(v1, v3);
+//		MyLabelling L2 = m.findL1();
+//		HashSet<MyVertex> HIn2 = L2.getInVertices();
+//		System.out.println("The In vertices are: " + HIn2+"The labelling is: "+ L2.toString()+ "The not labelled vertices are: "+ L2.getNotLabelledVertices());
+//		assertTrue(HIn2.contains(v1));
+//		assertTrue(HIn2.contains(v2));
+//		assertFalse(HIn2.contains(v3));
+//		assertTrue(L2.getNotLabelledVertices().isEmpty());
+//		assertTrue(L2.getOutVertices().contains(v3));
+//		assertEquals(v3.getLabel(), "OUT");
+//
+//	}
 	
 	@SuppressWarnings("unused")
 	@Test 
@@ -434,7 +434,7 @@ public class ModelTest {
 		m.modelGraph.addMyEdge(v2, v3);
 
 		System.out.println("all addmissible outcome 2" +m.allAdmissibleLabelling2());
-		m.displayAdmissibleLabelling(m.allAdmissibleLabelling2());
+		m.displayALabelling(m.allAdmissibleLabelling2());
 		System.out.print("vertex 1 label is "+v1.getLabel()+ " \n Vertex 2 label is "+ v2.getLabel()+" \n Vertex 3's label is "+ v3.getLabel());
 	}
 	

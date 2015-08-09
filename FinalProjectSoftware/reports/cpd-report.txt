@@ -1,0 +1,826 @@
+Found a 14 line (135 tokens) duplication in the following files: 
+Starting at line 155 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 175 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+
+	public void TestIsIllegallyOut(){
+		Model m = new Model();
+		MyVertex v1= m.ModelGraph.addMyVertex();
+		MyVertex v2=m.ModelGraph.addMyVertex();
+		MyVertex v3= m.ModelGraph.addMyVertex();
+		MyVertex v4= m.ModelGraph.addMyVertex();
+		MyVertex v5= m.ModelGraph.addMyVertex();
+		MyEdge e1 =m.ModelGraph.addMyEdge(v1, v2);
+		MyEdge e2 = m.ModelGraph.addMyEdge(v3, v2);
+		MyEdge e3 = m.ModelGraph.addMyEdge(v2, v4);
+		MyEdge e4 = m.ModelGraph.addMyEdge(v2, v5);
+		m.GroundedLabelling();
+		System.out.println(""+v3.getLabel());
+		v3.setLabel("OUT");
+=====================================================================
+Found a 13 line (125 tokens) duplication in the following files: 
+Starting at line 18 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 155 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 175 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+
+	public void TestIsIllegallyIn(){
+		Model m = new Model();
+		MyVertex v1= m.ModelGraph.addMyVertex();
+		MyVertex v2=m.ModelGraph.addMyVertex();
+		MyVertex v3= m.ModelGraph.addMyVertex();
+		MyVertex v4= m.ModelGraph.addMyVertex();
+		MyVertex v5= m.ModelGraph.addMyVertex();
+		MyEdge e1 =m.ModelGraph.addMyEdge(v1, v2);
+		MyEdge e2 = m.ModelGraph.addMyEdge(v3, v2);
+		MyEdge e3 = m.ModelGraph.addMyEdge(v2, v4);
+		MyEdge e4 = m.ModelGraph.addMyEdge(v2, v5);
+		m.GroundedLabelling();
+		System.out.println(""+v2.getLabel());
+=====================================================================
+Found a 13 line (116 tokens) duplication in the following files: 
+Starting at line 20 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\permute.java
+Starting at line 486 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+    static Collection<ArrayList<MyVertex>> Permute(ArrayList<MyVertex> currentCombination, Collection<ArrayList<MyVertex>> possibleCombinations,int k){
+    	
+        for(int i = k; i < currentCombination.size(); i++){
+            currentCombination=swap(currentCombination, i, k);
+            possibleCombinations=Permute(currentCombination,possibleCombinations, k+1);
+            currentCombination=swap(currentCombination, k, i);
+        }
+        if (k == currentCombination.size() -1){
+            System.out.println(java.util.Arrays.toString(currentCombination.toArray())+currentCombination);
+            System.out.println("added");
+           ArrayList<MyVertex> combination = new ArrayList<MyVertex>(currentCombination);
+           possibleCombinations.add(combination);
+		}
+=====================================================================
+Found a 11 line (112 tokens) duplication in the following files: 
+Starting at line 18 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 107 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 135 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 155 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 175 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+
+	public void TestIsIllegallyIn(){
+		Model m = new Model();
+		MyVertex v1= m.ModelGraph.addMyVertex();
+		MyVertex v2=m.ModelGraph.addMyVertex();
+		MyVertex v3= m.ModelGraph.addMyVertex();
+		MyVertex v4= m.ModelGraph.addMyVertex();
+		MyVertex v5= m.ModelGraph.addMyVertex();
+		MyEdge e1 =m.ModelGraph.addMyEdge(v1, v2);
+		MyEdge e2 = m.ModelGraph.addMyEdge(v3, v2);
+		MyEdge e3 = m.ModelGraph.addMyEdge(v2, v4);
+		MyEdge e4 = m.ModelGraph.addMyEdge(v2, v5);
+=====================================================================
+Found a 14 line (90 tokens) duplication in the following files: 
+Starting at line 196 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 258 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+        ViewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);   
+        Transformer<MyEdge, Paint> edgeColour = new Transformer<MyEdge, Paint>() {
+			public Paint transform(MyEdge edge){
+				if(ViewEdgePickedState.isPicked(edge)){
+					setBackground(Color.BLUE);
+					setForeground(Color.BLUE);
+					return Color.BLUE;
+				}
+					return Color.BLACK;	
+			}
+		};
+		ViewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
+		ViewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
+		ViewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
+=====================================================================
+Found a 14 line (90 tokens) duplication in the following files: 
+Starting at line 336 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 407 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+					}else {
+						Transformer<MyEdge, Paint> edgeColour = new Transformer<MyEdge, Paint>() {
+							public Paint transform(MyEdge edge){
+								if(ViewEdgePickedState.isPicked(edge)){
+									setBackground(Color.BLUE);
+									setForeground(Color.BLUE);
+									return Color.BLUE;
+								}
+									return Color.BLACK;	
+							}
+						};
+						ViewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
+						ViewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
+						ViewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
+=====================================================================
+Found a 13 line (89 tokens) duplication in the following files: 
+Starting at line 197 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 259 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 337 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 409 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+        Transformer<MyEdge, Paint> edgeColour = new Transformer<MyEdge, Paint>() {
+			public Paint transform(MyEdge edge){
+				if(ViewEdgePickedState.isPicked(edge)){
+					setBackground(Color.BLUE);
+					setForeground(Color.BLUE);
+					return Color.BLUE;
+				}
+					return Color.BLACK;	
+			}
+		};
+		ViewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
+		ViewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
+		ViewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
+=====================================================================
+Found a 9 line (85 tokens) duplication in the following files: 
+Starting at line 549 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+Starting at line 618 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+    					currentLabelling.addOutVertex(currentVertex);
+    					LinkedHashSet<MyVertex> illegOut = new LinkedHashSet<MyVertex>();
+    					illegOut.addAll(ModelGraph.myGraph.getSuccessors(currentVertex));
+    					illegOut.add(currentVertex);
+    					Iterator<MyVertex> illegOutIterator = illegOut.iterator();
+    					while(illegOutIterator.hasNext()){
+    					MyVertex v = illegOutIterator.next();
+	    					if(v.isOut()){
+	    						if(!(isLegallyOut(v))){
+=====================================================================
+Found a 8 line (82 tokens) duplication in the following files: 
+Starting at line 13 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\permute.java
+Starting at line 466 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+	static ArrayList<MyVertex> swap(ArrayList<MyVertex> list, int i , int j){
+		MyVertex temp = list.get(i);
+		list.set(i, list.get(j));
+		list.set(j, temp);
+		return list;
+		
+	}
+    static Collection<ArrayList<MyVertex>> Permute(ArrayList<MyVertex> currentCombination, Collection<ArrayList<MyVertex>> possibleCombinations,int k){
+=====================================================================
+Found a 11 line (82 tokens) duplication in the following files: 
+Starting at line 110 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+Starting at line 130 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+		Iterator<MyVertex> vertexIterator = vertexList.iterator();
+		while(vertexIterator.hasNext()){
+			MyVertex currentVertex = vertexIterator.next();
+			if(this.ModelGraph.getmygraph().getPredecessors(currentVertex).isEmpty()){
+				System.out.print("The are no predecessors of vertex "+currentVertex.toString()+"\n");
+				UA.add(currentVertex);
+				
+			}else{
+				System.out.println(currentVertex.toString()+" has predecessors");
+			}
+		}
+=====================================================================
+Found a 9 line (80 tokens) duplication in the following files: 
+Starting at line 194 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 221 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+
+	public void TestAdmissibleLabelling(){
+		Model m = new Model();
+		MyVertex v1 =m.ModelGraph.addMyVertex();
+		MyVertex v2= m.ModelGraph.addMyVertex();
+		MyVertex v3=  m.ModelGraph.addMyVertex();
+		MyVertex v4 = m.ModelGraph.addMyVertex();
+		m.ModelGraph.addMyEdge(v4, v3);
+		m.ModelGraph.addMyEdge(v2, v1);
+		m.ModelGraph.addMyEdge(v3, v2);
+=====================================================================
+Found a 14 line (70 tokens) duplication in the following files: 
+Starting at line 313 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 425 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+					MyVertex vertex = (MyVertex) pickedItem;
+					
+					if (ViewVertexPickedState.isPicked(vertex)) {
+						Transformer<MyVertex, Paint> vertexColour = new Transformer<MyVertex, Paint>() {
+							public Paint transform(MyVertex vertex){
+								if(ViewVertexPickedState.isPicked(vertex)){
+									return Color.YELLOW;
+								}
+								
+								return Color.LIGHT_GRAY;
+							}
+						};
+						
+						ViewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK, Color.BLACK));
+=====================================================================
+Found a 13 line (67 tokens) duplication in the following files: 
+Starting at line 407 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 476 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+			public void itemStateChanged(ItemEvent e) {
+				
+				Transformer<MyEdge, Paint> edgeColour = new Transformer<MyEdge, Paint>() {
+					public Paint transform(MyEdge edge){
+						if(ViewEdgePickedState.isPicked(edge)){
+							setBackground(Color.BLUE);
+							setForeground(Color.BLUE);
+							return Color.BLUE;
+						}
+							return Color.BLACK;	
+					}
+				};
+				ViewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
+=====================================================================
+Found a 12 line (66 tokens) duplication in the following files: 
+Starting at line 336 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 476 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+					}else {
+						Transformer<MyEdge, Paint> edgeColour = new Transformer<MyEdge, Paint>() {
+							public Paint transform(MyEdge edge){
+								if(ViewEdgePickedState.isPicked(edge)){
+									setBackground(Color.BLUE);
+									setForeground(Color.BLUE);
+									return Color.BLUE;
+								}
+									return Color.BLACK;	
+							}
+						};
+						ViewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
+=====================================================================
+Found a 5 line (65 tokens) duplication in the following files: 
+Starting at line 189 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 254 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+		NoPickMouse = new MyPluggableGraphMouse();
+        ViewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
+        ViewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
+        ViewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
+        ViewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
+=====================================================================
+Found a 11 line (65 tokens) duplication in the following files: 
+Starting at line 197 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 259 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 478 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+        Transformer<MyEdge, Paint> edgeColour = new Transformer<MyEdge, Paint>() {
+			public Paint transform(MyEdge edge){
+				if(ViewEdgePickedState.isPicked(edge)){
+					setBackground(Color.BLUE);
+					setForeground(Color.BLUE);
+					return Color.BLUE;
+				}
+					return Color.BLACK;	
+			}
+		};
+		ViewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
+=====================================================================
+Found a 14 line (64 tokens) duplication in the following files: 
+Starting at line 140 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 165 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+
+	public void testDeleteFromUndecVertices(){
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v1 = new MyVertex(0);
+		MyVertex v2 = new MyVertex(0);
+		MyVertex v3 = new MyVertex(0);
+		l1.addUndecVertex(v1);
+		l1.addInVertex(v2);
+		l1.addOutVertex(v3);
+		l1.deleteFromUndecVertices(v3);
+		
+	}
+	
+	@Test
+	public void testDeleteUndecInVertices2(){
+=====================================================================
+Found a 6 line (63 tokens) duplication in the following files: 
+Starting at line 145 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyGraph.java
+Starting at line 182 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyGraph.java
+
+		HashSet<MyVertex> inLabelledVertices = new HashSet<MyVertex>();
+		HashSet<MyVertex> listVertices = new HashSet<MyVertex>(this.getMyVertices());
+		Iterator<MyVertex> vertexIterator = listVertices.iterator();
+		while(vertexIterator.hasNext()){
+			MyVertex currentVertex = vertexIterator.next();
+			if(currentVertex.isIn()){
+=====================================================================
+Found a 7 line (60 tokens) duplication in the following files: 
+Starting at line 231 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+Starting at line 281 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+		if(v1.isIn()||v1.isUndec()){
+			return false;
+		}
+		LinkedHashSet<MyVertex> attackers = new LinkedHashSet<MyVertex>(this.ModelGraph.getmygraph().getPredecessors(v1));
+		System.out.println("attackers "+v1+attackers.toString());
+		Iterator<MyVertex> attackersIterator = attackers.iterator();
+		int count =0;
+=====================================================================
+Found a 6 line (58 tokens) duplication in the following files: 
+Starting at line 127 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyGraph.java
+Starting at line 145 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyGraph.java
+Starting at line 164 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyGraph.java
+Starting at line 182 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyGraph.java
+
+		HashSet<MyVertex> noneLabelledVertices = new HashSet<MyVertex>();
+		HashSet<MyVertex> listVertices = new HashSet<MyVertex>(this.getMyVertices());
+		Iterator<MyVertex> vertexIterator = listVertices.iterator();
+		while(vertexIterator.hasNext()){
+			MyVertex currentVertex = vertexIterator.next();
+			if(currentVertex.hasNoLabel()){
+=====================================================================
+Found a 9 line (57 tokens) duplication in the following files: 
+Starting at line 115 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 128 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+
+	public void testDeleteFromInVertices(){
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v1 = new MyVertex(0);
+		MyVertex v2 = new MyVertex(0);
+		MyVertex v3 = new MyVertex(0);
+		l1.addUndecVertex(v1);
+		l1.addInVertex(v2);
+		l1.addOutVertex(v3);
+		l1.deleteFromInVertices(v3);
+=====================================================================
+Found a 9 line (57 tokens) duplication in the following files: 
+Starting at line 140 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 153 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 165 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+
+	public void testDeleteFromUndecVertices(){
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v1 = new MyVertex(0);
+		MyVertex v2 = new MyVertex(0);
+		MyVertex v3 = new MyVertex(0);
+		l1.addUndecVertex(v1);
+		l1.addInVertex(v2);
+		l1.addOutVertex(v3);
+		l1.deleteFromUndecVertices(v3);
+=====================================================================
+Found a 7 line (56 tokens) duplication in the following files: 
+Starting at line 194 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 221 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 244 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+
+	public void TestAdmissibleLabelling(){
+		Model m = new Model();
+		MyVertex v1 =m.ModelGraph.addMyVertex();
+		MyVertex v2= m.ModelGraph.addMyVertex();
+		MyVertex v3=  m.ModelGraph.addMyVertex();
+		MyVertex v4 = m.ModelGraph.addMyVertex();
+		m.ModelGraph.addMyEdge(v4, v3);
+=====================================================================
+Found a 9 line (55 tokens) duplication in the following files: 
+Starting at line 115 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 128 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 140 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 153 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 165 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 178 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+
+	public void testDeleteFromInVertices(){
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v1 = new MyVertex(0);
+		MyVertex v2 = new MyVertex(0);
+		MyVertex v3 = new MyVertex(0);
+		l1.addUndecVertex(v1);
+		l1.addInVertex(v2);
+		l1.addOutVertex(v3);
+		l1.deleteFromInVertices(v3);
+=====================================================================
+Found a 5 line (54 tokens) duplication in the following files: 
+Starting at line 252 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+Starting at line 281 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+		if(v1.isIn()||v1.isOut()){
+			return false;
+		}
+		LinkedHashSet<MyVertex> attackers = new LinkedHashSet<MyVertex>(this.ModelGraph.getmygraph().getPredecessors(v1));
+		System.out.println("attackers "+v1+attackers.toString());
+=====================================================================
+Found a 8 line (53 tokens) duplication in the following files: 
+Starting at line 103 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 115 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 128 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 140 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 153 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 165 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 178 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+
+	public void testContains() {
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v1 = new MyVertex(0);
+		MyVertex v2 = new MyVertex(0);
+		MyVertex v3 = new MyVertex(0);
+		l1.addUndecVertex(v1);
+		l1.addInVertex(v2);
+		l1.addOutVertex(v3);
+=====================================================================
+Found a 12 line (51 tokens) duplication in the following files: 
+Starting at line 116 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\Controller.java
+Starting at line 131 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\Controller.java
+
+					  MyModel.deleteMyEdge(MyView.deleteEdge);
+					  MyModel.resetLabels();
+					  MyView.clearSemanticsInfoBoxes();
+					  MyView.deleteVertex=null;
+					  MyView.MessageFromController.setText("");
+				  }
+				  else{
+					  MyView.ViewEdgePickedState.clear();
+					  MyView.ViewVertexPickedState.clear();
+					  MyView.colourGraph(MyModel.ModelGraph);
+				  } 
+			  }
+=====================================================================
+Found a 6 line (50 tokens) duplication in the following files: 
+Starting at line 18 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 107 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 135 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 155 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 175 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 194 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 221 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 244 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+
+	public void TestIsIllegallyIn(){
+		Model m = new Model();
+		MyVertex v1= m.ModelGraph.addMyVertex();
+		MyVertex v2=m.ModelGraph.addMyVertex();
+		MyVertex v3= m.ModelGraph.addMyVertex();
+		MyVertex v4= m.ModelGraph.addMyVertex();
+=====================================================================
+Found a 5 line (48 tokens) duplication in the following files: 
+Starting at line 231 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+Starting at line 252 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+		if(v1.isIn()||v1.isUndec()){
+			return false;
+		}
+		LinkedHashSet<MyVertex> attackers = new LinkedHashSet<MyVertex>(this.ModelGraph.getmygraph().getPredecessors(v1));
+		System.out.println("attackers "+v1+attackers.toString());
+=====================================================================
+Found a 5 line (44 tokens) duplication in the following files: 
+Starting at line 17 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\addmissibleFrame.java
+Starting at line 80 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+	public addmissibleFrame(String string) {
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+=====================================================================
+Found a 6 line (42 tokens) duplication in the following files: 
+Starting at line 307 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 466 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				ViewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK,Color.BLACK));
+				Object pickedItem = e.getItem();
+				
+				if (pickedItem instanceof MyVertex) {
+=====================================================================
+Found a 20 line (42 tokens) duplication in the following files: 
+Starting at line 11 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\RunMVC.java
+Starting at line 10 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\Connector.java
+
+	public RunMVC() {
+
+		//create Model and View
+		Model myModel 	= new Model();
+		View myView 	= new View();
+
+		//tell Model about View. 
+		myModel.addObserver(myView);
+		/*	
+			init model after view is instantiated and can show the status of the model
+			(I later decided that only the controller should talk to the model
+			and moved initialisation to the controller (see below).)
+		*/
+		//uncomment to directly initialise Model
+		//myModel.setValue(start_value);	
+
+		//create Controller. tell it about Model and View, initialise model
+		Controller myController = new Controller();
+		myController.addModel(myModel);
+		myController.addView(myView);
+=====================================================================
+Found a 3 line (41 tokens) duplication in the following files: 
+Starting at line 271 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 513 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+			ViewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
+	        ViewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK,Color.BLACK));
+	        ViewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK, Color.BLACK));
+=====================================================================
+Found a 4 line (40 tokens) duplication in the following files: 
+Starting at line 190 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 255 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 273 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+        ViewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
+        ViewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
+        ViewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
+        ViewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
+=====================================================================
+Found a 5 line (40 tokens) duplication in the following files: 
+Starting at line 18 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 59 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 78 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 107 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 135 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 155 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 175 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 194 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 221 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+Starting at line 244 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\model\ModelTest.java
+
+	public void TestIsIllegallyIn(){
+		Model m = new Model();
+		MyVertex v1= m.ModelGraph.addMyVertex();
+		MyVertex v2=m.ModelGraph.addMyVertex();
+		MyVertex v3= m.ModelGraph.addMyVertex();
+=====================================================================
+Found a 4 line (38 tokens) duplication in the following files: 
+Starting at line 523 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+Starting at line 594 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+    	ArrayList<MyVertex> vertices = new ArrayList<MyVertex>();
+    	vertices.addAll(graphVertices);
+    	LinkedHashSet<ArrayList<MyVertex>> possibleCombinations = new LinkedHashSet<ArrayList<MyVertex>>();
+    	MyVertex currentVertex = new MyVertex(0);
+=====================================================================
+Found a 4 line (36 tokens) duplication in the following files: 
+Starting at line 55 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyLabelling.java
+Starting at line 83 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyLabelling.java
+Starting at line 130 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyLabelling.java
+
+	public void setInVerties(LinkedHashSet<MyVertex> h1){
+		Iterator<MyVertex> I = h1.iterator();
+		while(I.hasNext()){
+			I.next().setLabel("IN");
+=====================================================================
+Found a 7 line (36 tokens) duplication in the following files: 
+Starting at line 133 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyGraph.java
+Starting at line 151 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyGraph.java
+
+				noneLabelledVertices.add(currentVertex);
+			}
+			else{
+				System.out.println(currentVertex.toString() + "has a label" + currentVertex.getLabel());
+			}
+		}
+			System.out.print("Vertices Labelled none are "+noneLabelledVertices);
+=====================================================================
+Found a 5 line (35 tokens) duplication in the following files: 
+Starting at line 543 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+Starting at line 612 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+    			Iterator<MyVertex> inIterator = tempIn.iterator();
+    			while(inIterator.hasNext()){
+    				MyVertex tempv= inIterator.next();
+    				currentVertex= tempv;
+    				if(!(isLegallyIn(currentVertex))){
+=====================================================================
+Found a 4 line (35 tokens) duplication in the following files: 
+Starting at line 189 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 192 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 254 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+		NoPickMouse = new MyPluggableGraphMouse();
+        ViewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
+        ViewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
+        ViewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
+=====================================================================
+Found a 3 line (34 tokens) duplication in the following files: 
+Starting at line 520 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+Starting at line 591 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+    public HashSet<MyLabelling> allAdmissibleLabellings(){
+    	LinkedHashSet<MyLabelling> admissibleLabellings= new LinkedHashSet<MyLabelling>();
+    	LinkedHashSet<MyVertex> graphVertices = new LinkedHashSet<MyVertex>(ModelGraph.getMyVertices());
+=====================================================================
+Found a 4 line (34 tokens) duplication in the following files: 
+Starting at line 347 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 490 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+						ViewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
+						ViewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
+						ViewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
+						MessageFromController.setText("");
+=====================================================================
+Found a 15 line (34 tokens) duplication in the following files: 
+Starting at line 31 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyVertex.java
+Starting at line 24 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyEdge.java
+
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+=====================================================================
+Found a 5 line (34 tokens) duplication in the following files: 
+Starting at line 112 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyGraphTest.java
+Starting at line 146 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyGraphTest.java
+
+public void testGetPredecessors(){
+	MyGraph g6= new MyGraph();
+	MyVertex v1=g6.addMyVertex();
+	MyVertex v2 =g6.addMyVertex();
+	g6.addMyEdge(v1, v2);
+=====================================================================
+Found a 8 line (33 tokens) duplication in the following files: 
+Starting at line 30 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\addmissibleFrame.java
+Starting at line 211 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+		mainPanel.add(mainTextArea);
+		
+
+        this.setMinimumSize(new Dimension(600,600));
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.pack();
+		this.setVisible(true);
+	}
+=====================================================================
+Found a 13 line (32 tokens) duplication in the following files: 
+Starting at line 559 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+Starting at line 628 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+	    							currentLabelling.addUndecVertex(v);
+	    						}
+    						
+	    					}	
+    					}
+    				}
+    				
+    			}
+    		}
+    		if (!(alreadyContains(admissibleLabellings, currentLabelling))){
+    		admissibleLabellings.add(currentLabelling);
+    		}
+    	}
+=====================================================================
+Found a 11 line (31 tokens) duplication in the following files: 
+Starting at line 444 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 520 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+						MessageFromController.setText("");
+						graphBuildPanel.add(MessageFromController);
+						System.out.println("Picking state and message box cleared");
+						deleteVertex=null;
+					}
+				}
+			}
+		});
+		
+	}
+	public void deleteMyEdge(){
+=====================================================================
+Found a 3 line (30 tokens) duplication in the following files: 
+Starting at line 207 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 269 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 419 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 490 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+		ViewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
+		ViewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
+		ViewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
+=====================================================================
+Found a 4 line (30 tokens) duplication in the following files: 
+Starting at line 315 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 379 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 427 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+					if (ViewVertexPickedState.isPicked(vertex)) {
+						Transformer<MyVertex, Paint> vertexColour = new Transformer<MyVertex, Paint>() {
+							public Paint transform(MyVertex vertex){
+								if(ViewVertexPickedState.isPicked(vertex)){
+=====================================================================
+Found a 5 line (30 tokens) duplication in the following files: 
+Starting at line 124 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyGraphTest.java
+Starting at line 135 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyGraphTest.java
+
+public void testGetNoneLabelledVertices(){
+	MyGraph g6= new MyGraph();
+	MyVertex v1=g6.addMyVertex();
+	MyVertex v2 =g6.addMyVertex();
+	v2.setLabel("in");
+=====================================================================
+Found a 3 line (28 tokens) duplication in the following files: 
+Starting at line 315 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 379 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 427 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 460 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+					if (ViewVertexPickedState.isPicked(vertex)) {
+						Transformer<MyVertex, Paint> vertexColour = new Transformer<MyVertex, Paint>() {
+							public Paint transform(MyVertex vertex){
+=====================================================================
+Found a 5 line (28 tokens) duplication in the following files: 
+Starting at line 70 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyLabelling.java
+Starting at line 108 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyLabelling.java
+
+	public boolean addOutVertex(MyVertex v) {
+		if(this.InLabels.contains(v)){
+			throw new IllegalArgumentException("This vertex is already labelled in");
+		}
+		if(this.UndecLabels.contains(v)){
+=====================================================================
+Found a 6 line (27 tokens) duplication in the following files: 
+Starting at line 299 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 364 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 399 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+	public MyVertex askForFromVertex() {
+
+		ViewVV.setPickedVertexState(ViewVertexPickedState);
+		gm.setMode(Mode.PICKING);
+		ViewVV.setGraphMouse(gm);
+		MessageFromController.setText("Please select an attacking argument");
+=====================================================================
+Found a 3 line (27 tokens) duplication in the following files: 
+Starting at line 63 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyGraphTest.java
+Starting at line 66 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyGraphTest.java
+
+	MyEdge e2 = new MyEdge(0);
+	System.out.println("g2 " + g2.toString());
+	System.out.println(e2.getLabel());
+=====================================================================
+Found a 2 line (26 tokens) duplication in the following files: 
+Starting at line 146 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+Starting at line 194 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+			MyVertex v= NotLabelledIterator.next();
+			LinkedHashSet<MyVertex> v1Attackers = new LinkedHashSet<MyVertex>(this.ModelGraph.getmygraph().getPredecessors(v));
+=====================================================================
+Found a 3 line (26 tokens) duplication in the following files: 
+Starting at line 259 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+Starting at line 288 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\model\Model.java
+
+		while(attackersIterator.hasNext()){
+			MyVertex tempVertex = attackersIterator.next();
+			if(tempVertex.isOut()){
+=====================================================================
+Found a 2 line (26 tokens) duplication in the following files: 
+Starting at line 272 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 326 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+Starting at line 514 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\gui\View.java
+
+	        ViewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK,Color.BLACK));
+	        ViewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK, Color.BLACK));
+=====================================================================
+Found a 4 line (26 tokens) duplication in the following files: 
+Starting at line 112 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyGraphTest.java
+Starting at line 124 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyGraphTest.java
+Starting at line 135 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyGraphTest.java
+Starting at line 146 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyGraphTest.java
+
+public void testGetPredecessors(){
+	MyGraph g6= new MyGraph();
+	MyVertex v1=g6.addMyVertex();
+	MyVertex v2 =g6.addMyVertex();
+=====================================================================
+Found a 5 line (25 tokens) duplication in the following files: 
+Starting at line 34 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyLabelling.java
+Starting at line 74 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\src\core\MyLabelling.java
+
+		else if(this.UndecLabels.contains(v)){
+			throw new IllegalArgumentException("This vertex is already labelled undec");
+		}
+		else{
+			v.setLabel("IN");
+=====================================================================
+Found a 4 line (25 tokens) duplication in the following files: 
+Starting at line 22 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 30 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+
+	public void testGetInVertices() {
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v = new MyVertex(0);
+		l1.addInVertex(v);
+=====================================================================
+Found a 4 line (25 tokens) duplication in the following files: 
+Starting at line 49 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 57 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+
+	public void testGetOutVertices() {
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v = new MyVertex(0);
+		l1.addOutVertex(v);
+=====================================================================
+Found a 4 line (25 tokens) duplication in the following files: 
+Starting at line 66 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 74 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+Starting at line 83 of C:\Users\Rochelle\Documents\GitHub\FinalProject\FinalProjectSoftware\Test\core\MyLabellingTest.java
+
+	public void testGetUndecVertices() {
+		MyLabelling l1 = new MyLabelling(0);
+		MyVertex v = new MyVertex(0);
+		l1.addUndecVertex(v);
