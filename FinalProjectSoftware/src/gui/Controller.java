@@ -109,7 +109,7 @@ class Controller implements ActionListener,ItemListener {
 			  System.out.println("Preffered labelling button pressed");
 			  MyModel.resetLabels();
 			  MyLabelling l1=MyModel.admissibleLabelling();
-			  MyView.getAdmissibleSemanticsInfo().setText("The Preferred labelling for your current graph is: \n "+l1.DisplayLabelling());
+			  MyView.getAdmissibleSemanticsInfo().setText("The admissible labelling for your current graph is: \n "+l1.DisplayLabelling());
 		  }
 		  else if(src==MyView.getAllAdmissibleLabellingButton()){
 			  System.out.println("All Admissible Labelling button pressed");
@@ -118,7 +118,7 @@ class Controller implements ActionListener,ItemListener {
 			  System.out.println("All admissible labelling" + string);
 			  MyView.getAllAdmissibleSemanticInfo().setText(MyModel.labellingSetString(MyModel.allAdmissibleLabelling2()));
 			  LinkedHashSet<MyLabelling> allAdmissibleLabellings = MyModel.allAdmissibleLabelling2();
-			  MyModel.displayALabelling(allAdmissibleLabellings);
+			  MyModel.labellingSetString(allAdmissibleLabellings);
 //			  MyView.openAdmissibleFrame(string);
 		  }
 		  else if((src==MyView.getPreferredButton())){
@@ -128,7 +128,7 @@ class Controller implements ActionListener,ItemListener {
 			  System.out.println(s);
 //			  MyView.preferredSemanticsInfo.setText("The preferred labllings are: \n"+s);
 			  MyView.getPreferredSemanticsInfo().setText("The preferred labllings are: \n"+MyModel.preferredLabelling());
-			  MyModel.displayALabelling(MyModel.preferredLabelling());
+			  MyModel.labellingSetString(MyModel.preferredLabelling());
 			  
 		  }
 		  else if((src==MyView.getEnterButton()) ){

@@ -22,13 +22,13 @@ public class MyLabelling implements IMyLabelling {
 		NotLabelledVertices= new LinkedHashSet<MyVertex>();
 	}
 	
-	public MyLabelling(int id, LinkedHashSet<MyVertex> inVertices,LinkedHashSet<MyVertex> outVertices,LinkedHashSet<MyVertex> UndecVertices){
-		this.id=id;
-		this.InLabels=inVertices;
-		this.OutLabels=outVertices;
-		this.UndecLabels=UndecVertices;	
-		this.NotLabelledVertices= new LinkedHashSet<MyVertex>();
-	}
+//	public MyLabelling(int id, LinkedHashSet<MyVertex> inVertices,LinkedHashSet<MyVertex> outVertices,LinkedHashSet<MyVertex> UndecVertices){
+//		this.id=id;
+//		this.InLabels=inVertices;
+//		this.OutLabels=outVertices;
+//		this.UndecLabels=UndecVertices;	
+//		this.NotLabelledVertices= new LinkedHashSet<MyVertex>();
+//	}
 
 	@Override
 	public LinkedHashSet<MyVertex> getInVertices() {
@@ -71,6 +71,7 @@ public class MyLabelling implements IMyLabelling {
 		while(I.hasNext()){
 			MyVertex v =I.next();
 			v.setLabel("IN");
+			NotLabelledVertices.remove(v);
 		}
 		InLabels=h1;
 		NotLabelledVertices.removeAll(h1);
@@ -152,6 +153,7 @@ public class MyLabelling implements IMyLabelling {
 			NotLabelledVertices.add(v);
 			v.setLabel("NONE");
 			UndecLabels.remove(v);
+			NotLabelledVertices.remove(v);
 		}
 		return true;
 	}
@@ -162,6 +164,7 @@ public class MyLabelling implements IMyLabelling {
 			MyVertex v =I.next();
 			v.setLabel("UNDEC");
 			UndecLabels.add(v);
+			NotLabelledVertices.remove(v);
 		}
 		UndecLabels=h1;
 		NotLabelledVertices.removeAll(h1);

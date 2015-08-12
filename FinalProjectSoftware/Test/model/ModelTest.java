@@ -387,7 +387,7 @@ public class ModelTest {
 		v1.setLabel("IN");
 		assertEquals(m.checkAllLabels(set), 1);
 		v1.setLabel("OUT");
-		assertEquals(m.checkAllLabels(set), 0);
+		assertEquals(m.checkAllLabels(set), 1);
 		
 		
 		
@@ -434,7 +434,7 @@ public class ModelTest {
 		m.modelGraph.addMyEdge(v2, v3);
 
 		System.out.println("all addmissible outcome 2" +m.allAdmissibleLabelling2());
-		m.displayALabelling(m.allAdmissibleLabelling2());
+		m.labellingSetString(m.allAdmissibleLabelling2());
 		System.out.print("vertex 1 label is "+v1.getLabel()+ " \n Vertex 2 label is "+ v2.getLabel()+" \n Vertex 3's label is "+ v3.getLabel());
 	}
 	
@@ -549,7 +549,9 @@ public class ModelTest {
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v2, v3);
 		LinkedHashSet<MyLabelling> candidateLabelling = new LinkedHashSet<MyLabelling>();
-		MyLabelling labelling = new MyLabelling(0, new LinkedHashSet<MyVertex>(m.modelGraph.getMyVertices()), new LinkedHashSet<MyVertex>(), new LinkedHashSet<MyVertex>());
+		MyLabelling labelling= new MyLabelling(0);
+		labelling.setInVerties(new LinkedHashSet<MyVertex>(m.modelGraph.getMyVertices()));
+//		MyLabelling labelling = new MyLabelling(0, new LinkedHashSet<MyVertex>(m.modelGraph.getMyVertices()), new LinkedHashSet<MyVertex>(), new LinkedHashSet<MyVertex>());
 		System.out.println("The candidate labellings are: "+m.findLabelling(candidateLabelling, labelling));
 
 	}
