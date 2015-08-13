@@ -5,10 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.LinkedHashSet;
-
 import javax.swing.JOptionPane;
-
 import core.*;
 import model.Model;
 import gui.View;
@@ -32,7 +29,7 @@ class Controller implements ActionListener,ItemListener {
 	public void actionPerformed(ActionEvent e){
 		  Object src = e.getSource();
 
-		  if (src == MyView.getAddVertexButton()) {
+		  if (src == MyView.getAddArgumentButton()) {
 			  deleteVertexFlag=false;
 			  clickedFlag=false;
 			  deleteEdgeFlag=false;
@@ -46,7 +43,7 @@ class Controller implements ActionListener,ItemListener {
 			MyModel.resetLabels();
 			MyModel.addMyVertex();
 		  }
-		  else if (src == MyView.getAddEdgeButton()) {
+		  else if (src == MyView.getAddAttackButton()) {
 			  deleteVertexFlag =false;
 			  clickedFlag=false;
 			  MyModel.setV1(null);
@@ -57,7 +54,7 @@ class Controller implements ActionListener,ItemListener {
 			  MyView.getViewVV().getPickedVertexState().clear();
 			  System.out.println("AddEdgeButton Pressed");
 //			  MyView.clearSemanticsInfoBoxes();
-			  MyView.askForFromVertex();
+			  MyView.askForFromArgument();
 			  MyView.getMessageFromController().setText("Please select an attacking argument and then select enter when you are done.");
 		  }
 		  else if(src==MyView.getResetGraph()){
@@ -75,21 +72,21 @@ class Controller implements ActionListener,ItemListener {
 				  MyView.getAdmissibleSemanticsInfo().setText("");
 			  } 
 		  }
-		  else if(src==MyView.getDeleteVertexButton()){
+		  else if(src==MyView.getDeleteArgumentButton()){
 			  System.out.println("Delete vertex button is pressed");
 			  deleteVertexFlag=true;
 			  MyView.getViewEdgePickedState().clear();
 			  MyView.getViewEdgePickedState().clear();
-			  MyView.deleteVertex=null;
-			  MyView.deleteVertex();
+			  MyView.deleteArgument=null;
+			  MyView.deleteArgument();
 		  }
-		  else if(src==MyView.getDeleteEdgeButton()){
+		  else if(src==MyView.getDeleteAttackButton()){
 			  deleteEdgeFlag=true;
 			  System.out.println("Delete edge button is pressed");
 			  MyView.getViewEdgePickedState().clear();
 			  MyView.getViewEdgePickedState().clear();
-			  MyView.deleteEdge=null;
-			  MyView.deleteEdge();
+			  MyView.deleteAttack=null;
+			  MyView.deleteAttack();
 		  }
 		  else if(src==MyView.getSemanticsButton()){
 			  System.out.print("Semantics button pressed");
@@ -98,6 +95,10 @@ class Controller implements ActionListener,ItemListener {
 		  else if(src==MyView.getBuildButton()){
 			  System.out.print("Build button pressed");
 			  MyView.changeToBuild();
+		  }
+		  else if(src==MyView.getResetLabelsButton()){
+			  System.out.println("Reset Labels Button pressed");
+			  MyModel.resetLabels();
 		  }
 		  else if (src==MyView.getGroundedLabellingButton()){
 			  System.out.println("Grounded labelling button pressed");
@@ -109,42 +110,41 @@ class Controller implements ActionListener,ItemListener {
 			  System.out.println("Preffered labelling button pressed");
 			  MyModel.resetLabels();
 			  MyLabelling l1=MyModel.admissibleLabelling();
-			  MyView.getAdmissibleSemanticsInfo().setText("The admissible labelling for your current graph is: \n "+l1.DisplayLabelling());
+			  MyView.getAdmissibleSemanticsInfo().setText("An admissible labelling for your current graph is: \n "+l1.DisplayLabelling());
 		  }
 		  else if(src==MyView.getAllAdmissibleLabellingButton()){
-			  System.out.println("All Admissible Labelling button pressed");
+			  System.out.println("All admissible labellings button pressed");
 			  MyModel.resetLabels();
-			  String string = MyModel.allAdmissibleLabelling2().toString();
+			  String string = MyModel.labellingSetString(MyModel.allAdmissibleLabelling());
 			  System.out.println("All admissible labelling" + string);
-			  MyView.getAllAdmissibleSemanticInfo().setText(MyModel.labellingSetString(MyModel.allAdmissibleLabelling2()));
-			  LinkedHashSet<MyLabelling> allAdmissibleLabellings = MyModel.allAdmissibleLabelling2();
-			  MyModel.labellingSetString(allAdmissibleLabellings);
-//			  MyView.openAdmissibleFrame(string);
+			  MyView.getAllAdmissibleSemanticInfo().setText("The admissible labellings for your graph are: \n" +MyModel.labellingSetString(MyModel.allAdmissibleLabelling()));
 		  }
+
 		  else if((src==MyView.getPreferredButton())){
 			  System.out.println("Preferred Button pressed ");
 			  MyModel.resetLabels();
 			  String s = MyModel.labellingSetString(MyModel.preferredLabelling());
 			  System.out.println(s);
-//			  MyView.preferredSemanticsInfo.setText("The preferred labllings are: \n"+s);
-			  MyView.getPreferredSemanticsInfo().setText("The preferred labllings are: \n"+MyModel.preferredLabelling());
-			  MyModel.labellingSetString(MyModel.preferredLabelling());
+//			  MyView.preferredSemanticsInfo.setText("The preferred labellings are: \n"+s);
+			  MyView.getPreferredSemanticsInfo().setText("The preferred labllings for your graph  are: \n"+MyModel.labellingSetString(MyModel.preferredLabelling()));
+			  MyModel.displayALabelling(MyModel.preferredLabelling());
 			  
 		  }
 		  else if((src==MyView.getEnterButton()) ){
 			  System.out.println("EnterButton Pressed");
 			  System.out.println("current"+MyView.currentVertex);
-			  System.out.println("deleteCurrent "+MyView.deleteVertex);
-			  System.out.println(deleteEdgeFlag);
-			  if(deleteEdgeFlag==true && MyView.deleteEdge!=null){
+			  System.out.println("deleteCurrent "+MyView.deleteArgument);
+			  System.out.println(deleteEdgeFlag); 
+			  if(deleteEdgeFlag==true && MyView.deleteAttack!=null){
 				  MyView.getViewVV().setPickedVertexState(MyView.getViewVertexPickedState());
-				  int selection= JOptionPane.showConfirmDialog(null, "Are you sure you want to delete attack "+ MyView.deleteEdge.getLabel() +"? This action cannot be undone.", "Delete Attack?",JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE);
+				  int selection= JOptionPane.showConfirmDialog(null, "Are you sure you want to delete attack "+ MyView.deleteAttack.getLabel() +"? This action cannot be undone.", "Delete Attack?",JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE);
 				  if(selection==JOptionPane.YES_OPTION){
-					  MyModel.deleteEdge(MyView.deleteEdge);
+					  MyModel.deleteEdge(MyView.deleteAttack);
 					  MyModel.resetLabels();
 					  MyView.clearSemanticsInfoBoxes();
-					  MyView.deleteVertex=null;
+					  MyView.deleteArgument=null;
 					  MyView.getMessageFromController().setText("");
+					  deleteEdgeFlag=false;
 				  }
 				  else{
 					  MyView.getViewEdgePickedState().clear();
@@ -152,13 +152,13 @@ class Controller implements ActionListener,ItemListener {
 					  MyView.colourGraph(MyModel.modelGraph);
 				  } 
 			  }
-			  if(MyView.deleteVertex!=null&&deleteVertexFlag==true){
-				  int selection= JOptionPane.showConfirmDialog(null, "Are you sure you want to delete argument "+ MyView.deleteVertex +"? This action cannot be undone.", "Delete Argument?",JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE);
+			  if(MyView.deleteArgument!=null&&deleteVertexFlag==true){
+				  int selection= JOptionPane.showConfirmDialog(null, "Are you sure you want to delete argument "+ MyView.deleteArgument +"? This action cannot be undone.", "Delete Argument?",JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE);
 				  if(selection==JOptionPane.YES_OPTION){
-					  MyModel.deleteVertex(MyView.deleteVertex);
+					  MyModel.deleteVertex(MyView.deleteArgument);
 					  MyModel.resetLabels();
 					  MyView.clearSemanticsInfoBoxes();
-					  MyView.deleteVertex=null;
+					  MyView.deleteArgument=null;
 					  MyView.getMessageFromController().setText("");
 				  }
 				  else{
@@ -169,7 +169,8 @@ class Controller implements ActionListener,ItemListener {
 
 			  }
 			  else if(MyView.currentVertex==null){
-				 MyView.getMessageFromController().setText("You have not select a vertex. Please select a vertex.");
+				 MyView.getMessageFromController().setText(MyView.getMessageFromController().getText());
+//						 +"You have not select a vertex. Please select a vertex.");
 			  }
 			  else{ 
 				  {
@@ -183,7 +184,7 @@ class Controller implements ActionListener,ItemListener {
 							MyView.getViewEdgePickedState().clear();
 							MyView.getViewVertexPickedState().clear();
 							MyView.changeToNoPickingMouse();
-							MyView.askForToVertex(from);
+							MyView.askForToArgument(from);
 						  }
 					 else if (clickedFlag==true){
 						 System.out.print(clickedFlag);

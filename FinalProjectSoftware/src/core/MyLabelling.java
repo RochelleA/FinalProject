@@ -334,6 +334,12 @@ public void correctLabels(){
 	this.setNotLabelledVertices(NotLabelledVertices);
 }
 
+public void makecopy(MyLabelling labelling){
+	this.setInVerties(new LinkedHashSet<MyVertex>(labelling.getInVertices()));
+	this.setOutVertices(new LinkedHashSet<MyVertex>(labelling.getOutVertices()));
+	this.setUndecVertices(new LinkedHashSet<MyVertex>(labelling.getUndecVertices()));
+	this.setNotLabelledVertices(new LinkedHashSet<MyVertex>(labelling.getNotLabelledVertices()));
+}
 
 }
 

@@ -183,7 +183,7 @@ public class MyLabellingTest {
 		MyLabelling l1 = new MyLabelling(0);
 		MyVertex v = new MyVertex(0);
 		l1.addUndecVertex(v);
-		String s = "{\u00D8,\u00D8,[V0]}";
+		String s = "{\u00D8,\u00D8,[0]}";
 		assertEquals(s, l1.toString());
 	}
 	

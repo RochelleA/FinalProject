@@ -55,7 +55,7 @@ public class MyVertex implements IMyVertex {
 	}
 
 	public String toString() {
-        return "V"+id;
+        return id+"";
 	}
 	
 	@Override

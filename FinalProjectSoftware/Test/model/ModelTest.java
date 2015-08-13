@@ -1,8 +1,6 @@
 package model;
 
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -405,8 +403,8 @@ public class ModelTest {
 		m.modelGraph.addMyEdge(v1, v3);
 		m.modelGraph.addMyEdge(v2, v3);
 		m.modelGraph.addMyEdge(v3, v4);
-		System.out.println(m.allAdmissibleLabellings());
-		System.out.println("all addmissible outcome " +m.allAdmissibleLabelling2());
+		System.out.println(m.allAdmissibleLabelling());
+		System.out.println("all addmissible outcome " +m.allAdmissibleLabelling());
 		System.out.println("Preferred Labellings are: " + m.preferredLabelling());
 	}
 	
@@ -419,8 +417,8 @@ public class ModelTest {
 		MyVertex v3= m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v2, v3);
-		System.out.println(m.allAdmissibleLabellings());
-		System.out.println("all addmissible outcome 2" +m.allAdmissibleLabelling2());
+		System.out.println(m.allAdmissibleLabelling());
+		System.out.println("all addmissible outcome 2" +m.allAdmissibleLabelling());
 		
 	}
 	
@@ -433,8 +431,8 @@ public class ModelTest {
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v2, v3);
 
-		System.out.println("all addmissible outcome 2" +m.allAdmissibleLabelling2());
-		m.labellingSetString(m.allAdmissibleLabelling2());
+		System.out.println("all addmissible outcome " +m.allAdmissibleLabelling());
+		m.labellingSetString(m.allAdmissibleLabelling());
 		System.out.print("vertex 1 label is "+v1.getLabel()+ " \n Vertex 2 label is "+ v2.getLabel()+" \n Vertex 3's label is "+ v3.getLabel());
 	}
 	

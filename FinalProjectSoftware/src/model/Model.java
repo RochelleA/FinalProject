@@ -118,7 +118,176 @@ public class Model extends java.util.Observable {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///SEMANTICS	///SEMANTICS	///SEMANTICS	///SEMANTICS	///SEMANTICS	///SEMANTICS	///SEMANTICS	///SEMANTICS
 	
+	public boolean resetLabels(){
+		LinkedHashSet<MyVertex> vertices = new LinkedHashSet<MyVertex>(modelGraph.getMyVertices());
+		Iterator<MyVertex> verticesIterator = vertices.iterator();
+		while(verticesIterator.hasNext()){
+			verticesIterator.next().setLabel("NONE");
+		}
+		setChanged();
+		notifyObservers(modelGraph);
+		return true;
+		
+	}
 	
+	public boolean isLegallyIn(MyVertex v1){
+		if(v1.isUndec()||v1.isOut()){
+			return false;
+	}
+		LinkedHashSet<MyVertex> attackers = new LinkedHashSet<MyVertex>(this.modelGraph.getmygraph().getPredecessors(v1));
+		Iterator<MyVertex> attackersIterator = attackers.iterator();
+		int tempCount1=0;
+		while(attackersIterator.hasNext()){
+			MyVertex tempVertex = attackersIterator.next();
+			if(tempVertex.isOut()){
+				tempCount1++;
+			}
+		}
+			if(tempCount1==attackers.size() || attackers.size()==0){
+				return true;
+			}
+		
+				return false;
+	}
+	
+	
+	public boolean isLegallyOut(MyVertex v1){
+		if(v1.isIn()||v1.isUndec()){
+			return false;
+		}
+		LinkedHashSet<MyVertex> attackers = new LinkedHashSet<MyVertex>(this.modelGraph.getmygraph().getPredecessors(v1));
+		Iterator<MyVertex> attackersIterator = attackers.iterator();
+		int count =0;
+		while(attackersIterator.hasNext()){
+			MyVertex tempVertex = attackersIterator.next();
+			if(tempVertex.isIn()){
+				count++;
+			}
+			if(count>=1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//Caution before using the following function ensure that there are no vertices with a label "NONE"
+	public boolean isLegallyUndec(MyVertex v1){
+		if(v1.isIn()||v1.isOut()){
+			return false;
+		}
+		LinkedHashSet<MyVertex> attackers = new LinkedHashSet<MyVertex>(this.modelGraph.getmygraph().getPredecessors(v1));
+		int tempCount=0;
+		Iterator<MyVertex> attackersIterator = attackers.iterator();
+		while(attackersIterator.hasNext()){
+			MyVertex tempVertex = attackersIterator.next();
+			if(tempVertex.isOut()){
+				tempCount++;
+			}
+		}
+			if(tempCount<attackers.size()){
+				while(attackersIterator.hasNext()){
+					MyVertex tempVertex1 = attackersIterator.next();
+					if(tempVertex1.isIn()){
+						return false;
+					}
+					else{
+						return true;
+					}
+				}
+			}
+		
+		return false;
+	}
+	
+
+	public boolean hasillegallyIn(MyLabelling labelling){
+		labelling.correctLabels();
+		LinkedHashSet<MyVertex> h = labelling.getInVertices();
+		LinkedHashSet<MyVertex> h1 = h;
+		Iterator<MyVertex> h1Iterator = h1.iterator();
+		while(h1Iterator.hasNext()){
+			MyVertex v= h1Iterator.next();
+//			I.remove();
+			if(!(this.isLegallyIn(v))){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean hasillegallyIn(LinkedHashSet<MyLabelling> labelling){
+		Iterator<MyLabelling> labellingIterator = labelling.iterator();
+		while(labellingIterator.hasNext()){
+			MyLabelling tempLabelling = labellingIterator.next();
+			tempLabelling.correctLabels();
+			if(hasillegallyIn(tempLabelling)){
+				return true;
+			}
+			
+		}
+		return false;
+	}
+	
+    public void displayALabelling(LinkedHashSet<MyLabelling> set){
+    	Iterator<MyLabelling> setIterator = set.iterator();
+    	MyLabelling labelling =setIterator.next();
+    	Iterator<MyVertex> inIterator = labelling.getInVertices().iterator();
+    	while(inIterator.hasNext()){
+    		modelGraph.getMyVertex(inIterator.next()).setLabel("IN");
+    	}
+    	Iterator<MyVertex> outIterator = labelling.getOutVertices().iterator();
+    	while(outIterator.hasNext()){
+    		modelGraph.getMyVertex(outIterator.next()).setLabel("OUT");
+    	}
+    	Iterator<MyVertex> undecIterator = labelling.getUndecVertices().iterator();
+    	while(undecIterator.hasNext()){
+    		modelGraph.getMyVertex(undecIterator.next()).setLabel("UNDEC");
+    	}
+    	setChanged();
+    	notifyObservers(modelGraph);
+    	
+    }
+    public String labellingSetString( LinkedHashSet<MyLabelling> set){
+    	String s="";
+    	Iterator<MyLabelling> setIterator = set.iterator();
+    	while(setIterator.hasNext()){
+    		s= s+ setIterator.next().toString()+"  \n";
+    	}
+    	
+    	return s;
+    }
+    
+    
+    private LinkedHashSet<MyVertex> findAllIllegIn(MyLabelling labelling){
+    	LinkedHashSet<MyVertex> illegalInVertices = new LinkedHashSet<MyVertex>();
+    	LinkedHashSet<MyVertex> inVertices = new LinkedHashSet<MyVertex>(labelling.getInVertices());
+    	Iterator<MyVertex> inVerticesIterator = inVertices.iterator();
+    	while(inVerticesIterator.hasNext()){
+    		MyVertex currentVertex = inVerticesIterator.next();
+    		if(!(this.isLegallyIn(currentVertex))){
+    			illegalInVertices.add(currentVertex);
+    			
+    		}
+    		
+    	}
+		return illegalInVertices;
+    	
+    }
+    
+    public int checkAllLabels(LinkedHashSet<MyLabelling> set){
+    	int count=0;
+    	Iterator<MyLabelling> setIterator = set.iterator();
+    	while(setIterator.hasNext()){
+    		if(setIterator.next().checkAllLabels()){
+    			count++;
+    		}
+    	}
+    	
+    	return count;
+    }
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Grounded 	//Grounded 	//Grounded 	//Grounded 	//Grounded 	//Grounded 	//Grounded 	//Grounded 	//Grounded 	//Grounded 	//Grounded 
 	public ArrayList<MyVertex> findUnattackedVerticesArray(){
 		ArrayList<MyVertex> unattacked = new ArrayList<MyVertex>();
 		ArrayList<MyVertex> vertexList = new ArrayList<MyVertex>(this.modelGraph.getMyVertices());
@@ -254,114 +423,9 @@ public class Model extends java.util.Observable {
 		return this.groundedLabelling().getInVertices();
 	}
 	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Admissible	//Admissible	//Admissible	//Admissible	//Admissible	//Admissible	//Admissible	//Admissible	//Admissible	
 	
-	public LinkedHashSet<MyVertex> resetLabels(){
-		LinkedHashSet<MyVertex> vertices = new LinkedHashSet<MyVertex>(this.modelGraph.getMyVertices());
-		LinkedHashSet<MyVertex> tempVertices = vertices;
-		Iterator< MyVertex> tempVerticesIterator = tempVertices.iterator();
-		while(tempVerticesIterator.hasNext()){
-			tempVerticesIterator.next().setLabel("NONE");
-		}
-		return tempVertices;
-	}
-	
-	public boolean isLegallyIn(MyVertex v1){
-		if(v1.isUndec()||v1.isOut()){
-			return false;
-	}
-		LinkedHashSet<MyVertex> attackers = new LinkedHashSet<MyVertex>(this.modelGraph.getmygraph().getPredecessors(v1));
-		Iterator<MyVertex> attackersIterator = attackers.iterator();
-		int tempCount1=0;
-		while(attackersIterator.hasNext()){
-			MyVertex tempVertex = attackersIterator.next();
-			if(tempVertex.isOut()){
-				tempCount1++;
-			}
-		}
-			if(tempCount1==attackers.size() || attackers.size()==0){
-				return true;
-			}
-		
-				return false;
-	}
-	
-	
-	public boolean isLegallyOut(MyVertex v1){
-		if(v1.isIn()||v1.isUndec()){
-			return false;
-		}
-		LinkedHashSet<MyVertex> attackers = new LinkedHashSet<MyVertex>(this.modelGraph.getmygraph().getPredecessors(v1));
-		Iterator<MyVertex> attackersIterator = attackers.iterator();
-		int count =0;
-		while(attackersIterator.hasNext()){
-			MyVertex tempVertex = attackersIterator.next();
-			if(tempVertex.isIn()){
-				count++;
-			}
-			if(count>=1){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	//Caution before using the following function ensure that there are no vertices with a label "NONE"
-	public boolean isLegallyUndec(MyVertex v1){
-		if(v1.isIn()||v1.isOut()){
-			return false;
-		}
-		LinkedHashSet<MyVertex> attackers = new LinkedHashSet<MyVertex>(this.modelGraph.getmygraph().getPredecessors(v1));
-		int tempCount=0;
-		Iterator<MyVertex> attackersIterator = attackers.iterator();
-		while(attackersIterator.hasNext()){
-			MyVertex tempVertex = attackersIterator.next();
-			if(tempVertex.isOut()){
-				tempCount++;
-			}
-		}
-			if(tempCount<attackers.size()){
-				while(attackersIterator.hasNext()){
-					MyVertex tempVertex1 = attackersIterator.next();
-					if(tempVertex1.isIn()){
-						return false;
-					}
-					else{
-						return true;
-					}
-				}
-			}
-		
-		return false;
-	}
-	
-
-	public boolean hasillegallyIn(MyLabelling labelling){
-		labelling.correctLabels();
-		LinkedHashSet<MyVertex> h = labelling.getInVertices();
-		LinkedHashSet<MyVertex> h1 = h;
-		Iterator<MyVertex> h1Iterator = h1.iterator();
-		while(h1Iterator.hasNext()){
-			MyVertex v= h1Iterator.next();
-//			I.remove();
-			if(!(this.isLegallyIn(v))){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean hasillegallyIn(LinkedHashSet<MyLabelling> labelling){
-		Iterator<MyLabelling> labellingIterator = labelling.iterator();
-		while(labellingIterator.hasNext()){
-			MyLabelling tempLabelling = labellingIterator.next();
-			tempLabelling.correctLabels();
-			if(hasillegallyIn(tempLabelling)){
-				return true;
-			}
-			
-		}
-		return false;
-	}
 	
 	public MyLabelling transitionStep(MyLabelling labelling){
 		  LinkedHashSet<MyVertex> tempInVertices = new LinkedHashSet<MyVertex>(labelling.getInVertices());
@@ -399,34 +463,6 @@ public class Model extends java.util.Observable {
 		while(this.hasillegallyIn(currentLabelling)){
 			currentLabelling=transitionStep(currentLabelling);
 		}
-//	    System.out.println("l1 in vertices are" +l1.getInVertices().toString());
-//	    LinkedHashSet<MyVertex> tempInVertices = new LinkedHashSet<MyVertex>(l1.getInVertices());
-//		Iterator<MyVertex> verticesIterator= tempInVertices.iterator();
-//		while(verticesIterator.hasNext()){
-//			currentVertex = verticesIterator.next();
-//			System.out.print("current Vertex is: "+currentVertex.toString());
-//			System.out.println("l1 in vertices are" +l1.getInVertices().toString());
-//			verticesIterator.remove();
-//			if(!(this.isLegallyIn(currentVertex))){
-//				System.out.println("If 1 entered");
-//				System.out.println("l1 in vertices are" +l1.getInVertices().toString());
-//				l1.deleteFromInVertices(currentVertex);
-//				l1.addOutVertex(currentVertex);
-//				illegOutVerticesCheck= new LinkedHashSet<MyVertex>(this.ModelGraph.getmygraph().getSuccessors(currentVertex));
-//				illegOutVerticesCheck.add(currentVertex);
-//				Iterator<MyVertex> illegalIterator =illegOutVerticesCheck.iterator();
-//				while(illegalIterator.hasNext()){
-//					MyVertex v = illegalIterator.next();
-//					if(v.isOut()){
-//						if(!(this.isLegallyOut(v))){
-//							System.out.println("If 2 entered");
-//							l1.deleteFromOutVertices(v);
-//							l1.addUndecVertex(v);
-//						}
-//					}
-//				}
-//			}
-//		}
 		setChanged();
 		notifyObservers(modelGraph);
 		return currentLabelling;
@@ -434,6 +470,8 @@ public class Model extends java.util.Observable {
 	}
 	
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//AllAdmissible     	//AllAdmissible    	//AllAdmissible    	//AllAdmissible    	//AllAdmissible    	//AllAdmissible    	//AllAdmissible    
 	
 	public LinkedHashSet<MyVertex> reorderSet(LinkedHashSet<MyVertex> h){
 		Iterator<MyVertex> iterateVertices = h.iterator();
@@ -518,281 +556,283 @@ public class Model extends java.util.Observable {
     	return false;
     }
     
-    public LinkedHashSet<MyLabelling> allAdmissibleLabellings(){
-    	LinkedHashSet<MyLabelling> admissibleLabellings= new LinkedHashSet<MyLabelling>();
-    	LinkedHashSet<MyVertex> graphVertices = new LinkedHashSet<MyVertex>(modelGraph.getMyVertices());
-    	ArrayList<MyVertex> vertices = new ArrayList<MyVertex>();
-    	vertices.addAll(graphVertices);
-    	LinkedHashSet<ArrayList<MyVertex>> possibleCombinations = new LinkedHashSet<ArrayList<MyVertex>>();
-    	MyVertex currentVertex = new MyVertex(0);
-    	/*This method finds all possible combinations of the vertices. Each combination must be checked in order to find all labellings. 
-    	 * Some combinations will find the same labelling. Duplicates are not added.
-    	 * */
-    	permute(vertices, possibleCombinations, 0);
-    	Iterator<ArrayList<MyVertex>> possibleCombinationsIterator = possibleCombinations.iterator();
-    	while(possibleCombinationsIterator.hasNext()){
-    		MyLabelling currentLabelling = new MyLabelling(0);
-    		LinkedHashSet<MyVertex> vertexOrder = new LinkedHashSet<MyVertex>(possibleCombinationsIterator.next());
-    		LinkedHashSet<MyVertex> currentVertexOrder = new LinkedHashSet<MyVertex>();
-    		currentVertexOrder.addAll(vertexOrder);
-    		currentLabelling.setInVerties(currentVertexOrder);
-    		while(hasillegallyIn(currentLabelling)){
-    			LinkedHashSet<MyVertex> tempIn = new LinkedHashSet<MyVertex>();
-    			tempIn.addAll(currentLabelling.getInVertices());
-    			LinkedHashSet<MyVertex> tempOut = new LinkedHashSet<MyVertex>();
-    			tempOut.addAll(currentLabelling.getOutVertices());
-    			Iterator<MyVertex> inIterator = tempIn.iterator();
-    			while(inIterator.hasNext()){
-    				MyVertex tempv= inIterator.next();
-    				currentVertex= tempv;
-    				if(!(isLegallyIn(currentVertex))){
-    					currentLabelling.deleteFromInVertices(currentVertex);
-    					currentLabelling.addOutVertex(currentVertex);
-    					LinkedHashSet<MyVertex> illegOut = new LinkedHashSet<MyVertex>();
-    					illegOut.addAll(modelGraph.myGraph.getSuccessors(currentVertex));
-    					illegOut.add(currentVertex);
-    					Iterator<MyVertex> illegOutIterator = illegOut.iterator();
-    					while(illegOutIterator.hasNext()){
-    					MyVertex v = illegOutIterator.next();
-	    					if(v.isOut()){
-	    						if(!(isLegallyOut(v))){
-	    							currentLabelling.deleteFromOutVertices(v);
-	    							currentLabelling.addUndecVertex(v);
-	    						}
-    						
-	    					}	
-    					}
-    				}
-    				
-    			}
-    		}
-    		if (!(alreadyContains(admissibleLabellings, currentLabelling))){
-    		admissibleLabellings.add(currentLabelling);
-    		}
-    	}
-    	return admissibleLabellings;
-    }
-    
-    private LinkedHashSet<MyVertex> findAllIllegIn(MyLabelling labelling){
-    	LinkedHashSet<MyVertex> illegalInVertices = new LinkedHashSet<MyVertex>();
-    	LinkedHashSet<MyVertex> inVertices = new LinkedHashSet<MyVertex>(labelling.getInVertices());
-    	Iterator<MyVertex> inVerticesIterator = inVertices.iterator();
-    	while(inVerticesIterator.hasNext()){
-    		MyVertex currentVertex = inVerticesIterator.next();
-    		if(!(this.isLegallyIn(currentVertex))){
-    			illegalInVertices.add(currentVertex);
-    			
-    		}
-    		
-    	}
-		return illegalInVertices;
-    	
-    }
-    
-    public int checkAllLabels(LinkedHashSet<MyLabelling> set){
-    	int count=0;
-    	Iterator<MyLabelling> setIterator = set.iterator();
-    	while(setIterator.hasNext()){
-    		if(setIterator.next().checkAllLabels()){
-    			count++;
-    		}
-    	}
-    	
-    	return count;
-    }
+//    public LinkedHashSet<MyLabelling> allAdmissibleLabellings3(){
+//    	LinkedHashSet<MyLabelling> admissibleLabellings= new LinkedHashSet<MyLabelling>();
+//    	LinkedHashSet<MyVertex> graphVertices = new LinkedHashSet<MyVertex>(modelGraph.getMyVertices());
+//    	ArrayList<MyVertex> vertices = new ArrayList<MyVertex>();
+//    	vertices.addAll(graphVertices);
+//    	LinkedHashSet<ArrayList<MyVertex>> possibleCombinations = new LinkedHashSet<ArrayList<MyVertex>>();
+//    	MyVertex currentVertex = new MyVertex(0);
+//    	/*This method finds all possible combinations of the vertices. Each combination must be checked in order to find all labellings. 
+//    	 * Some combinations will find the same labelling. Duplicates are not added.
+//    	 * */
+//    	permute(vertices, possibleCombinations, 0);
+//    	Iterator<ArrayList<MyVertex>> possibleCombinationsIterator = possibleCombinations.iterator();
+//    	while(possibleCombinationsIterator.hasNext()){
+//    		MyLabelling currentLabelling = new MyLabelling(0);
+//    		LinkedHashSet<MyVertex> vertexOrder = new LinkedHashSet<MyVertex>(possibleCombinationsIterator.next());
+//    		LinkedHashSet<MyVertex> currentVertexOrder = new LinkedHashSet<MyVertex>();
+//    		currentVertexOrder.addAll(vertexOrder);
+//    		currentLabelling.setInVerties(currentVertexOrder);
+//    		while(hasillegallyIn(currentLabelling)){
+//    			LinkedHashSet<MyVertex> tempIn = new LinkedHashSet<MyVertex>();
+//    			tempIn.addAll(currentLabelling.getInVertices());
+//    			LinkedHashSet<MyVertex> tempOut = new LinkedHashSet<MyVertex>();
+//    			tempOut.addAll(currentLabelling.getOutVertices());
+//    			Iterator<MyVertex> inIterator = tempIn.iterator();
+//    			while(inIterator.hasNext()){
+//    				MyVertex tempv= inIterator.next();
+//    				currentVertex= tempv;
+//    				if(!(isLegallyIn(currentVertex))){
+//    					currentLabelling.deleteFromInVertices(currentVertex);
+//    					currentLabelling.addOutVertex(currentVertex);
+//    					LinkedHashSet<MyVertex> illegOut = new LinkedHashSet<MyVertex>();
+//    					illegOut.addAll(modelGraph.myGraph.getSuccessors(currentVertex));
+//    					illegOut.add(currentVertex);
+//    					Iterator<MyVertex> illegOutIterator = illegOut.iterator();
+//    					while(illegOutIterator.hasNext()){
+//    					MyVertex v = illegOutIterator.next();
+//	    					if(v.isOut()){
+//	    						if(!(isLegallyOut(v))){
+//	    							currentLabelling.deleteFromOutVertices(v);
+//	    							currentLabelling.addUndecVertex(v);
+//	    						}
+//    						
+//	    					}	
+//    					}
+//    				}
+//    				
+//    			}
+//    		}
+//    		if (!(alreadyContains(admissibleLabellings, currentLabelling))){
+//    		admissibleLabellings.add(currentLabelling);
+//    		}
+//    	}
+//    	return admissibleLabellings;
+//    }
+
   
-    public HashSet<MyLabelling> allAdmissibleLabellings1(){
-    	LinkedHashSet<MyLabelling> admissibleLabellings= new LinkedHashSet<MyLabelling>();
-    	LinkedHashSet<MyVertex> graphVertices = new LinkedHashSet<MyVertex>(modelGraph.getMyVertices());
-    	LinkedHashSet<MyVertex> vertices = new LinkedHashSet<MyVertex>();
-    	vertices.addAll(graphVertices);
-    	LinkedHashSet<ArrayList<MyVertex>> possibleCombinations = new LinkedHashSet<ArrayList<MyVertex>>();
-    	MyVertex currentVertex = new MyVertex(0);
-    	for(int i=0; i<vertices.size(); i++){;
-    		vertices =reorderSet(vertices);
-    		MyLabelling currentLabelling = new MyLabelling(0);
-    		currentLabelling.setInVerties(vertices);
-    	    		while(hasillegallyIn(currentLabelling)){
-    	    			LinkedHashSet<MyVertex> illegallyIn = findAllIllegIn(currentLabelling);
-    	    			ArrayList<MyVertex> illegallyInArray = new ArrayList<MyVertex>();
-    	    			illegallyInArray.addAll(illegallyIn);
-    	    			permute(illegallyInArray, possibleCombinations, 0);
-    	    			Iterator<ArrayList<MyVertex>> possibleCombinationIterator = possibleCombinations.iterator();
-    	    			while(possibleCombinationIterator.hasNext()){
-    	    				MyLabelling tempLabelling = new MyLabelling(0);
-    	    				LinkedHashSet<MyVertex > tempSet = new LinkedHashSet<MyVertex>();
-    	    				tempSet.addAll(possibleCombinationIterator.next());
-    	    				LinkedHashSet<MyVertex> newInVertices = new LinkedHashSet<MyVertex>();
-    	    				newInVertices.addAll(tempSet);
-    	    				tempLabelling.setInVerties(tempSet);
-    	    				Iterator<MyVertex> inIterator = tempLabelling.getInVertices().iterator();
-    	    				while(inIterator.hasNext()){
-    	    					MyVertex tempv= inIterator.next();
-    	    					currentVertex= tempv;
-			    				if(!(isLegallyIn(currentVertex))){
-			    					tempLabelling.deleteFromInVertices(currentVertex);
-			    					tempLabelling.addOutVertex(currentVertex);
-			    					LinkedHashSet<MyVertex> illegOut = new LinkedHashSet<MyVertex>();
-			    					illegOut.addAll(modelGraph.myGraph.getSuccessors(currentVertex));
-			    					illegOut.add(currentVertex);
-			    					Iterator<MyVertex> illegOutIterator = illegOut.iterator();
-			    					while(illegOutIterator.hasNext()){
-			    					MyVertex v = illegOutIterator.next();
-				    					if(v.isOut()){
-				    						if(!(isLegallyOut(v))){
-				    							tempLabelling.deleteFromOutVertices(v);
-				    							tempLabelling.addUndecVertex(v);
-				    						}
-			    						
-				    					}	
-			    					}
-			    				}
-    				
-    			}
-    		}
-    		if (!(alreadyContains(admissibleLabellings, currentLabelling))){
-    		admissibleLabellings.add(currentLabelling);
-    		}
-    	}
-    	}
-    	return admissibleLabellings;
-    }
+//    public HashSet<MyLabelling> allAdmissibleLabellings1(){
+//    	LinkedHashSet<MyLabelling> admissibleLabellings= new LinkedHashSet<MyLabelling>();
+//    	LinkedHashSet<MyVertex> graphVertices = new LinkedHashSet<MyVertex>(modelGraph.getMyVertices());
+//    	LinkedHashSet<MyVertex> vertices = new LinkedHashSet<MyVertex>();
+//    	vertices.addAll(graphVertices);
+//    	LinkedHashSet<ArrayList<MyVertex>> possibleCombinations = new LinkedHashSet<ArrayList<MyVertex>>();
+//    	MyVertex currentVertex = new MyVertex(0);
+//    	for(int i=0; i<vertices.size(); i++){;
+//    		vertices =reorderSet(vertices);
+//    		MyLabelling currentLabelling = new MyLabelling(0);
+//    		currentLabelling.setInVerties(vertices);
+//    	    		while(hasillegallyIn(currentLabelling)){
+//    	    			LinkedHashSet<MyVertex> illegallyIn = findAllIllegIn(currentLabelling);
+//    	    			ArrayList<MyVertex> illegallyInArray = new ArrayList<MyVertex>();
+//    	    			illegallyInArray.addAll(illegallyIn);
+//    	    			permute(illegallyInArray, possibleCombinations, 0);
+//    	    			Iterator<ArrayList<MyVertex>> possibleCombinationIterator = possibleCombinations.iterator();
+//    	    			while(possibleCombinationIterator.hasNext()){
+//    	    				MyLabelling tempLabelling = new MyLabelling(0);
+//    	    				LinkedHashSet<MyVertex > tempSet = new LinkedHashSet<MyVertex>();
+//    	    				tempSet.addAll(possibleCombinationIterator.next());
+//    	    				LinkedHashSet<MyVertex> newInVertices = new LinkedHashSet<MyVertex>();
+//    	    				newInVertices.addAll(tempSet);
+//    	    				tempLabelling.setInVerties(tempSet);
+//    	    				Iterator<MyVertex> inIterator = tempLabelling.getInVertices().iterator();
+//    	    				while(inIterator.hasNext()){
+//    	    					MyVertex tempv= inIterator.next();
+//    	    					currentVertex= tempv;
+//			    				if(!(isLegallyIn(currentVertex))){
+//			    					tempLabelling.deleteFromInVertices(currentVertex);
+//			    					tempLabelling.addOutVertex(currentVertex);
+//			    					LinkedHashSet<MyVertex> illegOut = new LinkedHashSet<MyVertex>();
+//			    					illegOut.addAll(modelGraph.myGraph.getSuccessors(currentVertex));
+//			    					illegOut.add(currentVertex);
+//			    					Iterator<MyVertex> illegOutIterator = illegOut.iterator();
+//			    					while(illegOutIterator.hasNext()){
+//			    					MyVertex v = illegOutIterator.next();
+//				    					if(v.isOut()){
+//				    						if(!(isLegallyOut(v))){
+//				    							tempLabelling.deleteFromOutVertices(v);
+//				    							tempLabelling.addUndecVertex(v);
+//				    						}
+//			    						
+//				    					}	
+//			    					}
+//			    				}
+//    				
+//    			}
+//    		}
+//    		if (!(alreadyContains(admissibleLabellings, currentLabelling))){
+//    		admissibleLabellings.add(currentLabelling);
+//    		}
+//    	}
+//    	}
+//    	return admissibleLabellings;
+//    }
 
     
-    public LinkedHashSet<MyLabelling> allAdmissibleLabelling2(){
-    	LinkedHashSet<MyLabelling> allAdmissibleLabellings = new LinkedHashSet<MyLabelling>();
-    	LinkedHashSet<MyLabelling> possibleCombinations = new LinkedHashSet<MyLabelling>();
-    	LinkedHashSet<MyLabelling> possibleCombinations1 = new LinkedHashSet<MyLabelling>();
-    	LinkedHashSet<MyVertex> graphVertices = new LinkedHashSet<MyVertex>(this.modelGraph.getMyVertices());
-    	LinkedHashSet<MyVertex> vertices = new LinkedHashSet<MyVertex>();
-    	vertices.addAll(graphVertices);
-    	if(modelGraph.GetMyEdgeCount()==0){
-    		System.out.println("System no edge loop entered");
-    		MyLabelling allIn = new MyLabelling(0);
-    		allIn.setInVerties(graphVertices);
-    		allAdmissibleLabellings.add(allIn);
-    		return allAdmissibleLabellings;
-    	}
-    	MyLabelling labelling = new MyLabelling(0);
-    	labelling.setInVerties(vertices);
-    	LinkedHashSet<MyVertex> illegallyIn =findAllIllegIn(labelling);
-    	if(illegallyIn.size()==vertices.size()){
-    		System.out.println("All illegally if statement entered");
-    		return(this.allAdmissibleLabellings());
-    	}
-    	
-    	for(int i=0; i<=vertices.size();i++){
-    		LinkedHashSet<MyVertex> currentVertexOrder = reorderSet(vertices);
-    		MyLabelling labelling1 = new MyLabelling(0);
-    		labelling1.setInVerties(currentVertexOrder);
-    		possibleCombinations.add(labelling1);
-    		while(hasillegallyIn(possibleCombinations)){
-    			Iterator<MyLabelling> possibleCombinationsIterator = possibleCombinations.iterator();
-    			while(possibleCombinationsIterator.hasNext()){
-    				LinkedHashSet<ArrayList<MyVertex>> illegInCombinations = new LinkedHashSet<ArrayList<MyVertex>>();
-    				MyLabelling labelling2 = possibleCombinationsIterator.next();
-    				labelling2.setInVerties(labelling2.getInVertices());
-    				labelling2.setOutVertices(labelling2.getOutVertices());
-    				labelling2.setUndecVertices(labelling2.getUndecVertices());
-    				if(hasillegallyIn(labelling2)){
-    				LinkedHashSet<MyVertex> illegIn =findAllIllegIn(labelling2);
-    				ArrayList<MyVertex> illegInArray =new  ArrayList<MyVertex>();
-    				illegInArray.addAll(illegIn);
-    				permute(illegInArray, illegInCombinations, 0);
-    				Iterator<ArrayList<MyVertex>> illegInCombinationIterator = illegInCombinations.iterator();
-    					while(illegInCombinationIterator.hasNext()){
-	    					MyLabelling labelling3 = new MyLabelling(2);
-	    					LinkedHashSet<MyVertex> l2InVertices = new LinkedHashSet<MyVertex>();
-	    					l2InVertices.addAll(labelling2.getInVertices());
-	    					labelling3.setInVerties(l2InVertices);
-	    					LinkedHashSet<MyVertex> l2OutVertices = new LinkedHashSet<MyVertex>();
-	    					l2InVertices.addAll(labelling2.getOutVertices());
-	    					labelling3.setOutVertices(l2OutVertices);
-	    					LinkedHashSet<MyVertex> l2UndecVertices = new LinkedHashSet<MyVertex>();
-	    					l2InVertices.addAll(labelling2.getUndecVertices());
-	    					labelling3.setUndecVertices(l2UndecVertices);
-	    					LinkedHashSet<MyVertex> l2NotVertices = new LinkedHashSet<MyVertex>();
-	    					l2InVertices.addAll(labelling2.getNotLabelledVertices());
-	    					labelling3.setNotLabelledVertices(l2NotVertices);
-	    					LinkedHashSet<MyVertex> tempIllegIn = new LinkedHashSet<MyVertex>();
-	    					tempIllegIn.addAll(illegInCombinationIterator.next());
-	    					Iterator<MyVertex> tempIllegInIterator = tempIllegIn.iterator();
-	    					while(tempIllegInIterator.hasNext()){
-	    						labelling3.correctLabels();
-	    						MyVertex currentVertex = tempIllegInIterator.next();
-	    						if(!(isLegallyIn(currentVertex))){
-			    					labelling3.deleteFromInVertices(currentVertex);
-			    					labelling3.addOutVertex(currentVertex);
-			    					LinkedHashSet<MyVertex> illegOut = new LinkedHashSet<MyVertex>();
-			    					illegOut.addAll(modelGraph.myGraph.getSuccessors(currentVertex));
-			    					illegOut.add(currentVertex);
-			    					Iterator<MyVertex> illegOutIterator = illegOut.iterator();
-			    					while(illegOutIterator.hasNext()){
-			    					MyVertex v = illegOutIterator.next();
-				    					if(v.isOut()){
-				    						if(!(isLegallyOut(v))){
-				    							labelling3.deleteFromOutVertices(v);
-				    							labelling3.addUndecVertex(v);
-				    							
-				    						}
-			    						
-				    					}	
-				    					}
-	    						}
-	    					}
-	    					if(!(alreadyContains(possibleCombinations1, labelling3))){
-	    						possibleCombinations1.add(labelling3);
-	    					}
-	    				}
-	//    				possibleCombinations.addAll(possibleCombinations1);	
-	    			}
-	    		}
-    			if(!(alreadyContains(possibleCombinations, possibleCombinations1))){
-    			possibleCombinations.remove(labelling1);
-    			possibleCombinations.addAll(possibleCombinations1);
+//    public LinkedHashSet<MyLabelling> allAdmissibleLabelling2(){
+//    	LinkedHashSet<MyLabelling> allAdmissibleLabellings = new LinkedHashSet<MyLabelling>();
+//    	LinkedHashSet<MyLabelling> possibleCombinations = new LinkedHashSet<MyLabelling>();
+//    	LinkedHashSet<MyLabelling> possibleCombinations1 = new LinkedHashSet<MyLabelling>();
+//    	LinkedHashSet<MyVertex> graphVertices = new LinkedHashSet<MyVertex>(this.modelGraph.getMyVertices());
+//    	LinkedHashSet<MyVertex> vertices = new LinkedHashSet<MyVertex>();
+//    	vertices.addAll(graphVertices);
+//    	if(modelGraph.GetMyEdgeCount()==0){
+//    		System.out.println("System no edge loop entered");
+//    		MyLabelling allIn = new MyLabelling(0);
+//    		allIn.setInVerties(graphVertices);
+//    		allAdmissibleLabellings.add(allIn);
+//    		return allAdmissibleLabellings;
+//    	}
+//    	MyLabelling labelling = new MyLabelling(0);
+//    	labelling.setInVerties(vertices);
+//    	LinkedHashSet<MyVertex> illegallyIn =findAllIllegIn(labelling);
+//    	if(illegallyIn.size()==vertices.size()){
+//    		System.out.println("All illegally if statement entered");
+//    		return(this.allAdmissibleLabellings());
+//    	}
+//    	
+//    	for(int i=0; i<=vertices.size();i++){
+//    		LinkedHashSet<MyVertex> currentVertexOrder = reorderSet(vertices);
+//    		MyLabelling labelling1 = new MyLabelling(0);
+//    		labelling1.setInVerties(currentVertexOrder);
+//    		possibleCombinations.add(labelling1);
+//    		while(hasillegallyIn(possibleCombinations)){
+//    			Iterator<MyLabelling> possibleCombinationsIterator = possibleCombinations.iterator();
+//    			while(possibleCombinationsIterator.hasNext()){
+//    				LinkedHashSet<ArrayList<MyVertex>> illegInCombinations = new LinkedHashSet<ArrayList<MyVertex>>();
+//    				MyLabelling labelling2 = possibleCombinationsIterator.next();
+//    				labelling2.setInVerties(labelling2.getInVertices());
+//    				labelling2.setOutVertices(labelling2.getOutVertices());
+//    				labelling2.setUndecVertices(labelling2.getUndecVertices());
+//    				if(hasillegallyIn(labelling2)){
+//    				LinkedHashSet<MyVertex> illegIn =findAllIllegIn(labelling2);
+//    				ArrayList<MyVertex> illegInArray =new  ArrayList<MyVertex>();
+//    				illegInArray.addAll(illegIn);
+//    				permute(illegInArray, illegInCombinations, 0);
+//    				Iterator<ArrayList<MyVertex>> illegInCombinationIterator = illegInCombinations.iterator();
+//    					while(illegInCombinationIterator.hasNext()){
+//	    					MyLabelling labelling3 = new MyLabelling(2);
+//	    					LinkedHashSet<MyVertex> l2InVertices = new LinkedHashSet<MyVertex>();
+//	    					l2InVertices.addAll(labelling2.getInVertices());
+//	    					labelling3.setInVerties(l2InVertices);
+//	    					LinkedHashSet<MyVertex> l2OutVertices = new LinkedHashSet<MyVertex>();
+//	    					l2InVertices.addAll(labelling2.getOutVertices());
+//	    					labelling3.setOutVertices(l2OutVertices);
+//	    					LinkedHashSet<MyVertex> l2UndecVertices = new LinkedHashSet<MyVertex>();
+//	    					l2InVertices.addAll(labelling2.getUndecVertices());
+//	    					labelling3.setUndecVertices(l2UndecVertices);
+//	    					LinkedHashSet<MyVertex> l2NotVertices = new LinkedHashSet<MyVertex>();
+//	    					l2InVertices.addAll(labelling2.getNotLabelledVertices());
+//	    					labelling3.setNotLabelledVertices(l2NotVertices);
+//	    					LinkedHashSet<MyVertex> tempIllegIn = new LinkedHashSet<MyVertex>();
+//	    					tempIllegIn.addAll(illegInCombinationIterator.next());
+//	    					Iterator<MyVertex> tempIllegInIterator = tempIllegIn.iterator();
+//	    					while(tempIllegInIterator.hasNext()){
+//	    						labelling3.correctLabels();
+//	    						MyVertex currentVertex = tempIllegInIterator.next();
+//	    						if(!(isLegallyIn(currentVertex))){
+//			    					labelling3.deleteFromInVertices(currentVertex);
+//			    					labelling3.addOutVertex(currentVertex);
+//			    					LinkedHashSet<MyVertex> illegOut = new LinkedHashSet<MyVertex>();
+//			    					illegOut.addAll(modelGraph.myGraph.getSuccessors(currentVertex));
+//			    					illegOut.add(currentVertex);
+//			    					Iterator<MyVertex> illegOutIterator = illegOut.iterator();
+//			    					while(illegOutIterator.hasNext()){
+//			    					MyVertex v = illegOutIterator.next();
+//				    					if(v.isOut()){
+//				    						if(!(isLegallyOut(v))){
+//				    							labelling3.deleteFromOutVertices(v);
+//				    							labelling3.addUndecVertex(v);
+//				    							
+//				    						}
+//			    						
+//				    					}	
+//				    					}
+//	    						}
+//	    					}
+//	    					if(!(alreadyContains(possibleCombinations1, labelling3))){
+//	    						possibleCombinations1.add(labelling3);
+//	    					}
+//	    				}
+//	//    				possibleCombinations.addAll(possibleCombinations1);	
+//	    			}
+//	    		}
+//    			if(!(alreadyContains(possibleCombinations, possibleCombinations1))){
+//    			possibleCombinations.remove(labelling1);
+//    			possibleCombinations.addAll(possibleCombinations1);
+//    			}
+//    			possibleCombinations1.clear();
+//    		}
+//    		if(!(alreadyContains(allAdmissibleLabellings, possibleCombinations))){
+//    		allAdmissibleLabellings.addAll(possibleCombinations);
+//    		}
+//    		possibleCombinations.clear();
+//    	}
+//    	
+//    	allAdmissibleLabellings.addAll(possibleCombinations);
+//    	return allAdmissibleLabellings;
+//    	
+//    }
+    
+    public LinkedHashSet<MyLabelling> AFindLabelling(LinkedHashSet<MyLabelling> candidateLabellings, MyLabelling labelling){
+ 	   MyLabelling currentLabelling = new MyLabelling(0);
+ 	   currentLabelling.makecopy(labelling);
+ 	   LinkedHashSet<MyLabelling> currentCandidateLabelling = new LinkedHashSet<MyLabelling>();
+ 	   currentCandidateLabelling.addAll(candidateLabellings);
+ 	   if(!(this.hasillegallyIn(currentLabelling))){
+ 		   MyLabelling labelling1 = new MyLabelling(0);
+ 		   labelling1.makecopy(currentLabelling);
+ 		   if(!(alreadyContains(currentCandidateLabelling, labelling1))){
+ 		   currentCandidateLabelling.add(labelling1);
+ 		   }
+ 	   }
+    		else{
+    			LinkedHashSet<MyVertex> IllegIn =this.findAllIllegIn(currentLabelling);
+    			Iterator<MyVertex> IllegInIterator = IllegIn.iterator();
+    			LinkedHashSet<MyVertex> illegInCopy =new LinkedHashSet<MyVertex>();
+    			illegInCopy.addAll(IllegIn);
+    			currentLabelling.correctLabels();
+    			LinkedHashSet<MyVertex> copyInVertices = new LinkedHashSet<MyVertex>();
+    			copyInVertices.addAll(currentLabelling.getInVertices());
+    			while(IllegInIterator.hasNext()){
+    				if(!(currentLabelling.getInVertices().containsAll(copyInVertices))){
+    					Iterator<MyVertex> illegInCopyIterator = illegInCopy.iterator();
+    					currentLabelling.correctLabels();
+    					while(illegInCopyIterator.hasNext()){
+    						MyVertex vertex =illegInCopyIterator.next();
+    						if(vertex.getLabel()=="OUT"){
+    							currentLabelling.deleteFromOutVertices(vertex);
+    							currentLabelling.addInVertex(vertex);
+    						}
+    						if(vertex.getLabel()=="UNDEC"){
+    							currentLabelling.deleteFromUndecVertices(vertex);
+    							currentLabelling.addInVertex(vertex);
+    					
+    						}
+    					}
+    				}
+    				MyVertex currentVertex =IllegInIterator.next();
+    				MyLabelling transitionLabelling = transitionStep(currentVertex, currentLabelling);
+        			currentCandidateLabelling=AFindLabelling(currentCandidateLabelling,transitionLabelling);
     			}
-    			possibleCombinations1.clear();
     		}
-    		if(!(alreadyContains(allAdmissibleLabellings, possibleCombinations))){
-    		allAdmissibleLabellings.addAll(possibleCombinations);
-    		}
-    		possibleCombinations.clear();
-    	}
+//    	}
     	
-    	allAdmissibleLabellings.addAll(possibleCombinations);
-    	return allAdmissibleLabellings;
-    	
+    	return currentCandidateLabelling;
+ 	   
     }
     
-    public void displayAdmissibleLabelling(LinkedHashSet<MyLabelling> set){
-    	Iterator<MyLabelling> setIterator = set.iterator();
-    	MyLabelling labelling =setIterator.next();
-    	Iterator<MyVertex> inIterator = labelling.getInVertices().iterator();
-    	while(inIterator.hasNext()){
-    		modelGraph.getMyVertex(inIterator.next()).setLabel("IN");
-    	}
-    	Iterator<MyVertex> outIterator = labelling.getOutVertices().iterator();
-    	while(outIterator.hasNext()){
-    		modelGraph.getMyVertex(outIterator.next()).setLabel("OUT");
-    	}
-    	Iterator<MyVertex> undecIterator = labelling.getUndecVertices().iterator();
-    	while(undecIterator.hasNext()){
-    		modelGraph.getMyVertex(undecIterator.next()).setLabel("UNDEC");
-    	}
-    	setChanged();
-    	notifyObservers(modelGraph);
-    	
+    public LinkedHashSet<MyLabelling> allAdmissibleLabelling(){
+ 	   MyLabelling allInLabelling = new MyLabelling(0);
+ 	   allInLabelling.setInVerties(new LinkedHashSet<MyVertex>(this.modelGraph.getMyVertices()));
+ 	   LinkedHashSet<MyLabelling> allAdmissibleLabellings = new LinkedHashSet<MyLabelling>();
+ 	   allAdmissibleLabellings=AFindLabelling(allAdmissibleLabellings, allInLabelling);
+ 	   return allAdmissibleLabellings;
     }
-    public String labellingSetString( LinkedHashSet<MyLabelling> set){
-    	String s="";
-    	Iterator<MyLabelling> setIterator = set.iterator();
-    	while(setIterator.hasNext()){
-    		s= s+ setIterator.next().toString()+"  \n";
-    	}
-    	
-    	return s;
-    }
-    
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Preferred   //Preferred   //Preferred   //Preferred   //Preferred   //Preferred   //Preferred   //Preferred   //Preferred   //Preferred   //Preferred   
     public boolean superIllegallyIn(MyVertex v, MyLabelling labelling ){
     	labelling.correctLabels();
     	if(!(v.getLabel()=="IN")){
@@ -846,7 +886,6 @@ public class Model extends java.util.Observable {
     	labelling1.setOutVertices(labelling.getOutVertices());
     	labelling1.setUndecVertices(labelling.getUndecVertices());
     	labelling1.setNotLabelledVertices(labelling.getNotLabelledVertices());
-//    	MyLabelling labelling1 = new MyLabelling(0, labelling.getInVertices(), labelling.getOutVertices(), labelling.getUndecVertices());
     	if(this.isLegallyIn(vertex)){
     		return labelling1;
     	}
@@ -869,20 +908,25 @@ public class Model extends java.util.Observable {
     }
     
     public MyLabelling transitionSequence(MyLabelling labelling){
+    	MyLabelling admissibleLabelling= new MyLabelling(0);
+    	admissibleLabelling.setInVerties(new LinkedHashSet<MyVertex>(labelling.getInVertices()));
+    	admissibleLabelling.setOutVertices(new LinkedHashSet<MyVertex>(labelling.getOutVertices()));
+    	admissibleLabelling.setUndecVertices(new LinkedHashSet<MyVertex>(labelling.getUndecVertices()));
+    	admissibleLabelling.setNotLabelledVertices(new LinkedHashSet<MyVertex>(labelling.getNotLabelledVertices()));
     	int transitionNumber=0;
-    	System.out.println("Lablling "+transitionNumber +" is: "+labelling);
-    	while(this.hasillegallyIn(labelling)){
-    		LinkedHashSet<MyVertex> illegIn=this.findAllIllegIn(labelling);
+    	System.out.println("Lablling "+transitionNumber +" is: "+admissibleLabelling);
+    	while(this.hasillegallyIn(admissibleLabelling)){
+    		LinkedHashSet<MyVertex> illegIn=this.findAllIllegIn(admissibleLabelling);
     		Iterator<MyVertex> illegInIterator =illegIn.iterator();
 //    		while(illegInIterator.hasNext()){
 //    			MyVertex currentVertex = illegInIterator.next();
-//    		labelling=this.transitionStep(currentVertex,labelling);
-    		labelling=this.transitionStep(illegInIterator.next(),labelling);
+//    		admissibleLabelling=this.transitionStep(currentVertex,admissibleLabelling);
+    		admissibleLabelling=this.transitionStep(illegInIterator.next(),admissibleLabelling);
     		transitionNumber++;
-    		System.out.println("Labelling "+transitionNumber +" is: "+labelling);
+    		System.out.println("Labelling "+transitionNumber +" is: "+admissibleLabelling);
 //    		}
     	}
-    	return labelling; 
+    	return admissibleLabelling; 
     }
     
     public LinkedHashSet<MyLabelling> preferredLabelling(){
@@ -890,92 +934,9 @@ public class Model extends java.util.Observable {
     	LinkedHashSet<MyLabelling> candidateLabelling = new LinkedHashSet<MyLabelling>();
     	MyLabelling labelling = new MyLabelling(0);
     	labelling.setInVerties( new LinkedHashSet<MyVertex>(this.modelGraph.getMyVertices()));
-//    	MyLabelling labelling = new MyLabelling(0,	new LinkedHashSet<MyVertex>(this.modelGraph.getMyVertices()) , new LinkedHashSet<MyVertex>(), new LinkedHashSet<MyVertex>());
     	return findLabelling(candidateLabelling, labelling);
     	
     }
-    
-//    public Preferred findLabelling1(Preferred previousSet){
-//    	Preferred set = new Preferred();
-//    	previousSet.getLabelling().correctLabels();
-//    	MyLabelling previousLabelling = previousSet.getLabelling();
-//    	LinkedHashSet<MyLabelling> iCandidateLabelling =previousSet.getCandidateLabelling();
-//    	MyLabelling iLabelling =previousLabelling;
-//    	iLabelling.correctLabels();
-//    	if(!(previousSet.getCandidateLabelling().isEmpty())){
-//    		    		Iterator<MyLabelling> candidateLabellingIterator= iCandidateLabelling.iterator();
-//    		while(candidateLabellingIterator.hasNext()){
-//    			if(iLabelling.getInVertices().size()<candidateLabellingIterator.next().getInVertices().size()){
-//    				return set;
-//    			}
-//    		}
-//    	}
-//    	
-//    	if(!(this.hasillegallyIn(iLabelling))){
-//    		LinkedHashSet<MyLabelling> tempCandidateLabelling = new LinkedHashSet<MyLabelling>();
-//    		tempCandidateLabelling.addAll(iCandidateLabelling);
-//    		Iterator<MyLabelling> tempCandidateLabellingIterator = tempCandidateLabelling.iterator();
-//    		while(tempCandidateLabellingIterator.hasNext()){
-//    			MyLabelling labelling1 =tempCandidateLabellingIterator.next();
-//    			if(labelling1.getInVertices().size()<iLabelling.getInVertices().size()){
-//    				iCandidateLabelling.remove(labelling1);
-//    			}
-//    		}
-//    		MyLabelling testLabelling = new MyLabelling(0);
-//    		testLabelling.setInVerties(new LinkedHashSet<MyVertex>(iLabelling.getInVertices()));
-//    		testLabelling.setOutVertices(new LinkedHashSet<MyVertex>(iLabelling.getOutVertices()));
-//    		testLabelling.setUndecVertices(new LinkedHashSet<MyVertex>(iLabelling.getUndecVertices()));
-//    		if(!(alreadyContains(iCandidateLabelling, testLabelling))){
-//    		iCandidateLabelling.add(testLabelling);
-//    		}
-//    		set.setCandidateLabelling(iCandidateLabelling);
-//    		return set;
-//    	}
-//    	else{
-//    		if(hasSuperIllegallyIn(iLabelling)){
-//    			LinkedHashSet<MyVertex> supperIllegVertices =this.findSuperIllegallyIn(iLabelling);
-//    			Iterator<MyVertex> superIllegVerticesIterator = supperIllegVertices.iterator();
-//    			MyVertex vertex =superIllegVerticesIterator.next();
-//    			MyLabelling transitionLabelling = transitionStep(vertex, iLabelling);
-//    			Preferred transitionPreferred = new Preferred();
-//    			transitionPreferred.setCandidateLabelling(iCandidateLabelling);
-//    			transitionPreferred.setLabelling(transitionLabelling);
-//    			set =findLabelling1(transitionPreferred);
-//    		}
-//    		else{
-//    			LinkedHashSet<MyVertex> IllegIn =this.findAllIllegIn(iLabelling);
-//    			Iterator<MyVertex> IllegInIterator = IllegIn.iterator();
-//    			LinkedHashSet<MyVertex> illegInCopy =new LinkedHashSet<MyVertex>();
-//    			illegInCopy.addAll(IllegIn);
-//    			while(IllegInIterator.hasNext()){
-//    				if(!(iLabelling.getInVertices().containsAll(IllegIn))&& !(IllegIn.containsAll(iLabelling.getInVertices()))){
-//    					Iterator<MyVertex> illegInCopyIterator = illegInCopy.iterator();
-//    					while(illegInCopyIterator.hasNext()){
-//    						MyVertex vertex =illegInCopyIterator.next();
-//    						if(vertex.getLabel()=="OUT"){
-//    							iLabelling.deleteFromOutVertices(vertex);
-//    							iLabelling.addInVertex(vertex);
-//    						}
-//    						if(vertex.getLabel()=="UNDEC"){
-//    							iLabelling.deleteFromUndecVertices(vertex);
-//    							iLabelling.addInVertex(vertex);
-//    					
-//    						}
-//    					}
-//    				}
-//    				MyVertex currentVertex =IllegInIterator.next();
-//    				MyLabelling transitionLabelling = transitionStep(currentVertex, iLabelling);
-//        			Preferred transitionPreferred = new Preferred();
-//        			transitionPreferred.setCandidateLabelling(iCandidateLabelling);
-//        			transitionPreferred.setLabelling(transitionLabelling);
-//        			set=findLabelling1(transitionPreferred);
-//    			}
-//    		}
-//    	}
-//    	
-//    	return set;
-//    	
-//    }
     
     
     public LinkedHashSet<MyLabelling> findLabelling(LinkedHashSet<MyLabelling> candidateLabellings, MyLabelling labelling){
@@ -985,7 +946,6 @@ public class Model extends java.util.Observable {
     	currentLabelling.setOutVertices(new LinkedHashSet<MyVertex>(labelling.getOutVertices()));
     	currentLabelling.setUndecVertices(new LinkedHashSet<MyVertex>(labelling.getUndecVertices()));
     	currentLabelling.setNotLabelledVertices(new LinkedHashSet<MyVertex>(labelling.getNotLabelledVertices()));
-//    	MyLabelling currentLabelling = new MyLabelling(0, new LinkedHashSet<MyVertex>(labelling.getInVertices()), new LinkedHashSet<MyVertex>(labelling.getOutVertices()), new LinkedHashSet<MyVertex>(labelling.getUndecVertices()));
     	LinkedHashSet<MyLabelling> currentCandidateLabelling = new LinkedHashSet<MyLabelling>(candidateLabellings);
     	if(!(currentCandidateLabelling.isEmpty())){
     		    		Iterator<MyLabelling> candidateLabellingIterator= currentCandidateLabelling.iterator();
@@ -1060,4 +1020,6 @@ public class Model extends java.util.Observable {
     	return currentCandidateLabelling;
     	
     }
+    
+
 } 

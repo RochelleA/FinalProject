@@ -8,17 +8,18 @@ import static org.junit.Assert.*;
 public class TestSemanticsGraphs {
 
 
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		
-		Model m5 = new Model();
-		MyVertex v51 = m5.addMyVertex();
-		MyVertex v52 = m5.addMyVertex();
-		MyVertex v53 = m5.addMyVertex();
-		MyEdge e51 = m5.modelGraph.addMyEdge(v51, v52);
-		MyEdge e52 = m5.modelGraph.addMyEdge(v52, v53);
-		MyEdge e53 =m5.modelGraph.addMyEdge(v53, v51);
-		System.out.println("The preferred labellings are: "+m5.labellingSetString(m5.preferredLabelling()));
+//		Model m5 = new Model();
+//		MyVertex v51 = m5.addMyVertex();
+//		MyVertex v52 = m5.addMyVertex();
+//		MyVertex v53 = m5.addMyVertex();
+//		MyEdge e51 = m5.modelGraph.addMyEdge(v51, v52);
+//		MyEdge e52 = m5.modelGraph.addMyEdge(v52, v53);
+//		MyEdge e53 =m5.modelGraph.addMyEdge(v53, v51);
+//		System.out.println("All Admissible Labelling"+ m5.allAdmissible3());
+//		
+//		System.out.println("The preferred labellings are: "+m5.labellingSetString(m5.preferredLabelling()));
 		
 		
 //		Model m4 = new Model();
@@ -29,6 +30,7 @@ public class TestSemanticsGraphs {
 //		MyEdge e41 = m4.modelGraph.addMyEdge(v44, v41);
 //		MyEdge e42 = m4.modelGraph.addMyEdge(v44, v43);
 //		MyEdge e43 =m4.modelGraph.addMyEdge(v43, v42);
+//		System.out.println("All Admissible Labelling"+ m4.allAdmissible3());
 //		System.out.println("The admissible labellings are: "+m4.labellingSetString(m4.allAdmissibleLabelling2()));
 //		
 //		
@@ -46,7 +48,8 @@ public class TestSemanticsGraphs {
 //		MyEdge e35 = m3.modelGraph.addMyEdge(v32, v35);
 //		MyEdge e36 = m3.modelGraph.addMyEdge(v36, v35);
 //		MyEdge e37 = m3.modelGraph.addMyEdge(v36, v33);
-//		System.out.println("Model 3's addmissible labellings are: "+m3.allAdmissibleLabelling2());
+//		System.out.println("All Admissible Labelling"+ m5.allAdmissible3());
+//		System.out.println("Model 3's admissible labellings are: "+m3.allAdmissibleLabelling2());
 //		System.out.println("Model 3's preferred labellings are:" +m3.preferredLabelling());
 //		
 //		
@@ -66,8 +69,8 @@ public class TestSemanticsGraphs {
 //		System.out.println(m2.groundedLabelling().toString());
 //		MyLabelling labelling = new MyLabelling(0);
 //		labelling.setInVerties(new LinkedHashSet<MyVertex>(m2.modelGraph.getMyVertices()));
-//		System.out.println("The addmissible labellings are: "+ m2.labellingSetString(m2.allAdmissibleLabelling2()));
-//		System.out.println("The transistion sequence is " +m2.transitionSequence(labelling));
+//		System.out.println("The admissible labellings are: "+ m2.labellingSetString(m2.allAdmissibleLabelling2()));
+//		System.out.println("The transition sequence is " +m2.transitionSequence(labelling));
 //		System.out.println("The preferred Labelling is: "+m2.preferredLabelling());
 //		
 //		
@@ -90,6 +93,29 @@ public class TestSemanticsGraphs {
 //		
 //		
 //		
+		Model m7= new Model();
+		MyVertex v71=m7.addMyVertex();
+		MyVertex v72 =m7.addMyVertex();
+		MyVertex v73 =m7.addMyVertex();
+		MyVertex v74 =m7.addMyVertex();
+		m7.modelGraph.addMyEdge(v71, v72);
+		m7.modelGraph.addMyEdge(v72, v73);
+		m7.modelGraph.addMyEdge(v73, v72);
+		m7.modelGraph.addMyEdge(v73, v74);
+		System.out.println("An Admissible labelling is: " + m7.admissibleLabelling());
+	
+		Model m6 = new Model();
+		MyVertex v61= m6.addMyVertex();
+		MyVertex v62 = m6.addMyVertex();
+		MyVertex v63 = m6.addMyVertex();
+		MyVertex v64= m6.addMyVertex();
+		m6.modelGraph.addMyEdge(v61, v62);
+		m6.modelGraph.addMyEdge(v62, v61);
+		m6.modelGraph.addMyEdge(v62, v63);
+		m6.modelGraph.addMyEdge(v61, v63);
+		m6.modelGraph.addMyEdge(v63, v64);
+		System.out.println("All Admissible Labelling"+ m6.allAdmissibleLabelling());
+		
 	}
 
 }

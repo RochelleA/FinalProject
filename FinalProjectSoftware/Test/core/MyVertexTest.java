@@ -62,7 +62,7 @@ MyVertex v1 = new MyVertex(0);
 
 	@Test
 public void testToString(){
-		assertEquals(v1.toString(),"V0");
+		assertEquals(v1.toString(),"0");
 	}
 	
 	@Test 
