@@ -2,9 +2,9 @@ package core;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-import core.MyAttack;
+import core.MyAtt;
 import core.MyGraph;
-import core.MyArgument;
+import core.MyArg;
 import java.util.*;
 
 public class MyGraphTest {
@@ -13,31 +13,31 @@ public class MyGraphTest {
 	@Test
 	public void testMyGraph(){
 		MyGraph g1 = new MyGraph();
-		g1.addMyVertex();
-		g1.addMyVertex();
-		assertEquals(g1.vertexCount,2);
-		assertEquals(g1.edgeCount,0);
+		g1.addMyArg();
+		g1.addMyArg();
+		assertEquals(g1.ArgCount,2);
+		assertEquals(g1.attCount,0);
 	}
 	
 //	@Test 
-//	public void testGetMyVertexCount(){
+//	public void testGetMyArgCount(){
 //		MyGraph g =new MyGraph();
-//		g.addMyVertex();
-//		g.addMyVertex();
-//		g.addMyVertex();
-//		int y = g.vertexCount;
+//		g.addMyArg();
+//		g.addMyArg();
+//		g.addMyArg();
+//		int y = g.ArgCount;
 //		assertEquals(y, 3);
 //	}
 //	
 //	@Test 
-//	public void testGetMyEdgeCount(){
+//	public void testGetMyAttCount(){
 //		MyGraph g5 = new MyGraph();
-//		MyVertex v1 =g5.addMyVertex();
-//		MyVertex v2= g5.addMyVertex();
-//		MyEdge e1 = g5.addMyEdge(v1, v2);
+//		MyArg v1 =g5.addMyArg();
+//		MyArg v2= g5.addMyArg();
+//		MyAtt e1 = g5.addMyAtt(v1, v2);
 //		System.out.println("g5 is   \n" +g5.toString());
-//		int number =g5.edgeCount;
-//		int number1 = g5.getEdgeCount();
+//		int number =g5.AttCount;
+//		int number1 = g5.getAttCount();
 //		System.out.println("n1" +number);
 //		System.out.println("n2" +number1);
 //		assertEquals(number,1);
@@ -45,59 +45,59 @@ public class MyGraphTest {
 //	}
 	
 @Test
-public void testGetMyVertices(){
+public void testGetMyArgs(){
 	MyGraph g1 = new MyGraph();
-	MyArgument v1 = new MyArgument(1);
+	MyArg v1 = new MyArg(1);
 	g1.getmygraph().addVertex(v1);
 	System.out.println("g1 " +g1.toString());
-	Collection<MyArgument> c1 = g1.getMyVertices();
+	Collection<MyArg> c1 = g1.getMyArgs();
 	assertTrue(c1.contains(v1));
 	
 }
 
 @Test
-public void testGetMyEdges(){
+public void testGetMyAtts(){
 	MyGraph g2 = new MyGraph();
-	MyArgument ve1=g2.addMyVertex();
-	MyArgument ve2=g2.addMyVertex();
-	MyAttack e2 = new MyAttack(0);
+	MyArg ve1=g2.addMyArg();
+	MyArg ve2=g2.addMyArg();
+	MyAtt e2 = new MyAtt(0);
 	System.out.println("g2 " + g2.toString());
 	System.out.println(e2.getLabel());
 	g2.getmygraph().addEdge(e2, ve1,ve2);
 	System.out.println("g2 " + g2.toString());
 	System.out.println(e2.getLabel());
-	Collection<MyAttack> c2 = g2.getMyEdges();
+	Collection<MyAtt> c2 = g2.getMyAtts();
 	assertTrue(c2.contains(e2));
 	}
 
 @Test
-public void testAddVertex(){
+public void testAddArg(){
 	MyGraph g3 = new MyGraph();
-	MyArgument v1 =g3.addMyVertex();
+	MyArg v1 =g3.addMyArg();
 	System.out.println("g3"+g3.toString());
-	Collection<MyArgument> c3 = g3.getMyVertices();
-	System.out.println("Size of Vertex collection is "+c3.size());
+	Collection<MyArg> c3 = g3.getMyArgs();
+	System.out.println("Size of Arg collection is "+c3.size());
 	assertTrue(c3.contains(v1));
 }
 
 @Test 
-public void testAddEdge(){
+public void testAddAtt(){
 	MyGraph g4 = new MyGraph();
-	MyArgument v1 =g4.addMyVertex();
-	MyArgument v2= g4.addMyVertex();
-//	MyVertex v2 =new MyVertex(1);
-	MyAttack e1 = g4.addMyEdge(v1, v2);
+	MyArg v1 =g4.addMyArg();
+	MyArg v2= g4.addMyArg();
+//	MyArg v2 =new MyArg(1);
+	MyAtt e1 = g4.addMyAtt(v1, v2);
 	System.out.println("g4 "+ g4.toString());
-	Collection<MyAttack> c4 = g4.getMyEdges();
-	System.out.println("Size of Edge collection is " + c4.size());
+	Collection<MyAtt> c4 = g4.getMyAtts();
+	System.out.println("Size of Att collection is " + c4.size());
 	assertTrue(c4.contains(e1));
 }
 
 @Test
 public void testToString(){
 	MyGraph g1= new MyGraph();
-	HashSet<MyArgument> h = new HashSet<MyArgument>(g1.getVertices());
-	HashSet<MyAttack> h1 = new HashSet<MyAttack>(g1.getEdges());
+	HashSet<MyArg> h = new HashSet<MyArg>(g1.getVertices());
+	HashSet<MyAtt> h1 = new HashSet<MyAtt>(g1.getEdges());
 	String y = "Arguments: "+ h.toString()+ "\n"+"Attacks: "+ h1.toString() + "\n"+"Arguments Count: 0\n"+"Attacks Count: 0";
 	assertEquals(g1.toString(),y);
 	}
@@ -111,55 +111,55 @@ assertEquals(g1.getGraph(),g1.myGraph);
 @Test
 public void testGetPredecessors(){
 	MyGraph g6= new MyGraph();
-	MyArgument v1=g6.addMyVertex();
-	MyArgument v2 =g6.addMyVertex();
-	g6.addMyEdge(v1, v2);
+	MyArg v1=g6.addMyArg();
+	MyArg v2 =g6.addMyArg();
+	g6.addMyAtt(v1, v2);
 	System.out.println("g6 as a graph "+g6.toString());
-	Collection<MyArgument> c1 = g6.getmygraph().getPredecessors(v2);
+	Collection<MyArg> c1 = g6.getmygraph().getPredecessors(v2);
 	System.out.println(c1.size()+"");
 	assertTrue(c1.contains(v1));
 }
 
 @Test 
-public void testGetNoneLabelledVertices(){
+public void testGetNoneLabelledArgs(){
 	MyGraph g6= new MyGraph();
-	MyArgument v1=g6.addMyVertex();
-	MyArgument v2 =g6.addMyVertex();
+	MyArg v1=g6.addMyArg();
+	MyArg v2 =g6.addMyArg();
 	v2.setLabel("in");
-	HashSet<MyArgument > h1 =g6.getNoneLabelledVertices();
+	HashSet<MyArg > h1 =g6.getNoneLabelledArgs();
 	assertTrue(h1.contains(v1));
 	assertFalse(h1.contains(v2));
 }
 
 @Test
-public void testGetInLabelledVertices(){
+public void testGetInLabelledArgs(){
 	MyGraph g6= new MyGraph();
-	MyArgument v1=g6.addMyVertex();
-	MyArgument v2 =g6.addMyVertex();
+	MyArg v1=g6.addMyArg();
+	MyArg v2 =g6.addMyArg();
 	v2.setLabel("IN");
-	HashSet<MyArgument > h1 =g6.getInLabelledVertices();
+	HashSet<MyArg > h1 =g6.getInLabelledArgs();
 	assertTrue(h1.contains(v2));
 	assertFalse(h1.contains(v1));
 }
 
 @Test
-public void testGetOutLabelledVertices(){
+public void testGetOutLabelledArgs(){
 	MyGraph g6= new MyGraph();
-	MyArgument v1=g6.addMyVertex();
-	MyArgument v2 =g6.addMyVertex();
+	MyArg v1=g6.addMyArg();
+	MyArg v2 =g6.addMyArg();
 	v2.setLabel("OUT");
-	HashSet<MyArgument > h1 =g6.getOutLabelledVertices();
+	HashSet<MyArg > h1 =g6.getOutLabelledArgs();
 	assertTrue(h1.contains(v2));
 	assertFalse(h1.contains(v1));
 }
 
 @Test
-public void testGetUndecLabelledVertices(){
+public void testGetUndecLabelledArgs(){
 	MyGraph g6= new MyGraph();
-	MyArgument v1=g6.addMyVertex();
-	MyArgument v2 =g6.addMyVertex();
+	MyArg v1=g6.addMyArg();
+	MyArg v2 =g6.addMyArg();
 	v2.setLabel("UNDEC");
-	HashSet<MyArgument > h1 =g6.getUndecLabelledVertices();
+	HashSet<MyArg > h1 =g6.getUndecLabelledArgs();
 	assertTrue(h1.contains(v2));
 	assertFalse(h1.contains(v1));
 }
@@ -167,60 +167,60 @@ public void testGetUndecLabelledVertices(){
 @Test
 public void testResetGraph(){
 	MyGraph g6= new MyGraph();
-	MyArgument v1=g6.addMyVertex();
-	MyArgument v2 =g6.addMyVertex();
-	g6.addMyEdge(v1, v2);
+	MyArg v1=g6.addMyArg();
+	MyArg v2 =g6.addMyArg();
+	g6.addMyAtt(v1, v2);
 	g6.resetGraph();
-	assertTrue(g6.getMyVertices().isEmpty());
-	assertTrue(g6.getMyEdges().isEmpty());
-	assertTrue(g6.vertexCount==0);
-	assertTrue(g6.edgeCount==0);
+	assertTrue(g6.getMyArgs().isEmpty());
+	assertTrue(g6.getMyAtts().isEmpty());
+	assertTrue(g6.ArgCount==0);
+	assertTrue(g6.attCount==0);
 }
 
 @Test 
-public void tesFindMyVertex(){
+public void tesFindMyArg(){
 	MyGraph g6= new MyGraph();
-	MyArgument v1= g6.addMyVertex();
-	MyArgument v2 = new MyArgument(0);
-	assertTrue(g6.findMyVertex(v1));
-	assertFalse(g6.findMyVertex(v2));
+	MyArg v1= g6.addMyArg();
+	MyArg v2 = new MyArg(0);
+	assertTrue(g6.findMyArg(v1));
+	assertFalse(g6.findMyArg(v2));
 	
 }
 
 @Test 
-public void testFindMyEdge(){
+public void testFindMyAtt(){
 	MyGraph g6= new MyGraph();
-	MyArgument v1=g6.addMyVertex();
-	MyArgument v2 =g6.addMyVertex();
-	MyAttack e = g6.addMyEdge(v1, v2);
-	MyAttack e1 = new MyAttack(0);
-	assertTrue(g6.findMyEdge(e));
-	assertFalse(g6.findMyEdge(e1));
+	MyArg v1=g6.addMyArg();
+	MyArg v2 =g6.addMyArg();
+	MyAtt e = g6.addMyAtt(v1, v2);
+	MyAtt e1 = new MyAtt(0);
+	assertTrue(g6.findMyAtt(e));
+	assertFalse(g6.findMyAtt(e1));
 }
 
 @Test 
-public void testContainsAllVertices(){
+public void testContainsAllArgs(){
 	MyGraph g = new MyGraph();
 	MyGraph g1 = new MyGraph();
-	g1.addMyVertex();
-	g.addMyVertex();
-	g.addMyVertex();
-	g1.addMyVertex();
-	assertTrue(g.containsAllVertices(g1.getMyVertices()));
+	g1.addMyArg();
+	g.addMyArg();
+	g.addMyArg();
+	g1.addMyArg();
+	assertTrue(g.containsAllArgs(g1.getMyArgs()));
 }
 
 @Test 
-public void testContainsAllEdges(){
+public void testContainsAllAtts(){
 	MyGraph g = new MyGraph();
 	MyGraph g1 = new MyGraph();
-	 MyArgument g1v= g1.addMyVertex();
-	MyArgument gv= g.addMyVertex();
-	MyArgument gv1= g.addMyVertex();
-	MyArgument g1v1=g1.addMyVertex();
-	g.addMyEdge(gv, gv1);
-	g1.addMyEdge(g1v, g1v1);
+	 MyArg g1v= g1.addMyArg();
+	MyArg gv= g.addMyArg();
+	MyArg gv1= g.addMyArg();
+	MyArg g1v1=g1.addMyArg();
+	g.addMyAtt(gv, gv1);
+	g1.addMyAtt(g1v, g1v1);
 	System.out.println("g to string" + g.toString()+"\n g1 to string: "+ g1.toString());
-	assertTrue(g.containsAllEdges(g1.getMyEdges()));
+	assertTrue(g.containsAllAtts(g1.getMyAtts()));
 }
 
 @Test 
@@ -228,14 +228,14 @@ public void testEquals(){
 	MyGraph g = new MyGraph();
 	MyGraph g1 = new MyGraph();
 	assertTrue(g.equals(g1));
-	 MyArgument g1v= g1.addMyVertex();
-	MyArgument gv= g.addMyVertex();
+	 MyArg g1v= g1.addMyArg();
+	MyArg gv= g.addMyArg();
 	System.out.println("g to string" + g.toString()+"g1 to string: "+ g1.toString());
 	assertTrue(g.equals(g1));
-	MyArgument gv1= g.addMyVertex();
-	MyArgument g1v1=g1.addMyVertex();
-	g.addMyEdge(gv, gv1);
-	g1.addMyEdge(g1v, g1v1);
+	MyArg gv1= g.addMyArg();
+	MyArg g1v1=g1.addMyArg();
+	g.addMyAtt(gv, gv1);
+	g1.addMyAtt(g1v, g1v1);
 	System.out.println("g to string" + g.toString()+"\n g1 to string: "+ g1.toString());
 	assertTrue(g.equals(g1));
 }

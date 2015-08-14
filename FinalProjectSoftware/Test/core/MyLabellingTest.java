@@ -17,124 +17,124 @@ public class MyLabellingTest {
 	}
 
 	@Test
-	public void testGetInVertices() {
+	public void testGetInArgs() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v = new MyArgument(0);
-		l1.addInVertex(v);
-		assertEquals(l1.InLabels,l1.getInVertices());
+		MyArg v = new MyArg(0);
+		l1.addInArg(v);
+		assertEquals(l1.InLabels,l1.getInArgs());
 	}
 
 	@Test
-	public void testAddInVertex() {
+	public void testAddInArg() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v = new MyArgument(0);
-		l1.addInVertex(v);
+		MyArg v = new MyArg(0);
+		l1.addInArg(v);
 		assertTrue(l1.InLabels.contains(v));
 		assertTrue(v.label=="IN");
 	}
 
 	@Test
-	public void testSetInVertices() {
+	public void testSetInArgs() {
 		MyLabelling l1 = new MyLabelling(0);
-		LinkedHashSet<MyArgument> h1 = new LinkedHashSet<MyArgument>();
-		MyArgument v = new MyArgument(0);
+		LinkedHashSet<MyArg> h1 = new LinkedHashSet<MyArg>();
+		MyArg v = new MyArg(0);
 		h1.add(v);
 		l1.setInVerties(h1);
-		assertEquals(h1, l1.getInVertices());
+		assertEquals(h1, l1.getInArgs());
 	}
 	
 	@Test  (expected = IllegalArgumentException.class)
-	public void testDeleteFromInVertices(){
+	public void testDeleteFromInArgs(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v1 = new MyArgument(0);
-		MyArgument v2 = new MyArgument(0);
-		MyArgument v3 = new MyArgument(0);
-		l1.addUndecVertex(v1);
-		l1.addInVertex(v2);
-		l1.addOutVertex(v3);
-		l1.deleteFromInVertices(v3);
+		MyArg v1 = new MyArg(0);
+		MyArg v2 = new MyArg(0);
+		MyArg v3 = new MyArg(0);
+		l1.addUndecArg(v1);
+		l1.addInArg(v2);
+		l1.addOutArg(v3);
+		l1.deleteFromInArgs(v3);
 		
 	}	
 	
 	@Test
-	public void testDeleteFromInVertices2(){
+	public void testDeleteFromInArgs2(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v1 = new MyArgument(0);
-		MyArgument v2 = new MyArgument(0);
-		MyArgument v3 = new MyArgument(0);
-		l1.addUndecVertex(v1);
-		l1.addInVertex(v2);
-		l1.addOutVertex(v3);
-		l1.deleteFromInVertices(v2);
-		assertTrue((!(l1.InLabels.contains(v2)))&& v2.getLabel()=="NONE" && (l1.NotLabelledVertices.contains(v2)));
+		MyArg v1 = new MyArg(0);
+		MyArg v2 = new MyArg(0);
+		MyArg v3 = new MyArg(0);
+		l1.addUndecArg(v1);
+		l1.addInArg(v2);
+		l1.addOutArg(v3);
+		l1.deleteFromInArgs(v2);
+		assertTrue((!(l1.InLabels.contains(v2)))&& v2.getLabel()=="NONE" && (l1.NotLabelledArgs.contains(v2)));
 	}
 
 	@Test
-	public void testGetOutVertices() {
+	public void testGetOutArgs() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v = new MyArgument(0);
-		l1.addOutVertex(v);
-		assertEquals(l1.OutLabels,l1.getOutVertices());
+		MyArg v = new MyArg(0);
+		l1.addOutArg(v);
+		assertEquals(l1.OutLabels,l1.getOutArgs());
 	}
 
 	@Test
-	public void testAddOutVertex() {
+	public void testAddOutArg() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v = new MyArgument(0);
-		l1.addOutVertex(v);
-		assertTrue(l1.getOutVertices().contains(v));
+		MyArg v = new MyArg(0);
+		l1.addOutArg(v);
+		assertTrue(l1.getOutArgs().contains(v));
 		assertTrue(v.label=="OUT");
 	}
 	
 	@Test
-	public void testSetOutVertices() {
+	public void testSetOutArgs() {
 		MyLabelling l1 = new MyLabelling(0);
-		LinkedHashSet<MyArgument> h1 = new LinkedHashSet<MyArgument>();
-		MyArgument v = new MyArgument(0);
+		LinkedHashSet<MyArg> h1 = new LinkedHashSet<MyArg>();
+		MyArg v = new MyArg(0);
 		h1.add(v);
-		l1.setOutVertices(h1);
-		assertEquals(h1, l1.getOutVertices());
+		l1.setOutArgs(h1);
+		assertEquals(h1, l1.getOutArgs());
 	}
 	
 	@Test  (expected = IllegalArgumentException.class)
-	public void testDeleteFromOutVertices(){
+	public void testDeleteFromOutArgs(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v1 = new MyArgument(0);
-		MyArgument v2 = new MyArgument(0);
-		MyArgument v3 = new MyArgument(0);
-		l1.addUndecVertex(v1);
-		l1.addInVertex(v2);
-		l1.addOutVertex(v3);
-		l1.deleteFromUndecVertices(v3);
+		MyArg v1 = new MyArg(0);
+		MyArg v2 = new MyArg(0);
+		MyArg v3 = new MyArg(0);
+		l1.addUndecArg(v1);
+		l1.addInArg(v2);
+		l1.addOutArg(v3);
+		l1.deleteFromUndecArgs(v3);
 		
 	}
 	
 	@Test
-	public void testDeleteFromOutVertices2(){
+	public void testDeleteFromOutArgs2(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v1 = new MyArgument(0);
-		MyArgument v2 = new MyArgument(0);
-		MyArgument v3 = new MyArgument(0);
-		l1.addUndecVertex(v1);
-		l1.addInVertex(v2);
-		l1.addOutVertex(v3);
-		l1.deleteFromOutVertices(v3);
-		assertTrue((!(l1.OutLabels.contains(v3)))&& v3.getLabel()=="NONE"&& (l1.NotLabelledVertices.contains(v3)));
+		MyArg v1 = new MyArg(0);
+		MyArg v2 = new MyArg(0);
+		MyArg v3 = new MyArg(0);
+		l1.addUndecArg(v1);
+		l1.addInArg(v2);
+		l1.addOutArg(v3);
+		l1.deleteFromOutArgs(v3);
+		assertTrue((!(l1.OutLabels.contains(v3)))&& v3.getLabel()=="NONE"&& (l1.NotLabelledArgs.contains(v3)));
 	}
 
 	@Test
-	public void testGetUndecVertices() {
+	public void testGetUndecArgs() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v = new MyArgument(0);
-		l1.addUndecVertex(v);
-		assertEquals(l1.UndecLabels,l1.getUndecVertices());
+		MyArg v = new MyArg(0);
+		l1.addUndecArg(v);
+		assertEquals(l1.UndecLabels,l1.getUndecArgs());
 	}
 
 	@Test
-	public void testAddUndecVertex() {
+	public void testAddUndecArg() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v = new MyArgument(0);
-		l1.addUndecVertex(v);
+		MyArg v = new MyArg(0);
+		l1.addUndecArg(v);
 		assertTrue(l1.UndecLabels.contains(v));
 		assertTrue(v.label=="UNDEC");
 		}
@@ -142,37 +142,37 @@ public class MyLabellingTest {
 	@Test
 	public void testSetUndecVerties() {
 		MyLabelling l1 = new MyLabelling(0);
-		LinkedHashSet<MyArgument> h1 = new LinkedHashSet<MyArgument>();
-		MyArgument v = new MyArgument(0);
+		LinkedHashSet<MyArg> h1 = new LinkedHashSet<MyArg>();
+		MyArg v = new MyArg(0);
 		h1.add(v);
-		l1.setUndecVertices(h1);
-		assertEquals(h1, l1.getUndecVertices());
+		l1.setUndecArgs(h1);
+		assertEquals(h1, l1.getUndecArgs());
 	}
 	
 	@Test  (expected = IllegalArgumentException.class)
-	public void testDeleteFromUndecVertices(){
+	public void testDeleteFromUndecArgs(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v1 = new MyArgument(0);
-		MyArgument v2 = new MyArgument(0);
-		MyArgument v3 = new MyArgument(0);
-		l1.addUndecVertex(v1);
-		l1.addInVertex(v2);
-		l1.addOutVertex(v3);
-		l1.deleteFromUndecVertices(v3);
-		assertTrue((!(l1.UndecLabels.contains(v3)))&& v3.getLabel()=="NONE"&& l1.NotLabelledVertices.contains(v3));
+		MyArg v1 = new MyArg(0);
+		MyArg v2 = new MyArg(0);
+		MyArg v3 = new MyArg(0);
+		l1.addUndecArg(v1);
+		l1.addInArg(v2);
+		l1.addOutArg(v3);
+		l1.deleteFromUndecArgs(v3);
+		assertTrue((!(l1.UndecLabels.contains(v3)))&& v3.getLabel()=="NONE"&& l1.NotLabelledArgs.contains(v3));
 		
 	}
 	
 	@Test
-	public void testDeleteUndecInVertices2(){
+	public void testDeleteUndecInArgs2(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v1 = new MyArgument(0);
-		MyArgument v2 = new MyArgument(0);
-		MyArgument v3 = new MyArgument(0);
-		l1.addUndecVertex(v1);
-		l1.addInVertex(v2);
-		l1.addOutVertex(v3);
-		l1.deleteFromUndecVertices(v1);
+		MyArg v1 = new MyArg(0);
+		MyArg v2 = new MyArg(0);
+		MyArg v3 = new MyArg(0);
+		l1.addUndecArg(v1);
+		l1.addInArg(v2);
+		l1.addOutArg(v3);
+		l1.deleteFromUndecArgs(v1);
 		assertTrue(!(l1.UndecLabels.contains(v1)));
 	}
 	
@@ -181,45 +181,45 @@ public class MyLabellingTest {
 	@Test
 	public void testToString() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v = new MyArgument(0);
-		l1.addUndecVertex(v);
+		MyArg v = new MyArg(0);
+		l1.addUndecArg(v);
 		String s = "{\u00D8,\u00D8,[0]}";
 		assertEquals(s, l1.toString());
 	}
 	
 	@Test 
-	public void testFindMyVertex(){
-		MyArgument v1 = new MyArgument(1);
-		MyArgument v2 = new MyArgument(2);
-		MyArgument v3 = new MyArgument(3);
-		MyArgument v4 = new MyArgument(4);
+	public void testFindMyArg(){
+		MyArg v1 = new MyArg(1);
+		MyArg v2 = new MyArg(2);
+		MyArg v3 = new MyArg(3);
+		MyArg v4 = new MyArg(4);
 		MyLabelling l1 = new MyLabelling(1);
-		LinkedHashSet<MyArgument> set = new LinkedHashSet<MyArgument>();
+		LinkedHashSet<MyArg> set = new LinkedHashSet<MyArg>();
 		set.add(v1);
 		set.add(v2);
 		set.add(v3);
-		assertTrue(l1.findMyVertex(v1, set));
-		assertFalse(l1.findMyVertex(v4, set));
+		assertTrue(l1.findMyArg(v1, set));
+		assertFalse(l1.findMyArg(v4, set));
 		v4.setId(1);
-		assertTrue(l1.findMyVertex(v4, set));
+		assertTrue(l1.findMyArg(v4, set));
 	}
 	
 	@Test 
-	public void testContainsAllVertices(){
-		MyArgument v1 = new MyArgument(1);
-		MyArgument v2 = new MyArgument(2);
-		MyArgument v3 = new MyArgument(3);
-		MyArgument v4 = new MyArgument(4);
+	public void testContainsAllArgs(){
+		MyArg v1 = new MyArg(1);
+		MyArg v2 = new MyArg(2);
+		MyArg v3 = new MyArg(3);
+		MyArg v4 = new MyArg(4);
 		MyLabelling l1 = new MyLabelling(1);
-		LinkedHashSet<MyArgument> set = new LinkedHashSet<MyArgument>();
+		LinkedHashSet<MyArg> set = new LinkedHashSet<MyArg>();
 		set.add(v1);
 		set.add(v2);
 		set.add(v3);
-		LinkedHashSet<MyArgument> set1 = new LinkedHashSet<MyArgument>();
+		LinkedHashSet<MyArg> set1 = new LinkedHashSet<MyArg>();
 		set1.add(v3);
 		set1.add(v2);
 		set1.add(v1);
-		assertTrue(l1.containsAllVertices(set, set1));
+		assertTrue(l1.containsAllArgs(set, set1));
 		
 	}
 	@Test
@@ -227,8 +227,8 @@ public class MyLabellingTest {
 		MyLabelling l1 = new MyLabelling(0);
 		MyLabelling l2 = new MyLabelling(0);
 		assertTrue(l2.equals(l1));
-		MyArgument v = new MyArgument(0);
-		l1.addUndecVertex(v);
+		MyArg v = new MyArg(0);
+		l1.addUndecArg(v);
 		System.out.println("l1 is:" + l1.toString());
 		assertFalse(l2.equals(l1));
 		
@@ -237,12 +237,12 @@ public class MyLabellingTest {
 	@Test
 	public void testContains() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v1 = new MyArgument(0);
-		MyArgument v2 = new MyArgument(0);
-		MyArgument v3 = new MyArgument(0);
-		l1.addUndecVertex(v1);
-		l1.addInVertex(v2);
-		l1.addOutVertex(v3);
+		MyArg v1 = new MyArg(0);
+		MyArg v2 = new MyArg(0);
+		MyArg v3 = new MyArg(0);
+		l1.addUndecArg(v1);
+		l1.addInArg(v2);
+		l1.addOutArg(v3);
 		assertTrue(l1.contains(v1));
 	}
 	
@@ -250,22 +250,22 @@ public class MyLabellingTest {
 
 	
 	@Test 
-	public void testNotLabelledVertices(){
+	public void testNotLabelledArgs(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v = new MyArgument(0);
-		l1.addUndecVertex(v);
-		assertEquals(l1.NotLabelledVertices,l1.getNotLabelledVertices());
+		MyArg v = new MyArg(0);
+		l1.addUndecArg(v);
+		assertEquals(l1.NotLabelledArgs,l1.getNotLabelledArgs());
 		
 	}
 	
 	@Test
-	public void testSetNotLabelledVertices() {
+	public void testSetNotLabelledArgs() {
 		MyLabelling l1 = new MyLabelling(0);
-		LinkedHashSet<MyArgument> h1 = new LinkedHashSet<MyArgument>();
-		MyArgument v = new MyArgument(0);
+		LinkedHashSet<MyArg> h1 = new LinkedHashSet<MyArg>();
+		MyArg v = new MyArg(0);
 		h1.add(v);
-		l1.setNotLabelledVertices(h1);
-		assertEquals(h1, l1.getNotLabelledVertices());
+		l1.setNotLabelledArgs(h1);
+		assertEquals(h1, l1.getNotLabelledArgs());
 	}
 	
 	@Test 
@@ -278,16 +278,16 @@ public class MyLabellingTest {
 	@Test 
 	public void testCheckAllLabels(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyArgument v1 = new MyArgument(1);
-		MyArgument v2 = new MyArgument(2);
-		MyArgument v3 = new MyArgument(3);
-		MyArgument v4 = new MyArgument(5);
-		MyArgument v5 = new MyArgument(6);
-		l1.addInVertex(v1);
-		l1.addInVertex(v2);
-		l1.addOutVertex(v3);
-		l1.addUndecVertex(v4);
-		l1.addUndecVertex(v5);
+		MyArg v1 = new MyArg(1);
+		MyArg v2 = new MyArg(2);
+		MyArg v3 = new MyArg(3);
+		MyArg v4 = new MyArg(5);
+		MyArg v5 = new MyArg(6);
+		l1.addInArg(v1);
+		l1.addInArg(v2);
+		l1.addOutArg(v3);
+		l1.addUndecArg(v4);
+		l1.addUndecArg(v5);
 		System.out.print(l1);
 		assertTrue(l1.checkAllLabels());
 		v1.setLabel("OUT");

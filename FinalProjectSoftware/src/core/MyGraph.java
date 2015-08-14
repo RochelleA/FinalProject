@@ -11,274 +11,274 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
-public class MyGraph extends DirectedSparseGraph<MyArgument, MyAttack> implements IMyGraph {
+public class MyGraph extends DirectedSparseGraph<MyArg, MyAtt> implements IMyGraph {
 	 /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public  DirectedSparseGraph<MyArgument, MyAttack> myGraph = new DirectedSparseGraph<MyArgument, MyAttack>();
-	int vertexCount;
-	int edgeCount;
-	CircleLayout<MyArgument, MyAttack> layout;
-	VisualizationViewer<MyArgument, MyAttack> vv;
+	public  DirectedSparseGraph<MyArg, MyAtt> myGraph = new DirectedSparseGraph<MyArg, MyAtt>();
+	int ArgCount;
+	int attCount;
+	CircleLayout<MyArg, MyAtt> layout;
+	VisualizationViewer<MyArg, MyAtt> vv;
 	
 	public MyGraph(){
-		this.vertexCount=0;
-		this.edgeCount=0;
+		this.ArgCount=0;
+		this.attCount=0;
 	 }
 
 	
-	public int GetMyVertexCount(){
-		return vertexCount;
+	public int GetMyArgCount(){
+		return ArgCount;
 	}
-	public void setMyVertexCount(int integer){
-		vertexCount=integer;
+	public void setMyArgCount(int integer){
+		ArgCount=integer;
 		
 	}
 	
-	public int GetMyEdgeCount(){
-		return this.edgeCount;
+	public int GetMyAttCount(){
+		return this.attCount;
 	}
-	public void setMyEdgeCount(int Integer){
-		this.edgeCount=Integer;
+	public void setMyAttCount(int Integer){
+		this.attCount=Integer;
 	}
 	
-	public Collection<MyArgument> getMyVertices(){
+	public Collection<MyArg> getMyArgs(){
 		return myGraph.getVertices();
 	}
 	
-	public Collection<MyAttack> getMyEdges(){
+	public Collection<MyAtt> getMyAtts(){
 		return myGraph.getEdges();
 	}
-	public DirectedSparseGraph<MyArgument, MyAttack> getmygraph(){
+	public DirectedSparseGraph<MyArg, MyAtt> getmygraph(){
 		return myGraph;
 	}
 	
 	@Override
-	public MyArgument addMyVertex() {
-		++vertexCount;
-		MyArgument v = new MyArgument(vertexCount);
-//		v.setId(vertexCount);
+	public MyArg addMyArg() {
+		++ArgCount;
+		MyArg v = new MyArg(ArgCount);
+//		v.setId(ArgCount);
 		myGraph.addVertex(v);
 		return v;
 	}
 	
-	public MyAttack addMyEdge(MyArgument v1, MyArgument v2){
-		if(!(this.getMyVertices().contains(v1)) || !(this.getMyVertices().contains(v2))){
-			throw new IllegalArgumentException("Vertices not in graph");
+	public MyAtt addMyAtt(MyArg v1, MyArg v2){
+		if(!(this.getMyArgs().contains(v1)) || !(this.getMyArgs().contains(v2))){
+			throw new IllegalArgumentException("Args not in graph");
 		}
 				
 		if(v1==v2){
-			throw new IllegalArgumentException("The to and from vertices must be distinct");
+			throw new IllegalArgumentException("The to and from Args must be distinct");
 		}
-	//create new edge
-		    ++edgeCount;
-			MyAttack e1 = new MyAttack(edgeCount);
+	//create new attacks
+		    ++attCount;
+			MyAtt e1 = new MyAtt(attCount);
 			e1.setFrom(v1);
 			e1.setTo(v2);
 			e1.setLabel(v1, v2);
-		//check whether the MyGraph g already contains an edge e in its DirectedSparseGraph called myGraph.
+		//check whether the MyGraph g already contains an Att e in its DirectedSparseGraph called myGraph.
 		if (myGraph.containsEdge(e1)){
-//			--edgeCount;
-			throw new IllegalArgumentException("Edge already exist");
+//			--attCount;
+			throw new IllegalArgumentException("Attack already exist");
 		}
 		else if (myGraph.addEdge(e1, v1,v2, EdgeType.DIRECTED)){
-			System.out.println("edge added");
+			System.out.println("Attack added");
 			return e1;
 		}
 		else{
-			System.out.println("edge not added");
-			throw new IllegalArgumentException("Vertices not in graph");
+			System.out.println("Attack not added");
+			throw new IllegalArgumentException("Args not in graph");
 		
 		}
 			
 		}
 		
 	public String toString(){
-		HashSet<MyArgument> vertices = new HashSet<MyArgument>(myGraph.getVertices());
-		HashSet<MyAttack> edges = new HashSet<MyAttack>(myGraph.getEdges());
-		String verticesToString = "Arguments: "+vertices.toString();
-		String edgesToString = "Attacks: "+edges.toString();
-		String y =  verticesToString+ "\n" + edgesToString+"\n" +"Arguments Count: " +vertexCount + "\n" +"Attacks Count: " +edgeCount;
+		HashSet<MyArg> Args = new HashSet<MyArg>(myGraph.getVertices());
+		HashSet<MyAtt> Atts = new HashSet<MyAtt>(myGraph.getEdges());
+		String ArgsToString = "Arguments: "+Args.toString();
+		String AttsToString = "Attacks: "+Atts.toString();
+		String y =  ArgsToString+ "\n" + AttsToString+"\n" +"Arguments Count: " +ArgCount + "\n" +"Attacks Count: " +attCount;
 		return y;
 		}
 
-	public DirectedSparseGraph<MyArgument, MyAttack> getGraph(){
+	public DirectedSparseGraph<MyArg, MyAtt> getGraph(){
 		return myGraph;
 	}
 	
-	public CircleLayout<MyArgument, MyAttack> getGraphLayout(){
-		layout = new CircleLayout<MyArgument,MyAttack>(myGraph);
+	public CircleLayout<MyArg, MyAtt> getGraphLayout(){
+		layout = new CircleLayout<MyArg,MyAtt>(myGraph);
 		return layout;
 	}
-	public void setGraphLayout(CircleLayout<MyArgument, MyAttack> layout){
+	public void setGraphLayout(CircleLayout<MyArg, MyAtt> layout){
 		this.layout=layout;
 	}
-	public void setGraphVisualizationViewer(VisualizationViewer<MyArgument, MyAttack> vv){
+	public void setGraphVisualizationViewer(VisualizationViewer<MyArg, MyAtt> vv){
 		this.vv=vv;
 	}
 	
-	public VisualizationViewer<MyArgument, MyAttack> getGraphVisualizationViewer(Layout<MyArgument, MyAttack> layout){
+	public VisualizationViewer<MyArg, MyAtt> getGraphVisualizationViewer(Layout<MyArg, MyAtt> layout){
 
-        vv = new VisualizationViewer<MyArgument, MyAttack>(layout);
+        vv = new VisualizationViewer<MyArg, MyAtt>(layout);
         return vv;
 	}
 	
-	public HashSet<MyArgument> getNoneLabelledVertices(){
-		HashSet<MyArgument> noneLabelledVertices = new HashSet<MyArgument>();
-		HashSet<MyArgument> listVertices = new HashSet<MyArgument>(this.getMyVertices());
-		Iterator<MyArgument> vertexIterator = listVertices.iterator();
-		while(vertexIterator.hasNext()){
-			MyArgument currentVertex = vertexIterator.next();
-			if(currentVertex.hasNoLabel()){
-				noneLabelledVertices.add(currentVertex);
+	public HashSet<MyArg> getNoneLabelledArgs(){
+		HashSet<MyArg> noneLabelledArgs = new HashSet<MyArg>();
+		HashSet<MyArg> listArg = new HashSet<MyArg>(this.getMyArgs());
+		Iterator<MyArg> listArgIterator = listArg.iterator();
+		while(listArgIterator.hasNext()){
+			MyArg currentargument = listArgIterator.next();
+			if(currentargument.hasNoLabel()){
+				noneLabelledArgs.add(currentargument);
 			}
 			else{
-				System.out.println(currentVertex.toString() + "has a label" + currentVertex.getLabel());
+				System.out.println(currentargument.toString() + "has a label" + currentargument.getLabel());
 			}
 		}
-			System.out.print("Vertices Labelled none are "+noneLabelledVertices);
-			return noneLabelledVertices;
+			System.out.print("Args Labelled none are "+noneLabelledArgs);
+			return noneLabelledArgs;
 		
 	}
 	
-	public HashSet<MyArgument> getInLabelledVertices(){
-		HashSet<MyArgument> inLabelledVertices = new HashSet<MyArgument>();
-		HashSet<MyArgument> listVertices = new HashSet<MyArgument>(this.getMyVertices());
-		Iterator<MyArgument> vertexIterator = listVertices.iterator();
-		while(vertexIterator.hasNext()){
-			MyArgument currentVertex = vertexIterator.next();
-			if(currentVertex.isIn()){
-				inLabelledVertices.add(currentVertex);
+	public HashSet<MyArg> getInLabelledArgs(){
+		HashSet<MyArg> inLabelledArgs = new HashSet<MyArg>();
+		HashSet<MyArg> listArgs = new HashSet<MyArg>(this.getMyArgs());
+		Iterator<MyArg> argumentIterator = listArgs.iterator();
+		while(argumentIterator.hasNext()){
+			MyArg currentargument = argumentIterator.next();
+			if(currentargument.isIn()){
+				inLabelledArgs.add(currentargument);
 			}
 			else{
-				System.out.println(currentVertex.toString() + "has a label" + currentVertex.getLabel());
+				System.out.println(currentargument.toString() + "has a label" + currentargument.getLabel());
 			}
 		}
-			System.out.print("Vertices Labelled in are "+inLabelledVertices);
-			return inLabelledVertices;
+			System.out.print("Args Labelled in are "+inLabelledArgs);
+			return inLabelledArgs;
 		
 	}
 	
 	
-	public HashSet<MyArgument> getOutLabelledVertices(){
-		HashSet<MyArgument> outLabelledVertices = new HashSet<MyArgument>();
-		HashSet<MyArgument> listVertices = new HashSet<MyArgument>(this.getMyVertices());
-		Iterator<MyArgument> vertexIterator = listVertices.iterator();
-		while(vertexIterator.hasNext()){
-			MyArgument currentVertex = vertexIterator.next();
-			if(currentVertex.isOut()){
-				outLabelledVertices.add(currentVertex);
+	public HashSet<MyArg> getOutLabelledArgs(){
+		HashSet<MyArg> outLabelledArgs = new HashSet<MyArg>();
+		HashSet<MyArg> listArgs = new HashSet<MyArg>(this.getMyArgs());
+		Iterator<MyArg> argumentIterator = listArgs.iterator();
+		while(argumentIterator.hasNext()){
+			MyArg currentargument = argumentIterator.next();
+			if(currentargument.isOut()){
+				outLabelledArgs.add(currentargument);
 			}
 			else{
-				System.out.print("Vertices Labelled out are "+outLabelledVertices);
-				System.out.println(currentVertex.toString() + "has a label" + currentVertex.getLabel());
+				System.out.print("Args Labelled out are "+outLabelledArgs);
+				System.out.println(currentargument.toString() + "has a label" + currentargument.getLabel());
 			}
 		}
-			return outLabelledVertices;
+			return outLabelledArgs;
 		
 	}
 	
-	public HashSet<MyArgument> getUndecLabelledVertices(){
-		HashSet<MyArgument> undecLabelledVertices = new HashSet<MyArgument>();
-		HashSet<MyArgument> listVertices = new HashSet<MyArgument>(this.getMyVertices());
-		Iterator<MyArgument> vertexIterator = listVertices.iterator();
-		while(vertexIterator.hasNext()){
-			MyArgument currentVertex = vertexIterator.next();
-			if(currentVertex.isUndec()){
-				undecLabelledVertices.add(currentVertex);
+	public HashSet<MyArg> getUndecLabelledArgs(){
+		HashSet<MyArg> undecLabelledArgs = new HashSet<MyArg>();
+		HashSet<MyArg> listArgs = new HashSet<MyArg>(this.getMyArgs());
+		Iterator<MyArg> argumentIterator = listArgs.iterator();
+		while(argumentIterator.hasNext()){
+			MyArg currentargument = argumentIterator.next();
+			if(currentargument.isUndec()){
+				undecLabelledArgs.add(currentargument);
 			}
 			else{
-				System.out.print("Vertices Labelled undec are "+undecLabelledVertices);
-				System.out.println(currentVertex.toString() + "has a label" + currentVertex.getLabel());
+				System.out.print("Args Labelled undec are "+undecLabelledArgs);
+				System.out.println(currentargument.toString() + "has a label" + currentargument.getLabel());
 			}
 		}
-			return undecLabelledVertices;
+			return undecLabelledArgs;
 		
 	}
 
 	public boolean resetGraph(){
-		HashSet<MyArgument> vertices = new HashSet<MyArgument>(this.getMyVertices());
-		Iterator<MyArgument> verticesIterator = vertices.iterator();
-		while(verticesIterator.hasNext()){
-			MyArgument currentVertex = verticesIterator.next();
-			this.myGraph.removeVertex(currentVertex);
+		HashSet<MyArg> Args = new HashSet<MyArg>(this.getMyArgs());
+		Iterator<MyArg> ArgsIterator = Args.iterator();
+		while(ArgsIterator.hasNext()){
+			MyArg currentargument = ArgsIterator.next();
+			this.myGraph.removeVertex(currentargument);
 		}
-		if(this.getVertexCount()==0){
-			vertexCount=0;
-			edgeCount=0;
+		if(this.GetMyArgCount()==0){
+			ArgCount=0;
+			attCount=0;
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean findMyVertex(MyArgument v){
-		LinkedHashSet<MyArgument> vertices = new LinkedHashSet<MyArgument>(this.getMyVertices());
-		Iterator<MyArgument> verticesIterator = vertices.iterator();
-		while(verticesIterator.hasNext()){
-			MyArgument currentvertex = verticesIterator.next();
-			if(currentvertex.equals(v)){
+	public boolean findMyArg(MyArg v){
+		LinkedHashSet<MyArg> Args = new LinkedHashSet<MyArg>(this.getMyArgs());
+		Iterator<MyArg> ArgsIterator = Args.iterator();
+		while(ArgsIterator.hasNext()){
+			MyArg currentargument = ArgsIterator.next();
+			if(currentargument.equals(v)){
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public MyArgument getMyVertex(MyArgument v){
-		LinkedHashSet<MyArgument> vertices = new LinkedHashSet<MyArgument>(this.getMyVertices());
-		Iterator<MyArgument> verticesIterator = vertices.iterator();
-		while(verticesIterator.hasNext()){
-			MyArgument currentvertex = verticesIterator.next();
-			if(currentvertex.equals(v)){
-				return currentvertex;
+	public MyArg getMyArg(MyArg v){
+		LinkedHashSet<MyArg> Args = new LinkedHashSet<MyArg>(this.getMyArgs());
+		Iterator<MyArg> ArgsIterator = Args.iterator();
+		while(ArgsIterator.hasNext()){
+			MyArg currentargument = ArgsIterator.next();
+			if(currentargument.equals(v)){
+				return currentargument;
 			}
 		}
-		throw new IllegalArgumentException("Vertex not in graph");
+		throw new IllegalArgumentException("argument not in graph");
 		
 	}
 	
-	public boolean findMyEdge(MyAttack e){
-		LinkedHashSet<MyAttack> edges = new LinkedHashSet<MyAttack>(this.getMyEdges());
-		Iterator<MyAttack> edgesIterator = edges.iterator();
-		while(edgesIterator.hasNext()){
-			MyAttack currentEdge= edgesIterator.next();
-			if(currentEdge.equals(e)){
+	public boolean findMyAtt(MyAtt e){
+		LinkedHashSet<MyAtt> Atts = new LinkedHashSet<MyAtt>(this.getMyAtts());
+		Iterator<MyAtt> AttsIterator = Atts.iterator();
+		while(AttsIterator.hasNext()){
+			MyAtt currentAtt= AttsIterator.next();
+			if(currentAtt.equals(e)){
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public boolean containsAllVertices(Collection<MyArgument> collection){
-		LinkedHashSet<MyArgument> set = new LinkedHashSet<MyArgument>(collection);
-		Iterator<MyArgument> setIterator = set.iterator();
-		// This counts the number of vertices in the collection that are the same as in the graph.
-		int sameVertexCount=0;
+	public boolean containsAllArgs(Collection<MyArg> collection){
+		LinkedHashSet<MyArg> set = new LinkedHashSet<MyArg>(collection);
+		Iterator<MyArg> setIterator = set.iterator();
+		// This counts the number of Args in the collection that are the same as in the graph.
+		int sameargumentCount=0;
 		while(setIterator.hasNext()){
-			MyArgument currentVertex = setIterator.next();
-			if(this.findMyVertex(currentVertex)){
-				sameVertexCount++;
+			MyArg currentargument = setIterator.next();
+			if(this.findMyArg(currentargument)){
+				sameargumentCount++;
 			}
 		}
-	if(sameVertexCount==this.GetMyVertexCount()){
+	if(sameargumentCount==this.GetMyArgCount()){
 		return true;
 	}
 	return false;
 	}
 	
-	public boolean containsAllEdges(Collection<MyAttack> collection){
-		LinkedHashSet<MyAttack> set = new LinkedHashSet<MyAttack>(collection);
-		Iterator<MyAttack> setIterator = set.iterator();
-		int sameEdgeCount=0;
+	public boolean containsAllAtts(Collection<MyAtt> collection){
+		LinkedHashSet<MyAtt> set = new LinkedHashSet<MyAtt>(collection);
+		Iterator<MyAtt> setIterator = set.iterator();
+		int sameAttCount=0;
 		
 		while(setIterator.hasNext()){
-			MyAttack currentEdge= setIterator.next();
-			if(this.findMyEdge(currentEdge)){
-				sameEdgeCount++;
+			MyAtt currentAtt= setIterator.next();
+			if(this.findMyAtt(currentAtt)){
+				sameAttCount++;
 			}
 		}
 		
-		if(sameEdgeCount==this.GetMyEdgeCount()){
+		if(sameAttCount==this.GetMyAttCount()){
 			return true;
 		}
 		
@@ -290,6 +290,6 @@ public class MyGraph extends DirectedSparseGraph<MyArgument, MyAttack> implement
 	    if (other == null) return false;
 	    if (getClass() != other.getClass()) return false;
 	    MyGraph graph = (MyGraph)other;
-	    return (graph.containsAllVertices(this.getMyVertices()) && graph.containsAllEdges(this.getMyEdges()) && this.GetMyVertexCount()== graph.GetMyVertexCount() && this.GetMyEdgeCount() == graph.GetMyEdgeCount() );
+	    return (graph.containsAllArgs(this.getMyArgs()) && graph.containsAllAtts(this.getMyAtts()) && this.GetMyArgCount()== graph.GetMyArgCount() && this.GetMyAttCount() == graph.GetMyAttCount() );
 	  }
 }

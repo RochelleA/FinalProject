@@ -8,166 +8,166 @@ import java.util.LinkedHashSet;
 public class MyLabelling implements IMyLabelling {
 	
 	int id;
-	LinkedHashSet<MyArgument> InLabels;
-	LinkedHashSet<MyArgument> OutLabels;
-	LinkedHashSet<MyArgument> UndecLabels;
-	LinkedHashSet<MyArgument> NotLabelledVertices;
+	LinkedHashSet<MyArg> InLabels;
+	LinkedHashSet<MyArg> OutLabels;
+	LinkedHashSet<MyArg> UndecLabels;
+	LinkedHashSet<MyArg> NotLabelledArgs;
 	
 
 	public MyLabelling(int id) {
 		this.id = id;
-		InLabels= new LinkedHashSet<MyArgument>();
-		OutLabels = new LinkedHashSet<MyArgument>();
-		UndecLabels = new LinkedHashSet<MyArgument>();
-		NotLabelledVertices= new LinkedHashSet<MyArgument>();
+		InLabels= new LinkedHashSet<MyArg>();
+		OutLabels = new LinkedHashSet<MyArg>();
+		UndecLabels = new LinkedHashSet<MyArg>();
+		NotLabelledArgs= new LinkedHashSet<MyArg>();
 	}
 	
-//	public MyLabelling(int id, LinkedHashSet<MyVertex> inVertices,LinkedHashSet<MyVertex> outVertices,LinkedHashSet<MyVertex> UndecVertices){
+//	public MyLabelling(int id, LinkedHashSet<MyArg> inArgs,LinkedHashSet<MyArg> outArgs,LinkedHashSet<MyArg> UndecArgs){
 //		this.id=id;
-//		this.InLabels=inVertices;
-//		this.OutLabels=outVertices;
-//		this.UndecLabels=UndecVertices;	
-//		this.NotLabelledVertices= new LinkedHashSet<MyVertex>();
+//		this.InLabels=inArgs;
+//		this.OutLabels=outArgs;
+//		this.UndecLabels=UndecArgs;	
+//		this.NotLabelledArgs= new LinkedHashSet<MyArg>();
 //	}
 
 	@Override
-	public LinkedHashSet<MyArgument> getInVertices() {
+	public LinkedHashSet<MyArg> getInArgs() {
 		return InLabels;
 	}
 
 	@Override
-	public boolean addInVertex(MyArgument v) {
+	public boolean addInArg(MyArg v) {
 		if(this.OutLabels.contains(v)){
-			throw new IllegalArgumentException("This vertex is already labelled out");
+			throw new IllegalArgumentException("This argument is already labelled out");
 		}
 		else if(this.UndecLabels.contains(v)){
-			throw new IllegalArgumentException("This vertex is already labelled undec");
+			throw new IllegalArgumentException("This argument is already labelled undec");
 		}
 		else{
 			v.setLabel("IN");
 			InLabels.add(v);
-			if(this.NotLabelledVertices.contains(v)){
-				NotLabelledVertices.remove(v);
+			if(this.NotLabelledArgs.contains(v)){
+				NotLabelledArgs.remove(v);
 			}
 			
 		}
 		return true;
 	}
 	
-	public boolean deleteFromInVertices(MyArgument v){
+	public boolean deleteFromInArgs(MyArg v){
 		if(!(this.InLabels.contains(v))){
-			throw new IllegalArgumentException("This vertex is not in the in hashset");
+			throw new IllegalArgumentException("This argument is not in the in hashset");
 		}
 		else{
-			NotLabelledVertices.add(v);
+			NotLabelledArgs.add(v);
 			InLabels.remove(v);
 			v.setLabel("NONE");
 		}
 		return true;
 	}
 	
-	public void setInVerties(LinkedHashSet<MyArgument> h1){
-		Iterator<MyArgument> I = h1.iterator();
+	public void setInVerties(LinkedHashSet<MyArg> h1){
+		Iterator<MyArg> I = h1.iterator();
 		while(I.hasNext()){
-			MyArgument v =I.next();
+			MyArg v =I.next();
 			v.setLabel("IN");
-			NotLabelledVertices.remove(v);
+			NotLabelledArgs.remove(v);
 		}
 		InLabels=h1;
-		NotLabelledVertices.removeAll(h1);
+		NotLabelledArgs.removeAll(h1);
 			}
 
 	
 	@Override
-	public LinkedHashSet<MyArgument> getOutVertices() {
+	public LinkedHashSet<MyArg> getOutArgs() {
 		return  OutLabels;
 	}
 
 	@Override
-	public boolean addOutVertex(MyArgument v) {
+	public boolean addOutArg(MyArg v) {
 		if(this.InLabels.contains(v)){
-			throw new IllegalArgumentException("This vertex is already labelled in");
+			throw new IllegalArgumentException("This argument is already labelled in");
 		}
 		if(this.UndecLabels.contains(v)){
-			throw new IllegalArgumentException("This vertex is already labelled undec");
+			throw new IllegalArgumentException("This argument is already labelled undec");
 		}
 		else{v.setLabel("OUT");
 		OutLabels.add(v);
-		if(this.NotLabelledVertices.contains(v)){
-			NotLabelledVertices.remove(v);
+		if(this.NotLabelledArgs.contains(v)){
+			NotLabelledArgs.remove(v);
 		}
 		
 		return true;
 		}
 		
 	}
-	public void setOutVertices(LinkedHashSet<MyArgument> h1){
-		Iterator<MyArgument> I = h1.iterator();
+	public void setOutArgs(LinkedHashSet<MyArg> h1){
+		Iterator<MyArg> I = h1.iterator();
 		while(I.hasNext()){
-			MyArgument v =I.next();
+			MyArg v =I.next();
 			v.setLabel("OUT");
 		}
 		OutLabels=h1;
-		NotLabelledVertices.removeAll(h1);
+		NotLabelledArgs.removeAll(h1);
 			}
 	
-	public boolean deleteFromOutVertices(MyArgument v){
+	public boolean deleteFromOutArgs(MyArg v){
 		if(!(this.OutLabels.contains(v))){
-			throw  new IllegalArgumentException("This vertex is not in the out hashset");
+			throw  new IllegalArgumentException("This argument is not in the out hashset");
 		}
 		else{
 			v.setLabel("NONE");
-			NotLabelledVertices.add(v);
+			NotLabelledArgs.add(v);
 			OutLabels.remove(v);
 		}
 		return true;
 	}
 
 	@Override
-	public LinkedHashSet<MyArgument> getUndecVertices() {
+	public LinkedHashSet<MyArg> getUndecArgs() {
 		return UndecLabels;
 	}
 
 	@Override
-	public boolean addUndecVertex(MyArgument v) {
+	public boolean addUndecArg(MyArg v) {
 		if(this.InLabels.contains(v)){
-			throw new IllegalArgumentException("This vertex is already labelled in");
+			throw new IllegalArgumentException("This argument is already labelled in");
 		}
 		if(this.OutLabels.contains(v)){
-			throw new IllegalArgumentException("This vertex is already labelled out");
+			throw new IllegalArgumentException("This argument is already labelled out");
 		}
 		v.setLabel("UNDEC");
 		UndecLabels.add(v);
-		if(this.NotLabelledVertices.contains(v)){
-			NotLabelledVertices.remove(v);
+		if(this.NotLabelledArgs.contains(v)){
+			NotLabelledArgs.remove(v);
 		}
 		
 		return true;
 	}
 	
-	public boolean deleteFromUndecVertices(MyArgument v){
+	public boolean deleteFromUndecArgs(MyArg v){
 		if(!(this.UndecLabels.contains(v))){
-			throw new IllegalArgumentException("This vertex is not in the undec hashset");
+			throw new IllegalArgumentException("This argument is not in the undec hashset");
 		}
 		else{
-			NotLabelledVertices.add(v);
+			NotLabelledArgs.add(v);
 			v.setLabel("NONE");
 			UndecLabels.remove(v);
-			NotLabelledVertices.remove(v);
+			NotLabelledArgs.remove(v);
 		}
 		return true;
 	}
 
-	public void setUndecVertices(LinkedHashSet<MyArgument> h1){
-		Iterator<MyArgument> I = h1.iterator();
+	public void setUndecArgs(LinkedHashSet<MyArg> h1){
+		Iterator<MyArg> I = h1.iterator();
 		while(I.hasNext()){
-			MyArgument v =I.next();
+			MyArg v =I.next();
 			v.setLabel("UNDEC");
 			UndecLabels.add(v);
-			NotLabelledVertices.remove(v);
+			NotLabelledArgs.remove(v);
 		}
 		UndecLabels=h1;
-		NotLabelledVertices.removeAll(h1);
+		NotLabelledArgs.removeAll(h1);
 			}
 
 	@Override
@@ -195,28 +195,28 @@ public class MyLabelling implements IMyLabelling {
 		String string = "{"+ inString + "," + outString +"," + undecString + "}";
 		return string;
 	}
-	public boolean findMyVertex(MyArgument v, LinkedHashSet<MyArgument> set){
-		LinkedHashSet<MyArgument> vertices = set;
-		Iterator<MyArgument> verticesIterator = vertices.iterator();
-		while(verticesIterator.hasNext()){
-			MyArgument currentvertex = verticesIterator.next();
-			if(currentvertex.equals(v)){
+	public boolean findMyArg(MyArg v, LinkedHashSet<MyArg> set){
+		LinkedHashSet<MyArg> Args = set;
+		Iterator<MyArg> ArgsIterator = Args.iterator();
+		while(ArgsIterator.hasNext()){
+			MyArg currentArg = ArgsIterator.next();
+			if(currentArg.equals(v)){
 				return true;
 			}
 		}
 		return false;
 	}
-	public boolean containsAllVertices(LinkedHashSet<MyArgument> set, LinkedHashSet<MyArgument> set1){
-		Iterator<MyArgument> setIterator = set.iterator();
-		// This counts the number of vertices in the collection that are the same as in the graph.
-		int sameVertexCount=0;
+	public boolean containsAllArgs(LinkedHashSet<MyArg> set, LinkedHashSet<MyArg> set1){
+		Iterator<MyArg> setIterator = set.iterator();
+		// This counts the number of Args in the collection that are the same as in the graph.
+		int sameArgCount=0;
 		while(setIterator.hasNext()){
-			MyArgument currentVertex = setIterator.next();
-			if(this.findMyVertex(currentVertex,set1)){
-				sameVertexCount++;
+			MyArg currentArg = setIterator.next();
+			if(this.findMyArg(currentArg,set1)){
+				sameArgCount++;
 			}
 		}
-		if(sameVertexCount==set.size()){
+		if(sameArgCount==set.size()){
 			return true;
 		}
 		return false;
@@ -227,11 +227,11 @@ public class MyLabelling implements IMyLabelling {
 	    if (label2 == null) return false;
 	    if (getClass() != label2.getClass()) return false;
 	    MyLabelling label = (MyLabelling)label2;
-	    return (label.containsAllVertices(label.InLabels,this.InLabels) && label.containsAllVertices(label.OutLabels, this.OutLabels) && label.containsAllVertices(label.UndecLabels, this.UndecLabels) && label.containsAllVertices(label.NotLabelledVertices, this.NotLabelledVertices));
+	    return (label.containsAllArgs(label.InLabels,this.InLabels) && label.containsAllArgs(label.OutLabels, this.OutLabels) && label.containsAllArgs(label.UndecLabels, this.UndecLabels) && label.containsAllArgs(label.NotLabelledArgs, this.NotLabelledArgs));
 	  }
 	
 
-public boolean contains(MyArgument v){
+public boolean contains(MyArg v){
 	if(this.InLabels.contains(v)){
 		return true;
 	}
@@ -246,16 +246,16 @@ public boolean contains(MyArgument v){
 	}
 }
 
-public LinkedHashSet<MyArgument> getNotLabelledVertices() {
-	return NotLabelledVertices;
+public LinkedHashSet<MyArg> getNotLabelledArgs() {
+	return NotLabelledArgs;
 }
 
-public void setNotLabelledVertices(LinkedHashSet<MyArgument> notLabelledVertices) {
-	Iterator<MyArgument> I = notLabelledVertices.iterator();
+public void setNotLabelledArgs(LinkedHashSet<MyArg> notLabelledArgs) {
+	Iterator<MyArg> I = notLabelledArgs.iterator();
 	while(I.hasNext()){
 		I.next().setLabel("NONE");
 	}
-	NotLabelledVertices=notLabelledVertices;
+	NotLabelledArgs=notLabelledArgs;
 }
 
 public String DisplayLabelling(){
@@ -284,7 +284,7 @@ public String DisplayLabelling(){
 
 public boolean checkAllLabels(){
 	int inCount=0;
-	Iterator<MyArgument> inIterator = InLabels.iterator();
+	Iterator<MyArg> inIterator = InLabels.iterator();
 	while(inIterator.hasNext()){
 		if(inIterator.next().getLabel()=="IN"){
 			inCount++;
@@ -293,7 +293,7 @@ public boolean checkAllLabels(){
 	}
 	if(inCount==InLabels.size()){
 		int outCount=0;
-		Iterator<MyArgument> outIterator = OutLabels.iterator();
+		Iterator<MyArg> outIterator = OutLabels.iterator();
 		while(outIterator.hasNext()){
 			if(outIterator.next().getLabel()=="OUT"){
 				outCount++;
@@ -301,7 +301,7 @@ public boolean checkAllLabels(){
 		}
 			if(outCount==OutLabels.size()){
 				int undecCount=0;
-				Iterator<MyArgument> undecIterator = UndecLabels.iterator();
+				Iterator<MyArg> undecIterator = UndecLabels.iterator();
 				while(undecIterator.hasNext()){
 					if(undecIterator.next().getLabel()=="UNDEC"){
 						undecCount++;
@@ -309,13 +309,13 @@ public boolean checkAllLabels(){
 				}
 					if(undecCount==UndecLabels.size()){
 						int notCount=0;
-						Iterator<MyArgument> notIterator = NotLabelledVertices.iterator();
+						Iterator<MyArg> notIterator = NotLabelledArgs.iterator();
 						while(notIterator.hasNext()){
 							if(notIterator.next().getLabel()=="NONE"){
 								notCount++;
 							}
 						}
-							if(notCount==NotLabelledVertices.size()){
+							if(notCount==NotLabelledArgs.size()){
 								return true;
 							}
 						
@@ -329,16 +329,16 @@ public boolean checkAllLabels(){
 
 public void correctLabels(){
 	this.setInVerties(InLabels);
-	this.setOutVertices(OutLabels);
-	this.setUndecVertices(UndecLabels);
-	this.setNotLabelledVertices(NotLabelledVertices);
+	this.setOutArgs(OutLabels);
+	this.setUndecArgs(UndecLabels);
+	this.setNotLabelledArgs(NotLabelledArgs);
 }
 
 public void makecopy(MyLabelling labelling){
-	this.setInVerties(new LinkedHashSet<MyArgument>(labelling.getInVertices()));
-	this.setOutVertices(new LinkedHashSet<MyArgument>(labelling.getOutVertices()));
-	this.setUndecVertices(new LinkedHashSet<MyArgument>(labelling.getUndecVertices()));
-	this.setNotLabelledVertices(new LinkedHashSet<MyArgument>(labelling.getNotLabelledVertices()));
+	this.setInVerties(new LinkedHashSet<MyArg>(labelling.getInArgs()));
+	this.setOutArgs(new LinkedHashSet<MyArg>(labelling.getOutArgs()));
+	this.setUndecArgs(new LinkedHashSet<MyArg>(labelling.getUndecArgs()));
+	this.setNotLabelledArgs(new LinkedHashSet<MyArg>(labelling.getNotLabelledArgs()));
 }
 
 }

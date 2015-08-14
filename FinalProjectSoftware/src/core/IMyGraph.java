@@ -16,27 +16,27 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 public interface IMyGraph {
 //	
 //	
-//	//Returns the number of vertices in the graph
-//	public int GetMyVertexCount();
+//	//Returns the number of Args in the graph
+//	public int GetMyargumentCount();
 //	
-//	//Returns the number of edges in the graph
-//	public int GetMyEdgeCount();
+//	//Returns the number of attackss in the graph
+//	public int GetMyattCount();
 
-	//Return all the edges in the Graph.
-	public Collection<MyArgument> getMyVertices();
+	//Return all the attacks in the Graph.
+	public Collection<MyArg> getMyArgs();
 	
-	//Returns all the vertices in the Graph
-	public Collection<MyAttack> getMyEdges();
+	//Returns all the Args in the Graph
+	public Collection<MyAtt> getMyAtts();
 
-	//This method first creates a new vertex and then adds it to the graph
-	public MyArgument addMyVertex();
+	//This method first creates a new argument and then adds it to the graph
+	public MyArg addMyArg();
 
-	//This method creates a vertex between V1 and V2 and then adds it to the graph
-	public MyAttack addMyEdge(MyArgument v1, MyArgument v2);
+	//This method creates a argument between V1 and V2 and then adds it to the graph
+	public MyAtt addMyAtt(MyArg v1, MyArg v2);
 	
 	//return myGraph.toString();
 	public String toString();
 	
 	//return the directed sparse graph inside the myGraph object
-	public DirectedSparseGraph<MyArgument, MyAttack> getGraph();
+	public DirectedSparseGraph<MyArg, MyAtt> getGraph();
 	}

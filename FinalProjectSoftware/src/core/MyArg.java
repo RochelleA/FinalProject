@@ -9,21 +9,21 @@ package core;
  * @author Rochelle
  *
  */
-public class MyArgument implements IMyArgument {
-	//identifies the vertex
+public class MyArg implements IMyArg {
+	//identifies the argument
 	int id;
 	//this is either not set or {in,out,undec}
 	String label;
-	//this is the possible weight of the vertex. It is set at zero when first instantiated.
+	//this is the possible weight of the argument. It is set at zero when first instantiated.
 	int weight;
 	
 	/* (non-Javadoc)
-	 * @see graph1.IMyVertex#MyVertex(int)
+	 * @see graph1.IMyargument#Myargument(int)
 	 */
 	
 	
-//	public MyVertex(int vertexId) {
-	public MyArgument(int id){
+//	public Myargument(int argumentId) {
+	public MyArg(int id){
 		this.id=id;
 		this.weight=0;
 		this.label="NONE";
@@ -59,11 +59,11 @@ public class MyArgument implements IMyArgument {
 	}
 	
 	@Override
-	public boolean equals(Object vertex2) {
-	    if (vertex2 == null) return false;
-	    if (getClass() != vertex2.getClass()) return false;
-	    MyArgument vertex = (MyArgument)vertex2;
-	    return (id == vertex.id && label == vertex.label && weight == vertex.weight );
+	public boolean equals(Object argument2) {
+	    if (argument2 == null) return false;
+	    if (getClass() != argument2.getClass()) return false;
+	    MyArg argument = (MyArg)argument2;
+	    return (id == argument.id && label == argument.label && weight == argument.weight );
 	  }
 	
 	public boolean isIn(){

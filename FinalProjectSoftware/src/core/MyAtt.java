@@ -1,21 +1,21 @@
 package core;
 
-public class MyAttack implements IMyAttack {
-	// id identifies an edge in the graph
+public class MyAtt implements IMyAtt {
+	// id identifies an attack in the graph
 	int id;
-	//identifies the argument the edge comes from
-	MyArgument from;
-	//identifies the argument the edge attacks
-	MyArgument to;
+	//identifies the argument the attack comes from
+	MyArg from;
+	//identifies the argument the attack attacks
+	MyArg to;
 	//is a label such as Att(1,2)
 	String label;
 
-	 static MyArgument v1= new MyArgument(0);
-	static MyArgument v2= new MyArgument(0);
-	//count the number of edge so that the edge Id can be incremented by 1 each time.
+	 static MyArg v1= new MyArg(0);
+	static MyArg v2= new MyArg(0);
+	//count the number of attack so that the attack Id can be incremented by 1 each time.
 	
 	
-	public MyAttack(int id){
+	public MyAtt(int id){
 		this.from = v1;
 		this.to= v2;
 		this.id=id;
@@ -35,22 +35,22 @@ public class MyAttack implements IMyAttack {
 		return label;
 	}
 
-	public MyArgument getFrom() {
+	public MyArg getFrom() {
 		return from;
 	}
 	
-	public void setFrom(MyArgument from) {
+	public void setFrom(MyArg from) {
 		this.from = from;
 	}
 	
-	public MyArgument getTo() {
+	public MyArg getTo() {
 		return to;
 	}
 	
-	public void setTo(MyArgument to) {
+	public void setTo(MyArg to) {
 		this.to = to;
 	}
-	public void setLabel(MyArgument vl1, MyArgument vl2){
+	public void setLabel(MyArg vl1, MyArg vl2){
 		this.label="Att("+vl1.getId()+","+vl2.getId()+")";
 	}
 	public void updateLabel(){
@@ -64,8 +64,8 @@ public class MyAttack implements IMyAttack {
 		    if (other == this) return true;
 		    if (other == null) return false;
 		    if (getClass() != other.getClass()) return false;
-		    MyAttack edge = (MyAttack)other;
-		    return (to.equals(edge.getTo()) && from.equals(edge.getFrom()));
+		    MyAtt att = (MyAtt)other;
+		    return (to.equals(att.getTo()) && from.equals(att.getFrom()));
 		  }
 		
 

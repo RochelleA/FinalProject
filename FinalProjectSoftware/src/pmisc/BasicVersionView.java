@@ -65,14 +65,14 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 	JTextArea messageFromController= new JTextArea();
 	private JPanel displayGraph = new JPanel();
 	private MyGraph viewGraph = new MyGraph();
-	private CircleLayout<MyArgument, MyAttack> viewLayout;
-	VisualizationViewer<MyArgument,MyAttack> viewVV;
-	PickedState<MyArgument> viewVertexPickedState;
-	PickedState<MyAttack> viewEdgePickedState;
-	private DefaultModalGraphMouse<MyArgument, MyAttack> gm;
-	MyArgument currentVertex;
-	MyArgument deleteVertex;
-	MyAttack deleteEdge;
+	private CircleLayout<MyArg, MyAtt> viewLayout;
+	VisualizationViewer<MyArg,MyAtt> viewVV;
+	PickedState<MyArg> viewVertexPickedState;
+	PickedState<MyAtt> viewEdgePickedState;
+	private DefaultModalGraphMouse<MyArg, MyAtt> gm;
+	MyArg currentVertex;
+	MyArg deleteVertex;
+	MyAtt deleteEdge;
 	MyPluggableGraphMouse noPickMouse;
 	
 	BasicVersionView() {
@@ -179,21 +179,21 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 		displayGraph.setBounds(00, 20, 600, 650);
 //		DisplayGraph.add(graphVisualLabel);
 		
-		viewLayout = new CircleLayout<MyArgument, MyAttack>(viewGraph);
+		viewLayout = new CircleLayout<MyArg, MyAtt>(viewGraph);
         viewLayout.setSize(new Dimension(590,590));
-		viewVV = new VisualizationViewer<MyArgument,MyAttack>(viewLayout,new Dimension(590,590));
+		viewVV = new VisualizationViewer<MyArg,MyAtt>(viewLayout,new Dimension(590,590));
 		viewVertexPickedState= viewVV.getPickedVertexState();
 		viewEdgePickedState=viewVV.getPickedEdgeState();
 		noPickMouse = new MyPluggableGraphMouse();
-        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArgument>());
-        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAttack>());
+        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
+        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAtt>());
         viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
-        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArgument>());
-        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAttack>());
+        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
+        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAtt>());
         viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK,Color.BLACK));
         viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);   
-        Transformer<MyAttack, Paint> edgeColour = new Transformer<MyAttack, Paint>() {
-			public Paint transform(MyAttack edge){
+        Transformer<MyAtt, Paint> edgeColour = new Transformer<MyAtt, Paint>() {
+			public Paint transform(MyAtt edge){
 				if(viewEdgePickedState.isPicked(edge)){
 					setBackground(Color.BLUE);
 					setForeground(Color.BLUE);
@@ -205,7 +205,7 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 		viewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
 		viewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
 		viewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
-        gm = new DefaultModalGraphMouse<MyArgument, MyAttack>();
+        gm = new DefaultModalGraphMouse<MyArg, MyAtt>();
         displayGraph.add(viewVV);		
         
         
@@ -250,12 +250,12 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 	        viewVV  = g1.getGraphVisualizationViewer(viewLayout);
 	        viewVV.setBounds(0, 0,590, 590);
 	        viewVV.setPreferredSize(new Dimension(590,590));
-	        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArgument>());
-	        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAttack>());
+	        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
+	        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAtt>());
 	        viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR); 
-	        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArgument>());
-	        Transformer<MyAttack, Paint> edgeColour = new Transformer<MyAttack, Paint>() {
-				public Paint transform(MyAttack edge){
+	        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
+	        Transformer<MyAtt, Paint> edgeColour = new Transformer<MyAtt, Paint>() {
+				public Paint transform(MyAtt edge){
 					if(viewEdgePickedState.isPicked(edge)){
 						setBackground(Color.BLUE);
 						setForeground(Color.BLUE);
@@ -269,10 +269,10 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 			viewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
 	        viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK,Color.BLACK));
 	        viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK, Color.BLACK));
-	        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAttack>());
+	        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAtt>());
 	        viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);     
-	       viewVV.getRenderContext().setEdgeLabelTransformer(new Transformer<MyAttack, String>() {
-                public String transform(MyAttack e) {
+	       viewVV.getRenderContext().setEdgeLabelTransformer(new Transformer<MyAtt, String>() {
+                public String transform(MyAtt e) {
                     return (e.getLabel()) ;
                 }
                 
@@ -294,7 +294,7 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 		viewVV.setGraphMouse(gm);
 	}
 
-	public MyArgument askForFromVertex() {
+	public MyArg askForFromVertex() {
 
 		viewVV.setPickedVertexState(viewVertexPickedState);
 		gm.setMode(Mode.PICKING);
@@ -307,12 +307,12 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 				viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK,Color.BLACK));
 				Object pickedItem = e.getItem();
 				
-				if (pickedItem instanceof MyArgument) {
-					MyArgument vertex = (MyArgument) pickedItem;
+				if (pickedItem instanceof MyArg) {
+					MyArg vertex = (MyArg) pickedItem;
 					
 					if (viewVertexPickedState.isPicked(vertex)) {
-						Transformer<MyArgument, Paint> vertexColour = new Transformer<MyArgument, Paint>() {
-							public Paint transform(MyArgument vertex){
+						Transformer<MyArg, Paint> vertexColour = new Transformer<MyArg, Paint>() {
+							public Paint transform(MyArg vertex){
 								if(viewVertexPickedState.isPicked(vertex)){
 									return Color.YELLOW;
 								}
@@ -329,11 +329,11 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 								+ " is now selected");
 						currentVertex=vertex;
 					} 
-					else if (pickedItem instanceof MyAttack){
+					else if (pickedItem instanceof MyAtt){
 						System.out.println("ha ha");
 					}else {
-						Transformer<MyAttack, Paint> edgeColour = new Transformer<MyAttack, Paint>() {
-							public Paint transform(MyAttack edge){
+						Transformer<MyAtt, Paint> edgeColour = new Transformer<MyAtt, Paint>() {
+							public Paint transform(MyAtt edge){
 								if(viewEdgePickedState.isPicked(edge)){
 									setBackground(Color.BLUE);
 									setForeground(Color.BLUE);
@@ -359,7 +359,7 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 		
 	}
 	
-	public MyArgument askForToVertex() {
+	public MyArg askForToVertex() {
 		viewVV.setPickedVertexState(viewVertexPickedState);
 		gm.setMode(Mode.PICKING);
 		viewVV.setGraphMouse(gm);
@@ -375,8 +375,8 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 	}
 
 	public void colourGraph(MyGraph graph){
-	 Transformer<MyArgument,Paint> vertexColour = new Transformer<MyArgument, Paint>() {
-		public Paint transform(MyArgument vertex){
+	 Transformer<MyArg,Paint> vertexColour = new Transformer<MyArg, Paint>() {
+		public Paint transform(MyArg vertex){
 			if(vertex.getLabel()=="IN"){
 				return Color.GREEN;
 			}
@@ -404,8 +404,8 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				
-				Transformer<MyAttack, Paint> edgeColour = new Transformer<MyAttack, Paint>() {
-					public Paint transform(MyAttack edge){
+				Transformer<MyAtt, Paint> edgeColour = new Transformer<MyAtt, Paint>() {
+					public Paint transform(MyAtt edge){
 						if(viewEdgePickedState.isPicked(edge)){
 							setBackground(Color.BLUE);
 							setForeground(Color.BLUE);
@@ -418,13 +418,13 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 				viewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
 				viewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
 				Object pickedItem = e.getItem();
-				if (pickedItem instanceof MyArgument) {
+				if (pickedItem instanceof MyArg) {
 					deleteEdge=null;
-					MyArgument vertex = (MyArgument) pickedItem;
+					MyArg vertex = (MyArg) pickedItem;
 					
 					if (viewVertexPickedState.isPicked(vertex)) {
-						Transformer<MyArgument, Paint> vertexColour = new Transformer<MyArgument, Paint>() {
-							public Paint transform(MyArgument vertex){
+						Transformer<MyArg, Paint> vertexColour = new Transformer<MyArg, Paint>() {
+							public Paint transform(MyArg vertex){
 								if(viewVertexPickedState.isPicked(vertex)){
 									return Color.YELLOW;
 								}
@@ -456,8 +456,8 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 		viewVV.setGraphMouse(gm);
 		messageFromController.setText("Please select an attack to delete. Press Enter once you have selected the attack.");
 		viewEdgePickedState.addItemListener(new ItemListener() {
-			Transformer<MyArgument,Paint> vertexColour = new Transformer<MyArgument, Paint>(){
-				public Paint transform(MyArgument vertex) {
+			Transformer<MyArg,Paint> vertexColour = new Transformer<MyArg, Paint>(){
+				public Paint transform(MyArg vertex) {
 					return Color.LIGHT_GRAY;
 				}
 			};
@@ -466,15 +466,15 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 				
 				viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK, Color.BLACK));
 				Object pickedItem = e.getItem();
-				if (pickedItem instanceof MyAttack) {
+				if (pickedItem instanceof MyAtt) {
 					currentVertex=null;
 					System.out.println("something has changed");
-					MyAttack edge = (MyAttack) pickedItem;
+					MyAtt edge = (MyAtt) pickedItem;
 					
 					if (viewEdgePickedState.isPicked(edge)) {
 						
-						Transformer<MyAttack, Paint> edgeColour = new Transformer<MyAttack, Paint>() {
-							public Paint transform(MyAttack edge){
+						Transformer<MyAtt, Paint> edgeColour = new Transformer<MyAtt, Paint>() {
+							public Paint transform(MyAtt edge){
 								if(viewEdgePickedState.isPicked(edge)){
 									setBackground(Color.BLUE);
 									setForeground(Color.BLUE);
@@ -504,8 +504,8 @@ class BasicVersionView extends JFrame implements java.util.Observer {
 //					}
 				}
 			
-			else if (pickedItem instanceof MyArgument) {
-			final MyArgument vertex = (MyArgument) pickedItem;
+			else if (pickedItem instanceof MyArg) {
+			final MyArg vertex = (MyArg) pickedItem;
 				
 				if (viewVertexPickedState.isPicked(vertex)) {
 					viewEdgePickedState.clear();

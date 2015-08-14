@@ -104,14 +104,14 @@ import java.awt.Color;
 	private JTextArea messageFromController= new JTextArea();
 	private JPanel displayGraphPanel = new JPanel();
 	private MyGraph viewGraph = new MyGraph();
-	private CircleLayout<MyArgument, MyAttack> viewLayout;
-	private VisualizationViewer<MyArgument,MyAttack> viewVV;
-	private PickedState<MyArgument> viewVertexPickedState;
-	private PickedState<MyAttack> viewEdgePickedState;
-	private DefaultModalGraphMouse<MyArgument, MyAttack> mouse;
-	MyArgument currentVertex;
-	MyArgument deleteArgument;
-	MyAttack deleteAttack;
+	private CircleLayout<MyArg, MyAtt> viewLayout;
+	private VisualizationViewer<MyArg,MyAtt> viewVV;
+	private PickedState<MyArg> viewArgPickedState;
+	private PickedState<MyAtt> viewAttPickedState;
+	private DefaultModalGraphMouse<MyArg, MyAtt> mouse;
+	MyArg currentArg;
+	MyArg deleteArgument;
+	MyAtt deleteAttack;
 	MyPluggableGraphMouse noPickMouse;
 	GraphMousePlugin pickingMouse;
 	private final JLabel LogoLabel;
@@ -351,25 +351,25 @@ import java.awt.Color;
 		graphLabelPanel.setBackground(panelColour);
 		graphLabelPanel.add(graphVisualLabel, BorderLayout.CENTER);
 		
-		viewLayout = new CircleLayout<MyArgument, MyAttack>(viewGraph);
+		viewLayout = new CircleLayout<MyArg, MyAtt>(viewGraph);
         viewLayout.setSize(new Dimension(640,630));
-		viewVV = new VisualizationViewer<MyArgument,MyAttack>(viewLayout,new Dimension(590,590));
+		viewVV = new VisualizationViewer<MyArg,MyAtt>(viewLayout,new Dimension(590,590));
 		viewVV.setPreferredSize(new Dimension(640, 630));
-		viewVertexPickedState= viewVV.getPickedVertexState();
-		viewEdgePickedState=viewVV.getPickedEdgeState();
+		viewArgPickedState= viewVV.getPickedVertexState();
+		viewAttPickedState=viewVV.getPickedEdgeState();
 		noPickMouse = new MyPluggableGraphMouse();
-        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArgument>());
-        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAttack>());
+        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
+        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAtt>());
         viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
-        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArgument>());
-        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAttack>());
+        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
+        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAtt>());
         viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK,Color.BLACK));
         viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);   
         viewVV.setBackground(buttonColour);
         viewVV.setBorder(new BevelBorder(BevelBorder.LOWERED, borderColour, borderColour));
-        Transformer<MyAttack, Paint> edgeColour = new Transformer<MyAttack, Paint>() {
-			public Paint transform(MyAttack edge){
-				if(viewEdgePickedState.isPicked(edge)){
+        Transformer<MyAtt, Paint> attColour = new Transformer<MyAtt, Paint>() {
+			public Paint transform(MyAtt att){
+				if(viewAttPickedState.isPicked(att)){
 					setBackground(Color.BLUE);
 					setForeground(Color.BLUE);
 					return Color.BLUE;
@@ -377,9 +377,9 @@ import java.awt.Color;
 					return Color.BLACK;	
 			}
 		};
-		viewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
-		viewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
-		viewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
+		viewVV.getRenderContext().setEdgeDrawPaintTransformer(attColour);
+		viewVV.getRenderContext().setArrowDrawPaintTransformer(attColour);
+		viewVV.getRenderContext().setArrowFillPaintTransformer(attColour);
         mouse = new PickingMouse();
 
         
@@ -464,7 +464,7 @@ import java.awt.Color;
 
 
 
-	public VisualizationViewer<MyArgument, MyAttack> getViewVV() {
+	public VisualizationViewer<MyArg, MyAtt> getViewVV() {
 		return viewVV;
 	}
 
@@ -536,26 +536,26 @@ import java.awt.Color;
 
 
 
-	public PickedState<MyArgument> getViewVertexPickedState() {
-		return viewVertexPickedState;
+	public PickedState<MyArg> getViewArgPickedState() {
+		return viewArgPickedState;
 	}
 
 
 
-	public void setViewVertexPickedState(PickedState<MyArgument> viewVertexPickedState) {
-		this.viewVertexPickedState = viewVertexPickedState;
+	public void setViewArgPickedState(PickedState<MyArg> viewArgPickedState) {
+		this.viewArgPickedState = viewArgPickedState;
 	}
 
 
 
-	public PickedState<MyAttack> getViewEdgePickedState() {
-		return viewEdgePickedState;
+	public PickedState<MyAtt> getViewAttPickedState() {
+		return viewAttPickedState;
 	}
 
 
 
-	public void setViewEdgePickedState(PickedState<MyAttack> viewEdgePickedState) {
-		this.viewEdgePickedState = viewEdgePickedState;
+	public void setViewAttPickedState(PickedState<MyAtt> viewAttPickedState) {
+		this.viewAttPickedState = viewAttPickedState;
 	}
 
 
@@ -594,8 +594,8 @@ import java.awt.Color;
 	buildButton.addActionListener(controller);
 	resetLabelsButton.addActionListener(controller);
 	
-	viewVertexPickedState.addItemListener(controller1);
-	viewEdgePickedState.addItemListener(controller1);
+	viewArgPickedState.addItemListener(controller1);
+	viewAttPickedState.addItemListener(controller1);
 
 	
 	} 
@@ -607,21 +607,21 @@ import java.awt.Color;
         viewLayout.setSize(new Dimension(640,630));
 		viewVV = g1.getGraphVisualizationViewer(viewLayout);
 		viewVV.setPreferredSize(new Dimension(640, 630));
-		viewVertexPickedState= viewVV.getPickedVertexState();
-		viewEdgePickedState=viewVV.getPickedEdgeState();
+		viewArgPickedState= viewVV.getPickedVertexState();
+		viewAttPickedState=viewVV.getPickedEdgeState();
 		noPickMouse = new MyPluggableGraphMouse();
-        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArgument>());
-        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAttack>());
+        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
+        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAtt>());
         viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
-        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArgument>());
-        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAttack>());
+        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
+        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAtt>());
         viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK,Color.BLACK));
         viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);   
         viewVV.setBackground(buttonColour);
         viewVV.setBorder(new BevelBorder(BevelBorder.LOWERED, borderColour, borderColour));
-        Transformer<MyAttack, Paint> edgeColour = new Transformer<MyAttack, Paint>() {
-			public Paint transform(MyAttack edge){
-				if(viewEdgePickedState.isPicked(edge)){
+        Transformer<MyAtt, Paint> attColour = new Transformer<MyAtt, Paint>() {
+			public Paint transform(MyAtt att){
+				if(viewAttPickedState.isPicked(att)){
 					setBackground(Color.BLUE);
 					setForeground(Color.BLUE);
 					return Color.BLUE;
@@ -629,12 +629,12 @@ import java.awt.Color;
 					return Color.BLACK;	
 			}
 		};
-		viewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
-		viewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
-		viewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
+		viewVV.getRenderContext().setEdgeDrawPaintTransformer(attColour);
+		viewVV.getRenderContext().setArrowDrawPaintTransformer(attColour);
+		viewVV.getRenderContext().setArrowFillPaintTransformer(attColour);
         mouse = new PickingMouse();
         viewVV.getRenderContext().setLabelOffset(17);
-//        viewVertexPickedState = viewVV.getPickedVertexState();
+//        viewArgPickedState = viewVV.getPickedVertexState();
         displayGraphPanel.removeAll();
         displayGraphPanel.add(viewVV);
         displayGraphPanel.validate();
@@ -646,15 +646,15 @@ import java.awt.Color;
 //	        viewVV  = g1.getGraphVisualizationViewer(viewLayout);
 //	        viewVV.setBounds(0, 0,640, 630);
 //	        viewVV.setPreferredSize(new Dimension(640,630));
-//	        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
+//	        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
 //	        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
 //	        viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR); 
-//	        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyVertex>());
+//	        viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
 //	        viewVV.setBackground(buttonColour);
 //	        viewVV.setBorder(new BevelBorder(BevelBorder.LOWERED, borderColour, borderColour));
-//	        Transformer<MyEdge, Paint> edgeColour = new Transformer<MyEdge, Paint>() {
-//				public Paint transform(MyEdge edge){
-//					if(viewEdgePickedState.isPicked(edge)){
+//	        Transformer<MyEdge, Paint> attColour = new Transformer<MyEdge, Paint>() {
+//				public Paint transform(MyEdge att){
+//					if(viewEdgePickedState.isPicked(att)){
 //						setBackground(Color.BLUE);
 //						setForeground(Color.BLUE);
 //						return Color.BLUE;
@@ -662,21 +662,21 @@ import java.awt.Color;
 //						return Color.BLACK;	
 //				}
 //			};
-//			viewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
-//			viewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
-//			viewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
+//			viewVV.getRenderContext().setEdgeDrawPaintTransformer(attColour);
+//			viewVV.getRenderContext().setArrowDrawPaintTransformer(attColour);
+//			viewVV.getRenderContext().setArrowFillPaintTransformer(attColour);
 //	        viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK,Color.BLACK));
 //	        viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK, Color.BLACK));
 //	        viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyEdge>());
 //	        viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);     
 //	       viewVV.getRenderContext().setEdgeLabelTransformer(new Transformer<MyEdge, String>() {
-//                public String transform(MyEdge e) {
+//                public String transform(MyAtt e) {
 //                    return (e.getLabel()) ;
 //                }
 //                
 //            });
 //	       viewVV.getRenderContext().setLabelOffset(17);
-//	        viewVertexPickedState = viewVV.getPickedVertexState();
+//	        viewArgPickedState = viewVV.getPickedVertexState();
 //	        displayGraph.removeAll();
 //	        displayGraph.add(viewVV);
 	}
@@ -692,26 +692,26 @@ import java.awt.Color;
 		viewVV.setGraphMouse(mouse);
 	}
 
-	public MyArgument askForFromArgument() {
+	public MyArg askForFromArgument() {
 
-		viewVV.setPickedVertexState(viewVertexPickedState);
+		viewVV.setPickedVertexState(viewArgPickedState);
 		mouse.setMode(Mode.PICKING);
 		viewVV.setGraphMouse(mouse);
 		messageFromController.setText("Please select an attacking argument");
-		viewVertexPickedState.addItemListener(new ItemListener() {
+		viewArgPickedState.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK,Color.BLACK));
 				Object pickedItem = e.getItem();
 				
-				if (pickedItem instanceof MyArgument) {
-					MyArgument vertex = (MyArgument) pickedItem;
+				if (pickedItem instanceof MyArg) {
+					MyArg Arg = (MyArg) pickedItem;
 					
-					if (viewVertexPickedState.isPicked(vertex)) {
-						Transformer<MyArgument, Paint> vertexColour = new Transformer<MyArgument, Paint>() {
-							public Paint transform(MyArgument vertex){
-								if(viewVertexPickedState.isPicked(vertex)){
+					if (viewArgPickedState.isPicked(Arg)) {
+						Transformer<MyArg, Paint> ArgColour = new Transformer<MyArg, Paint>() {
+							public Paint transform(MyArg Arg){
+								if(viewArgPickedState.isPicked(Arg)){
 									return Color.YELLOW;
 								}
 								
@@ -720,19 +720,19 @@ import java.awt.Color;
 						};
 						
 						viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK, Color.BLACK));
-						viewVV.getRenderContext().setVertexFillPaintTransformer(vertexColour);
-						messageFromController.setText("You have selected "+ vertex+". Press enter to use this vertex.");
+						viewVV.getRenderContext().setVertexFillPaintTransformer(ArgColour);
+						messageFromController.setText("You have selected "+ Arg+". Press enter to use this argument.");
 						informationPanel.add(messageFromController);
-						System.out.println("Argument " + vertex
+						System.out.println("Argument " + Arg
 								+ " is now selected");
-						currentVertex=vertex;
+						currentArg=Arg;
 					} 
-					else if (pickedItem instanceof MyAttack){
+					else if (pickedItem instanceof MyAtt){
 						System.out.println("ha ha");
 					}else {
-//						Transformer<MyEdge, Paint> edgeColour = new Transformer<MyEdge, Paint>() {
-//							public Paint transform(MyEdge edge){
-//								if(viewEdgePickedState.isPicked(edge)){
+//						Transformer<MyAtt, Paint> attColour = new Transformer<MyAtt, Paint>() {
+//							public Paint transform(MyAtt att){
+//								if(viewAttPickedState.isPicked(att)){
 //									setBackground(Color.BLUE);
 //									setForeground(Color.BLUE);
 //									return Color.BLUE;
@@ -740,47 +740,47 @@ import java.awt.Color;
 //									return Color.BLACK;	
 //							}
 //						};
-//						viewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
-//						viewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
-//						viewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
+//						viewVV.getRenderContext().setEdgeDrawPaintTransformer(attColour);
+//						viewVV.getRenderContext().setArrowDrawPaintTransformer(attColour);
+//						viewVV.getRenderContext().setArrowFillPaintTransformer(attColour);
 						messageFromController.setText("");
 						informationPanel.add(messageFromController);
 						System.out.println("Picking state and message box cleared");
-						currentVertex=null;
+						currentArg=null;
 					}
 					
 				}
 			}
 		});
-		return currentVertex;
+		return currentArg;
 		
 	}
 	
-	public MyArgument askForToArgument(MyArgument from) {
-		viewVV.setPickedVertexState(viewVertexPickedState);
+	public MyArg askForToArgument(MyArg from) {
+		viewVV.setPickedVertexState(viewArgPickedState);
 		mouse.setMode(Mode.PICKING);
 		viewVV.setGraphMouse(mouse);
 		messageFromController.setText("The attacking argument will be "+from+". Please select an attacked argument and then press enter when you are done.");
-		return currentVertex;
+		return currentArg;
 		
 	}
 
 	public void changeToNoPickingMouse() {
-		currentVertex=null;
+		currentArg=null;
 		PluggableGraphMouse noPick = new PluggableGraphMouse();
 		viewVV.setGraphMouse(noPick);
 	}
 
 	public void colourGraph(MyGraph graph){
-	 Transformer<MyArgument,Paint> vertexColour = new Transformer<MyArgument, Paint>() {
-		public Paint transform(MyArgument vertex){
-			if(vertex.getLabel()=="IN"){
+	 Transformer<MyArg,Paint> ArgColour = new Transformer<MyArg, Paint>() {
+		public Paint transform(MyArg Arg){
+			if(Arg.getLabel()=="IN"){
 				return Color.GREEN;
 			}
-			else if(vertex.getLabel()=="OUT"){
+			else if(Arg.getLabel()=="OUT"){
 				return Color.RED;
 			}
-			else if(vertex.getLabel()=="UNDEC"){
+			else if(Arg.getLabel()=="UNDEC"){
 				return Color.ORANGE;
 			}
 			else{
@@ -788,22 +788,22 @@ import java.awt.Color;
 			}
 		}
 	};
-	viewVV.getRenderContext().setVertexFillPaintTransformer(vertexColour);
+	viewVV.getRenderContext().setVertexFillPaintTransformer(ArgColour);
 	}
 	
 	public void deleteArgument(){
-		viewVV.setPickedVertexState(viewVertexPickedState);
+		viewVV.setPickedVertexState(viewArgPickedState);
 		mouse.setMode(Mode.PICKING);
 		viewVV.setGraphMouse(mouse);
-		messageFromController.setText("Please select a argument to delete. Deleting this argument will delete all attacks connected to it. Press Enter once you have selected the vertex.");
-		viewVertexPickedState.addItemListener(new ItemListener() {
+		messageFromController.setText("Please select a argument to delete. Deleting this argument will delete all attacks connected to it. Press Enter once you have selected the argument.");
+		viewArgPickedState.addItemListener(new ItemListener() {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				
-				Transformer<MyAttack, Paint> edgeColour = new Transformer<MyAttack, Paint>() {
-					public Paint transform(MyAttack edge){
-						if(viewEdgePickedState.isPicked(edge)){
+				Transformer<MyAtt, Paint> attColour = new Transformer<MyAtt, Paint>() {
+					public Paint transform(MyAtt att){
+						if(viewAttPickedState.isPicked(att)){
 							setBackground(Color.BLUE);
 							setForeground(Color.BLUE);
 							return Color.BLUE;
@@ -811,29 +811,29 @@ import java.awt.Color;
 							return Color.BLACK;	
 					}
 				};
-				viewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
-				viewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
-				viewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
+				viewVV.getRenderContext().setEdgeDrawPaintTransformer(attColour);
+				viewVV.getRenderContext().setArrowDrawPaintTransformer(attColour);
+				viewVV.getRenderContext().setArrowFillPaintTransformer(attColour);
 				Object pickedItem = e.getItem();
-				if (pickedItem instanceof MyArgument) {
+				if (pickedItem instanceof MyArg) {
 					deleteAttack=null;
-					MyArgument vertex = (MyArgument) pickedItem;
+					MyArg Arg = (MyArg) pickedItem;
 					
-					if (viewVertexPickedState.isPicked(vertex)) {
-						Transformer<MyArgument, Paint> vertexColour = new Transformer<MyArgument, Paint>() {
-							public Paint transform(MyArgument vertex){
-								if(viewVertexPickedState.isPicked(vertex)){
+					if (viewArgPickedState.isPicked(Arg)) {
+						Transformer<MyArg, Paint> ArgColour = new Transformer<MyArg, Paint>() {
+							public Paint transform(MyArg Arg){
+								if(viewArgPickedState.isPicked(Arg)){
 									return Color.YELLOW;
 								}
 									return tBoxColour;	
 							}
 						};
-						viewVV.getRenderContext().setVertexFillPaintTransformer(vertexColour);
-						messageFromController.setText("You have selected "+ vertex+ ". Press enter to use this vertex");
+						viewVV.getRenderContext().setVertexFillPaintTransformer(ArgColour);
+						messageFromController.setText("You have selected "+ Arg+ ". Press enter to use this argument");
 						informationPanel.add(messageFromController);
-						System.out.println("Argument " + vertex
+						System.out.println("Argument " + Arg
 								+ " is now selected");
-						deleteArgument=vertex;
+						deleteArgument=Arg;
 						System.out.print("Delete is set to "+deleteArgument);
 					} else {
 						messageFromController.setText("");
@@ -847,14 +847,14 @@ import java.awt.Color;
 		
 	}
 	public void deleteAttack(){
-		viewVertexPickedState.clear();
-		viewVV.setPickedEdgeState(viewEdgePickedState);
+		viewArgPickedState.clear();
+		viewVV.setPickedEdgeState(viewAttPickedState);
 		mouse.setMode(Mode.PICKING);
 		viewVV.setGraphMouse(mouse);
 		messageFromController.setText("Please select an attack to delete. Press Enter once you have selected the attack.");
-		viewEdgePickedState.addItemListener(new ItemListener() {
-			Transformer<MyArgument,Paint> vertexColour = new Transformer<MyArgument, Paint>(){
-				public Paint transform(MyArgument vertex) {
+		viewAttPickedState.addItemListener(new ItemListener() {
+			Transformer<MyArg,Paint> ArgColour = new Transformer<MyArg, Paint>(){
+				public Paint transform(MyArg Arg) {
 					return tBoxColour;
 				}
 			};
@@ -863,16 +863,16 @@ import java.awt.Color;
 				
 				viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK, Color.BLACK));
 				Object pickedItem = e.getItem();
-				if (pickedItem instanceof MyAttack) {
-					currentVertex=null;
+				if (pickedItem instanceof MyAtt) {
+					currentArg=null;
 					System.out.println("something has changed");
-					MyAttack edge = (MyAttack) pickedItem;
+					MyAtt att = (MyAtt) pickedItem;
 					
-					if (viewEdgePickedState.isPicked(edge)) {
+					if (viewAttPickedState.isPicked(att)) {
 						
-						Transformer<MyAttack, Paint> edgeColour = new Transformer<MyAttack, Paint>() {
-							public Paint transform(MyAttack edge){
-								if(viewEdgePickedState.isPicked(edge)){
+						Transformer<MyAtt, Paint> attColour = new Transformer<MyAtt, Paint>() {
+							public Paint transform(MyAtt att){
+								if(viewAttPickedState.isPicked(att)){
 									setBackground(Color.BLUE);
 									setForeground(Color.BLUE);
 									return Color.BLUE;
@@ -881,17 +881,17 @@ import java.awt.Color;
 							}
 						};
 						
-						viewVV.getRenderContext().setVertexFillPaintTransformer(vertexColour);
-						viewVV.getRenderContext().setEdgeDrawPaintTransformer(edgeColour);
-						viewVV.getRenderContext().setArrowDrawPaintTransformer(edgeColour);
-						viewVV.getRenderContext().setArrowFillPaintTransformer(edgeColour);
-						messageFromController.setText("You have selected "+ edge.getLabel()+ ".");
+						viewVV.getRenderContext().setVertexFillPaintTransformer(ArgColour);
+						viewVV.getRenderContext().setEdgeDrawPaintTransformer(attColour);
+						viewVV.getRenderContext().setArrowDrawPaintTransformer(attColour);
+						viewVV.getRenderContext().setArrowFillPaintTransformer(attColour);
+						messageFromController.setText("You have selected "+ att.getLabel()+ ".");
 					
 					viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK, Color.BLUE));
 					viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK, Color.BLACK));
 					informationPanel.add(messageFromController);
-						System.out.println("Edge " + edge+ " is now selected");
-						deleteAttack=edge;
+						System.out.println("Att " + att+ " is now selected");
+						deleteAttack=att;
 						System.out.print("Delete is set to "+deleteAttack.getLabel());
 //						else {
 //						MessageFromController.setText("");
@@ -901,11 +901,11 @@ import java.awt.Color;
 //					}
 				}
 			
-			else if (pickedItem instanceof MyArgument) {
-			final MyArgument vertex = (MyArgument) pickedItem;
+			else if (pickedItem instanceof MyArg) {
+			final MyArg Arg = (MyArg) pickedItem;
 				
-				if (viewVertexPickedState.isPicked(vertex)) {
-					viewEdgePickedState.clear();
+				if (viewArgPickedState.isPicked(Arg)) {
+					viewAttPickedState.clear();
 					viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK, Color.BLACK));
 					viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK,Color.BLACK));
 				} 

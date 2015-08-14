@@ -5,15 +5,15 @@ import java.util.HashSet;
 
 public interface IMyLabelling {
 
-public HashSet<MyArgument> getInVertices();
+public HashSet<MyArg> getInArgs();
 
-public boolean addInVertex(MyArgument v);
+public boolean addInArg(MyArg v);
 
-public HashSet<MyArgument> getOutVertices();
+public HashSet<MyArg> getOutArgs();
 
-public boolean addOutVertex(MyArgument v);
+public boolean addOutArg(MyArg v);
 
-public HashSet<MyArgument> getUndecVertices();
+public HashSet<MyArg> getUndecArgs();
 
-public boolean addUndecVertex(MyArgument v);
+public boolean addUndecArg(MyArg v);
 }
