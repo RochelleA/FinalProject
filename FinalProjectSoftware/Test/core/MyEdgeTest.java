@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import core.MyEdge;
-import core.MyVertex;
+import core.MyAttack;
+import core.MyArgument;
 
 /**
  * @author Rochelle
@@ -17,24 +17,24 @@ import core.MyVertex;
 public class MyEdgeTest {
 //	MyVertex v1 = new MyVertex(0);
 //	MyVertex v2 = new MyVertex(1);
-	MyVertex v3 = new MyVertex(2);
-	MyEdge e1 = new MyEdge(0);
+	MyArgument v3 = new MyArgument(2);
+	MyAttack e1 = new MyAttack(0);
 	/**
-	 * Test method for {@link core.MyEdge#MyEdge(core.MyVertex, core.MyVertex)}.
+	 * Test method for {@link core.MyAttack#MyEdge(core.MyArgument, core.MyArgument)}.
 	 */
 	@Test
 	public void testMyEdge() {
 		
 		assertEquals(0,e1.id);
-		assertEquals(MyEdge.v1,e1.from);
-		assertEquals(MyEdge.v2,e1.to);
+		assertEquals(MyAttack.v1,e1.from);
+		assertEquals(MyAttack.v2,e1.to);
 		assertEquals("Att("+ 0 +","+ 0 +")",e1.label);
 		
 		
 	}
 
 	/**
-	 * Test method for {@link core.MyEdge#getId()}.
+	 * Test method for {@link core.MyAttack#getId()}.
 	 */
 	@Test
 	public void testGetId() {
@@ -42,7 +42,7 @@ public class MyEdgeTest {
 	}
 
 	/**
-	 * Test method for {@link core.MyEdge#getLabel()}.
+	 * Test method for {@link core.MyAttack#getLabel()}.
 	 */
 	@Test
 	public void testGetLabel() {
@@ -52,7 +52,7 @@ public class MyEdgeTest {
 	}
 
 	/**
-	 * Test method for {@link core.MyEdge#setId(int)}.
+	 * Test method for {@link core.MyAttack#setId(int)}.
 	 */
 	@Test
 	public void testSetId() {
@@ -61,16 +61,16 @@ public class MyEdgeTest {
 	}
 
 	/**
-	 * Test method for {@link core.MyEdge#getFrom()}.
+	 * Test method for {@link core.MyAttack#getFrom()}.
 	 */
 	@Test
 	public void testGetFrom() {
-		e1.setFrom(MyEdge.v1);
-		assertEquals(MyEdge.v1, e1.getFrom());
+		e1.setFrom(MyAttack.v1);
+		assertEquals(MyAttack.v1, e1.getFrom());
 			}
 
 	/**
-	 * Test method for {@link core.MyEdge#setFrom(core.MyVertex)}.
+	 * Test method for {@link core.MyAttack#setFrom(core.MyArgument)}.
 	 */
 	@Test
 	public void testSetFrom() {
@@ -80,16 +80,16 @@ public class MyEdgeTest {
 	}
 
 	/**
-	 * Test method for {@link core.MyEdge#getTo()}.
+	 * Test method for {@link core.MyAttack#getTo()}.
 	 */
 	@Test
 	public void testGetTo() {
-		e1.setTo(MyEdge.v2);
-		assertEquals(MyEdge.v2, e1.getTo());
+		e1.setTo(MyAttack.v2);
+		assertEquals(MyAttack.v2, e1.getTo());
 	}
 
 	/**
-	 * Test method for {@link core.MyEdge#setTo(core.MyVertex)}.
+	 * Test method for {@link core.MyAttack#setTo(core.MyArgument)}.
 	 */
 	@Test
 	public void testSetTo() {
@@ -99,7 +99,7 @@ public class MyEdgeTest {
 	
 	@Test 
 	public void testSetLabel(){
-		e1.setLabel(MyEdge.v1, MyEdge.v2);
+		e1.setLabel(MyAttack.v1, MyAttack.v2);
 		String y = "Att(0,0)";
 		assertEquals(e1.label,y );
 	}
@@ -113,11 +113,11 @@ public class MyEdgeTest {
 	
 	@Test
 	public void testEquals(){
-		MyEdge e1 = new MyEdge(1);
-		MyEdge e2 = new MyEdge(1);
-		MyEdge e3 = new MyEdge(1);
-		MyEdge e4 = new MyEdge(2);
-		MyVertex v4 = new MyVertex(3);
+		MyAttack e1 = new MyAttack(1);
+		MyAttack e2 = new MyAttack(1);
+		MyAttack e3 = new MyAttack(1);
+		MyAttack e4 = new MyAttack(2);
+		MyArgument v4 = new MyArgument(3);
 		e3.setFrom(v4);
 		assertFalse(e1.equals(e3));
 		assertTrue(e1.equals(e4));

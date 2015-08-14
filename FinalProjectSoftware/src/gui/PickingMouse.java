@@ -5,7 +5,7 @@ import core.*;
 
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 
-public class PickingMouse extends DefaultModalGraphMouse<MyVertex, MyEdge> {
+public class PickingMouse extends DefaultModalGraphMouse<MyArgument, MyAttack> {
 
 	public PickingMouse() {
 		// TODO Auto-generated constructor stub

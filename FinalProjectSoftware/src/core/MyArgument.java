@@ -9,7 +9,7 @@ package core;
  * @author Rochelle
  *
  */
-public class MyVertex implements IMyVertex {
+public class MyArgument implements IMyArgument {
 	//identifies the vertex
 	int id;
 	//this is either not set or {in,out,undec}
@@ -23,7 +23,7 @@ public class MyVertex implements IMyVertex {
 	
 	
 //	public MyVertex(int vertexId) {
-	public MyVertex(int id){
+	public MyArgument(int id){
 		this.id=id;
 		this.weight=0;
 		this.label="NONE";
@@ -62,7 +62,7 @@ public class MyVertex implements IMyVertex {
 	public boolean equals(Object vertex2) {
 	    if (vertex2 == null) return false;
 	    if (getClass() != vertex2.getClass()) return false;
-	    MyVertex vertex = (MyVertex)vertex2;
+	    MyArgument vertex = (MyArgument)vertex2;
 	    return (id == vertex.id && label == vertex.label && weight == vertex.weight );
 	  }
 	

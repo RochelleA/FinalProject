@@ -15,7 +15,7 @@ public class ModelTest {
 	@Test
 	public void testAddvertex(){
 		Model m= new Model();
-		MyVertex v1=m.addMyVertex();
+		MyArgument v1=m.addMyVertex();
 		assertTrue(m.modelGraph.getMyVertices().contains(v1));
 
 	}
@@ -23,7 +23,7 @@ public class ModelTest {
 	@Test 
 	public void testDeleteVertex(){
 		Model m= new Model();
-		MyVertex v1=m.addMyVertex();
+		MyArgument v1=m.addMyVertex();
 		m.deleteVertex(v1);
 		assertTrue(!(m.modelGraph.getMyVertices().contains(v1)));	
 	}
@@ -31,12 +31,12 @@ public class ModelTest {
 	@Test 
 	public void testAddEdge(){
 		Model m = new Model();
-		MyVertex v11 = m.addMyVertex();
+		MyArgument v11 = m.addMyVertex();
 		
-		MyVertex v22 = m.addMyVertex();
+		MyArgument v22 = m.addMyVertex();
 		m.addEdge(v11);
 		assertEquals(v11,m.getV1());
-		MyEdge e = m.addEdge(v22);
+		MyAttack e = m.addEdge(v22);
 		assertTrue(m.modelGraph.getMyEdges().contains(e));
 		assertEquals(null,m.getV2());
 	}
@@ -44,12 +44,12 @@ public class ModelTest {
 	@Test
 	public void testDeleteEdge(){
 		Model m = new Model();
-		MyVertex v11 = m.addMyVertex();
+		MyArgument v11 = m.addMyVertex();
 		
-		MyVertex v22 = m.addMyVertex();
+		MyArgument v22 = m.addMyVertex();
 		m.addEdge(v11);
 		assertEquals(v11,m.getV1());
-		MyEdge e = m.addEdge(v22);
+		MyAttack e = m.addEdge(v22);
 		m.deleteEdge(e);
 		assertTrue(!(m.modelGraph.getMyEdges().contains(e)));
 		
@@ -57,8 +57,8 @@ public class ModelTest {
 	@Test 
 	public void testResetGraph(){
 		Model model = new Model();
-		MyVertex v1 =model.addMyVertex();
-		MyVertex v2 = model.addMyVertex();
+		MyArgument v1 =model.addMyVertex();
+		MyArgument v2 = model.addMyVertex();
 		model.addEdge(v1);
 		model.addEdge(v2);
 		assertTrue(!(model.modelGraph.getMyVertices().isEmpty()));
@@ -127,15 +127,15 @@ public class ModelTest {
 	@Test 
 	public void testGroundedLabelling(){
 		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyVertex v4= m.modelGraph.addMyVertex();
-		MyVertex v5= m.modelGraph.addMyVertex();
-		MyEdge e1 =m.modelGraph.addMyEdge(v1, v2);
-		MyEdge e2 = m.modelGraph.addMyEdge(v3, v2);
-		MyEdge e3 = m.modelGraph.addMyEdge(v2, v4);
-		MyEdge e4 = m.modelGraph.addMyEdge(v2, v5);
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
+		MyArgument v4= m.modelGraph.addMyVertex();
+		MyArgument v5= m.modelGraph.addMyVertex();
+		MyAttack e1 =m.modelGraph.addMyEdge(v1, v2);
+		MyAttack e2 = m.modelGraph.addMyEdge(v3, v2);
+		MyAttack e3 = m.modelGraph.addMyEdge(v2, v4);
+		MyAttack e4 = m.modelGraph.addMyEdge(v2, v5);
 		MyLabelling l1 =m.groundedLabelling();
 		System.out.println("not lablled vertices" + l1.getNotLabelledVertices());
 		assertTrue(l1.getNotLabelledVertices().isEmpty());
@@ -155,18 +155,18 @@ public class ModelTest {
 	@Test
 	public void testGetGroundedLabelling(){
 		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyVertex v4= m.modelGraph.addMyVertex();
-		MyVertex v5= m.modelGraph.addMyVertex();
-		MyEdge e1 =m.modelGraph.addMyEdge(v1, v2);
-		MyEdge e2 = m.modelGraph.addMyEdge(v3, v2);
-		MyEdge e3 = m.modelGraph.addMyEdge(v2, v4);
-		MyEdge e4 = m.modelGraph.addMyEdge(v2, v5);
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
+		MyArgument v4= m.modelGraph.addMyVertex();
+		MyArgument v5= m.modelGraph.addMyVertex();
+		MyAttack e1 =m.modelGraph.addMyEdge(v1, v2);
+		MyAttack e2 = m.modelGraph.addMyEdge(v3, v2);
+		MyAttack e3 = m.modelGraph.addMyEdge(v2, v4);
+		MyAttack e4 = m.modelGraph.addMyEdge(v2, v5);
 		
 		
-		HashSet<MyVertex> h1= m.getGroundedExtension();
+		HashSet<MyArgument> h1= m.getGroundedExtension();
 		
 		assertEquals(h1, m.groundedLabelling().getInVertices());
 	}
@@ -174,11 +174,11 @@ public class ModelTest {
 	@Test
 	public void testResetLabels(){
 		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyVertex v4= m.modelGraph.addMyVertex();
-		MyVertex v5= m.modelGraph.addMyVertex();
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
+		MyArgument v4= m.modelGraph.addMyVertex();
+		MyArgument v5= m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v3, v2);
 		m.modelGraph.addMyEdge(v2, v4);
@@ -196,15 +196,15 @@ public class ModelTest {
 	@Test
 	public void testIsIllegallyIn(){
 		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyVertex v4= m.modelGraph.addMyVertex();
-		MyVertex v5= m.modelGraph.addMyVertex();
-		MyEdge e1 =m.modelGraph.addMyEdge(v1, v2);
-		MyEdge e2 = m.modelGraph.addMyEdge(v3, v2);
-		MyEdge e3 = m.modelGraph.addMyEdge(v2, v4);
-		MyEdge e4 = m.modelGraph.addMyEdge(v2, v5);
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
+		MyArgument v4= m.modelGraph.addMyVertex();
+		MyArgument v5= m.modelGraph.addMyVertex();
+		MyAttack e1 =m.modelGraph.addMyEdge(v1, v2);
+		MyAttack e2 = m.modelGraph.addMyEdge(v3, v2);
+		MyAttack e3 = m.modelGraph.addMyEdge(v2, v4);
+		MyAttack e4 = m.modelGraph.addMyEdge(v2, v5);
 		m.groundedLabelling();
 		System.out.println(""+v2.getLabel());
 		v2.setLabel("IN");
@@ -216,15 +216,15 @@ public class ModelTest {
 	@Test 
 	public void testIsIllegallyOut(){
 		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyVertex v4= m.modelGraph.addMyVertex();
-		MyVertex v5= m.modelGraph.addMyVertex();
-		MyEdge e1 =m.modelGraph.addMyEdge(v1, v2);
-		MyEdge e2 = m.modelGraph.addMyEdge(v3, v2);
-		MyEdge e3 = m.modelGraph.addMyEdge(v2, v4);
-		MyEdge e4 = m.modelGraph.addMyEdge(v2, v5);
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
+		MyArgument v4= m.modelGraph.addMyVertex();
+		MyArgument v5= m.modelGraph.addMyVertex();
+		MyAttack e1 =m.modelGraph.addMyEdge(v1, v2);
+		MyAttack e2 = m.modelGraph.addMyEdge(v3, v2);
+		MyAttack e3 = m.modelGraph.addMyEdge(v2, v4);
+		MyAttack e4 = m.modelGraph.addMyEdge(v2, v5);
 		m.groundedLabelling();
 		System.out.println(""+v3.getLabel());
 		v3.setLabel("OUT");
@@ -236,15 +236,15 @@ public class ModelTest {
 	@Test 
 	public void testIsIlegallyUndec(){
 		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyVertex v4= m.modelGraph.addMyVertex();
-		MyVertex v5= m.modelGraph.addMyVertex();
-		MyEdge e1 =m.modelGraph.addMyEdge(v1, v2);
-		MyEdge e2 = m.modelGraph.addMyEdge(v3, v2);
-		MyEdge e3 = m.modelGraph.addMyEdge(v2, v4);
-		MyEdge e4 = m.modelGraph.addMyEdge(v2, v5);
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
+		MyArgument v4= m.modelGraph.addMyVertex();
+		MyArgument v5= m.modelGraph.addMyVertex();
+		MyAttack e1 =m.modelGraph.addMyEdge(v1, v2);
+		MyAttack e2 = m.modelGraph.addMyEdge(v3, v2);
+		MyAttack e3 = m.modelGraph.addMyEdge(v2, v4);
+		MyAttack e4 = m.modelGraph.addMyEdge(v2, v5);
 		m.groundedLabelling();
 		System.out.println(""+v3.getLabel());
 		v3.setLabel("UNDEC");
@@ -255,11 +255,11 @@ public class ModelTest {
 	@Test
 	public void testHasIllegallyInLabelling(){
 		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyVertex v4= m.modelGraph.addMyVertex();
-		MyVertex v5= m.modelGraph.addMyVertex();
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
+		MyArgument v4= m.modelGraph.addMyVertex();
+		MyArgument v5= m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v3, v2);
 		m.modelGraph.addMyEdge(v2, v4);
@@ -276,11 +276,11 @@ public class ModelTest {
 	public void testHasIllegallyInLinkedHashSet(){
 		Model m = new Model();
 		LinkedHashSet<MyLabelling> setOfLabellings = new LinkedHashSet<MyLabelling>();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyVertex v4= m.modelGraph.addMyVertex();
-		MyVertex v5= m.modelGraph.addMyVertex();
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
+		MyArgument v4= m.modelGraph.addMyVertex();
+		MyArgument v5= m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v3, v2);
 		m.modelGraph.addMyEdge(v2, v4);
@@ -298,17 +298,17 @@ public class ModelTest {
 	@Test 
 	public void testTransitionStep(){
 		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyVertex v4= m.modelGraph.addMyVertex();
-		MyVertex v5= m.modelGraph.addMyVertex();
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
+		MyArgument v4= m.modelGraph.addMyVertex();
+		MyArgument v5= m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v3, v2);
 		m.modelGraph.addMyEdge(v2, v4);
 		m.modelGraph.addMyEdge(v2, v5);
 		MyLabelling labelling = new MyLabelling(0);
-		LinkedHashSet<MyVertex> tempInVertices = new LinkedHashSet<MyVertex>();
+		LinkedHashSet<MyArgument> tempInVertices = new LinkedHashSet<MyArgument>();
 		tempInVertices.addAll(m.modelGraph.getMyVertices());
 		labelling.setInVerties(tempInVertices);
 		m.transitionStep(labelling);
@@ -318,25 +318,25 @@ public class ModelTest {
 	@Test
 	public void testAdmissibleLabelling(){
 		Model m = new Model();
-		MyVertex v1 =m.modelGraph.addMyVertex();
-		MyVertex v2= m.modelGraph.addMyVertex();
-		MyVertex v3=  m.modelGraph.addMyVertex();
-		MyVertex v4 = m.modelGraph.addMyVertex();
+		MyArgument v1 =m.modelGraph.addMyVertex();
+		MyArgument v2= m.modelGraph.addMyVertex();
+		MyArgument v3=  m.modelGraph.addMyVertex();
+		MyArgument v4 = m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v4, v3);
 		m.modelGraph.addMyEdge(v2, v1);
 		m.modelGraph.addMyEdge(v3, v2);
 		MyLabelling l1=m.admissibleLabelling();
 		System.out.println("Here now" + l1.DisplayLabelling());
-		HashSet<MyVertex> inTemp = new HashSet<MyVertex>(l1.getInVertices());
-		Iterator<MyVertex> inIterator = inTemp.iterator();
+		HashSet<MyArgument> inTemp = new HashSet<MyArgument>(l1.getInVertices());
+		Iterator<MyArgument> inIterator = inTemp.iterator();
 		while(inIterator.hasNext()){
-			MyVertex current = inIterator.next();
+			MyArgument current = inIterator.next();
 			assertTrue(m.isLegallyIn(current));
 		}
-		HashSet<MyVertex> outTemp = new HashSet<MyVertex>(l1.getOutVertices());
-		Iterator<MyVertex> outIterator = outTemp.iterator();
+		HashSet<MyArgument> outTemp = new HashSet<MyArgument>(l1.getOutVertices());
+		Iterator<MyArgument> outIterator = outTemp.iterator();
 		while(outIterator.hasNext()){
-			MyVertex current = outIterator.next();
+			MyArgument current = outIterator.next();
 			assertTrue(m.isLegallyOut(current));
 		}
 		
@@ -345,19 +345,19 @@ public class ModelTest {
 	@Test
 	public void testReorderSet(){
 		Model m = new Model();
-		MyVertex v1 =m.modelGraph.addMyVertex();
-		MyVertex v2= m.modelGraph.addMyVertex();
-		MyVertex v3=  m.modelGraph.addMyVertex();
-		MyVertex v4 = m.modelGraph.addMyVertex();
+		MyArgument v1 =m.modelGraph.addMyVertex();
+		MyArgument v2= m.modelGraph.addMyVertex();
+		MyArgument v3=  m.modelGraph.addMyVertex();
+		MyArgument v4 = m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v4, v3);
 		m.modelGraph.addMyEdge(v2, v1);
 		m.modelGraph.addMyEdge(v3, v2);
-		LinkedHashSet<MyVertex> vertices =new LinkedHashSet<MyVertex>(m.modelGraph.getMyVertices());
-		MyVertex[] array1 = new MyVertex[vertices.size()];
+		LinkedHashSet<MyArgument> vertices =new LinkedHashSet<MyArgument>(m.modelGraph.getMyVertices());
+		MyArgument[] array1 = new MyArgument[vertices.size()];
 		vertices.toArray(array1);
-		LinkedHashSet<MyVertex> verticesReoder=m.reorderSet(vertices);
+		LinkedHashSet<MyArgument> verticesReoder=m.reorderSet(vertices);
 		System.out.println("vertices reordered"+verticesReoder.toString()+ vertices.size());
-		MyVertex[] array2= new MyVertex[verticesReoder.size()];
+		MyArgument[] array2= new MyArgument[verticesReoder.size()];
 		verticesReoder.toArray(array2);
 		System.out.println("array 2"+array2.toString() );
 		System.out.println("array1 element 1 "+ array1[0] + array1[1] + array1[2] + array1[3] );
@@ -370,8 +370,8 @@ public class ModelTest {
 		MyLabelling l1 = new MyLabelling(1);
 		MyLabelling l2 = new MyLabelling(2);
 		Model m = new Model();
-		MyVertex v1 = new MyVertex(1);
-		MyVertex v2 = new MyVertex(2);
+		MyArgument v1 = new MyArgument(1);
+		MyArgument v2 = new MyArgument(2);
 		l1.addInVertex(v1);
 		l2.addInVertex(v1);
 		l1.addOutVertex(v2);
@@ -394,10 +394,10 @@ public class ModelTest {
 	@Test 
 	public void testAllAdmissibleLabellings(){
 		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyVertex v4= m.modelGraph.addMyVertex();
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
+		MyArgument v4= m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v2, v1);
 		m.modelGraph.addMyEdge(v1, v3);
@@ -412,9 +412,9 @@ public class ModelTest {
 	@Test 
 	public void testAllAdmissibleLabellings2(){
 		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v2, v3);
 		System.out.println(m.allAdmissibleLabelling());
@@ -425,9 +425,9 @@ public class ModelTest {
 	@Test
 	public void testDisplayAnAdmissiblelabelling(){
 		Model m = new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v2, v3);
 
@@ -440,9 +440,9 @@ public class ModelTest {
 	public void testSuperIllegallyIn(){
 		Model m = new Model();
 
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v2, v3);
 		MyLabelling labelling = new MyLabelling(0);
@@ -452,9 +452,9 @@ public class ModelTest {
 		assertTrue(m.superIllegallyIn(v2, labelling));
 		
 		Model m1 = new Model();
-		MyVertex v11= m1.modelGraph.addMyVertex();
-		MyVertex v22=m1.modelGraph.addMyVertex();
-		MyVertex v33= m1.modelGraph.addMyVertex();
+		MyArgument v11= m1.modelGraph.addMyVertex();
+		MyArgument v22=m1.modelGraph.addMyVertex();
+		MyArgument v33= m1.modelGraph.addMyVertex();
 		m1.modelGraph.addMyEdge(v11, v22);
 		m1.modelGraph.addMyEdge(v22, v33);
 		MyLabelling labelling1 = new MyLabelling(1);
@@ -467,10 +467,10 @@ public class ModelTest {
 	@Test 
 	public void testFindSuperIllegallyIn(){
 		Model m= new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyVertex v4 = m.modelGraph.addMyVertex();
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
+		MyArgument v4 = m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v2, v3);
 		m.modelGraph.addMyEdge(v3, v4);
@@ -479,23 +479,23 @@ public class ModelTest {
 		labelling.addInVertex(v4);
 		labelling.addInVertex(v1);
 		labelling.addUndecVertex(v3);
-		LinkedHashSet<MyVertex> superIllegallyIn= m.findSuperIllegallyIn(labelling);
+		LinkedHashSet<MyArgument> superIllegallyIn= m.findSuperIllegallyIn(labelling);
 		assertTrue(superIllegallyIn.contains(v2));
 		assertTrue(superIllegallyIn.contains(v4));
 		assertFalse(superIllegallyIn.contains(v1));
 		Model m1 = new Model();
-		MyVertex v11 = m1.modelGraph.addMyVertex();
-		MyVertex v22 = m1.modelGraph.addMyVertex();
-		MyVertex v33 = m1.modelGraph.addMyVertex();
-		MyVertex v44 = m1.modelGraph.addMyVertex();
-		MyVertex v55 = m1.modelGraph.addMyVertex();
+		MyArgument v11 = m1.modelGraph.addMyVertex();
+		MyArgument v22 = m1.modelGraph.addMyVertex();
+		MyArgument v33 = m1.modelGraph.addMyVertex();
+		MyArgument v44 = m1.modelGraph.addMyVertex();
+		MyArgument v55 = m1.modelGraph.addMyVertex();
 		m1.modelGraph.addMyEdge(v11, v22);
 		m1.modelGraph.addMyEdge(v22, v33);
 		m1.modelGraph.addMyEdge(v33, v44);
 		m1.modelGraph.addMyEdge(v44, v55);
 		MyLabelling l1= new MyLabelling(0);
-		l1.setInVerties(new LinkedHashSet<MyVertex>(m1.modelGraph.getMyVertices()));
-		LinkedHashSet<MyVertex> set =m1.findSuperIllegallyIn(l1);
+		l1.setInVerties(new LinkedHashSet<MyArgument>(m1.modelGraph.getMyVertices()));
+		LinkedHashSet<MyArgument> set =m1.findSuperIllegallyIn(l1);
 		assertTrue(set.contains(v22));
 		assertFalse(set.contains(v33));
 		assertFalse(set.contains(v44));
@@ -505,11 +505,11 @@ public class ModelTest {
 	@Test
 	public void testTransitionSequence(){
 		Model m= new Model();
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
-		MyVertex v4 = m.modelGraph.addMyVertex();
-		MyVertex v5 = m.modelGraph.addMyVertex();
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
+		MyArgument v4 = m.modelGraph.addMyVertex();
+		MyArgument v5 = m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v2, v3);
 		m.modelGraph.addMyEdge(v3, v4);
@@ -541,14 +541,14 @@ public class ModelTest {
 	public void testFindLabelling(){
 		Model m = new Model();
 
-		MyVertex v1= m.modelGraph.addMyVertex();
-		MyVertex v2=m.modelGraph.addMyVertex();
-		MyVertex v3= m.modelGraph.addMyVertex();
+		MyArgument v1= m.modelGraph.addMyVertex();
+		MyArgument v2=m.modelGraph.addMyVertex();
+		MyArgument v3= m.modelGraph.addMyVertex();
 		m.modelGraph.addMyEdge(v1, v2);
 		m.modelGraph.addMyEdge(v2, v3);
 		LinkedHashSet<MyLabelling> candidateLabelling = new LinkedHashSet<MyLabelling>();
 		MyLabelling labelling= new MyLabelling(0);
-		labelling.setInVerties(new LinkedHashSet<MyVertex>(m.modelGraph.getMyVertices()));
+		labelling.setInVerties(new LinkedHashSet<MyArgument>(m.modelGraph.getMyVertices()));
 //		MyLabelling labelling = new MyLabelling(0, new LinkedHashSet<MyVertex>(m.modelGraph.getMyVertices()), new LinkedHashSet<MyVertex>(), new LinkedHashSet<MyVertex>());
 		System.out.println("The candidate labellings are: "+m.findLabelling(candidateLabelling, labelling));
 

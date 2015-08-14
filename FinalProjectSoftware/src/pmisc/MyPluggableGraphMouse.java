@@ -1,4 +1,4 @@
-package gui;
+package pmisc;
 
 import edu.uci.ics.jung.visualization.control.PluggableGraphMouse;
 

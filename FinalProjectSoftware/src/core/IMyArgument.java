@@ -1,6 +1,6 @@
 package core;
 
-public interface IMyVertex {
+public interface IMyArgument {
 	
 
 	/**

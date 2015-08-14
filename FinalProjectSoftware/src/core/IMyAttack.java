@@ -1,6 +1,6 @@
 package core;
 
-public interface IMyEdge {
+public interface IMyAttack {
 	
 	/**
 	 *  Returns the edge's id
@@ -24,25 +24,25 @@ public interface IMyEdge {
 	 * Gets the edge's from argument 
 	 * @return the attacking vertex.
 	 */
-	MyVertex getFrom();
+	MyArgument getFrom();
 	
 	/**
 	 * Sets the edge's from argument
 	 * @param vertex the vertex to be used as the attacking vertex.
 	 */
-	void setFrom(MyVertex vertex);
+	void setFrom(MyArgument vertex);
 	
 	/**
 	 * Gets the edge's to argument
 	 * @return the vertex being attacked.
 	 */
-	MyVertex getTo();
+	MyArgument getTo();
 
 	/**
 	 * Sets the edge's to argument
 	 * @param vertex the vertex to be used as the attacked vertex.
 	 */
-	void setTo(MyVertex vertex);
+	void setTo(MyArgument vertex);
 	
 	/**
 	 * Overriding the toString function of an edge.

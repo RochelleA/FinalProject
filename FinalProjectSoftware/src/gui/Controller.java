@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
 import javax.swing.JOptionPane;
 import core.*;
 import model.Model;
@@ -19,13 +20,20 @@ class Controller implements ActionListener,ItemListener {
 	boolean clickedFlag= false;
 	boolean deleteVertexFlag =false;
 	boolean deleteEdgeFlag=false;
-	MyVertex from = new MyVertex(0);
-	MyVertex to = new MyVertex(0);
-	
-
-	Controller() {	
-		System.out.println ("Controller()");
+	MyArgument from = new MyArgument(0);
+	MyArgument to = new MyArgument(0);
+ 
+	public void addModel(Model m){
+		this.MyModel = m;
 	} 
+	
+//	public void addView(BasicVersionView v){
+//		this.MyBasicView=v;
+//	}
+	public void addView(View v){
+		this.MyView = v;
+	}
+	
 	public void actionPerformed(ActionEvent e){
 		  Object src = e.getSource();
 
@@ -216,16 +224,9 @@ class Controller implements ActionListener,ItemListener {
 		  }
 	}
 	
-	
-	 
-	public void addModel(Model m){
-		this.MyModel = m;
-	} 
-	public void addView(View v){
-		this.MyView = v;
-	}
+
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		System.out.println("ItemEvent!");		
+		System.out.println("There as been an item event");		
 	} 
 } 

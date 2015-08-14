@@ -19,7 +19,7 @@ public class MyLabellingTest {
 	@Test
 	public void testGetInVertices() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v = new MyVertex(0);
+		MyArgument v = new MyArgument(0);
 		l1.addInVertex(v);
 		assertEquals(l1.InLabels,l1.getInVertices());
 	}
@@ -27,7 +27,7 @@ public class MyLabellingTest {
 	@Test
 	public void testAddInVertex() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v = new MyVertex(0);
+		MyArgument v = new MyArgument(0);
 		l1.addInVertex(v);
 		assertTrue(l1.InLabels.contains(v));
 		assertTrue(v.label=="IN");
@@ -36,8 +36,8 @@ public class MyLabellingTest {
 	@Test
 	public void testSetInVertices() {
 		MyLabelling l1 = new MyLabelling(0);
-		LinkedHashSet<MyVertex> h1 = new LinkedHashSet<MyVertex>();
-		MyVertex v = new MyVertex(0);
+		LinkedHashSet<MyArgument> h1 = new LinkedHashSet<MyArgument>();
+		MyArgument v = new MyArgument(0);
 		h1.add(v);
 		l1.setInVerties(h1);
 		assertEquals(h1, l1.getInVertices());
@@ -46,9 +46,9 @@ public class MyLabellingTest {
 	@Test  (expected = IllegalArgumentException.class)
 	public void testDeleteFromInVertices(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v1 = new MyVertex(0);
-		MyVertex v2 = new MyVertex(0);
-		MyVertex v3 = new MyVertex(0);
+		MyArgument v1 = new MyArgument(0);
+		MyArgument v2 = new MyArgument(0);
+		MyArgument v3 = new MyArgument(0);
 		l1.addUndecVertex(v1);
 		l1.addInVertex(v2);
 		l1.addOutVertex(v3);
@@ -59,9 +59,9 @@ public class MyLabellingTest {
 	@Test
 	public void testDeleteFromInVertices2(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v1 = new MyVertex(0);
-		MyVertex v2 = new MyVertex(0);
-		MyVertex v3 = new MyVertex(0);
+		MyArgument v1 = new MyArgument(0);
+		MyArgument v2 = new MyArgument(0);
+		MyArgument v3 = new MyArgument(0);
 		l1.addUndecVertex(v1);
 		l1.addInVertex(v2);
 		l1.addOutVertex(v3);
@@ -72,7 +72,7 @@ public class MyLabellingTest {
 	@Test
 	public void testGetOutVertices() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v = new MyVertex(0);
+		MyArgument v = new MyArgument(0);
 		l1.addOutVertex(v);
 		assertEquals(l1.OutLabels,l1.getOutVertices());
 	}
@@ -80,7 +80,7 @@ public class MyLabellingTest {
 	@Test
 	public void testAddOutVertex() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v = new MyVertex(0);
+		MyArgument v = new MyArgument(0);
 		l1.addOutVertex(v);
 		assertTrue(l1.getOutVertices().contains(v));
 		assertTrue(v.label=="OUT");
@@ -89,8 +89,8 @@ public class MyLabellingTest {
 	@Test
 	public void testSetOutVertices() {
 		MyLabelling l1 = new MyLabelling(0);
-		LinkedHashSet<MyVertex> h1 = new LinkedHashSet<MyVertex>();
-		MyVertex v = new MyVertex(0);
+		LinkedHashSet<MyArgument> h1 = new LinkedHashSet<MyArgument>();
+		MyArgument v = new MyArgument(0);
 		h1.add(v);
 		l1.setOutVertices(h1);
 		assertEquals(h1, l1.getOutVertices());
@@ -99,9 +99,9 @@ public class MyLabellingTest {
 	@Test  (expected = IllegalArgumentException.class)
 	public void testDeleteFromOutVertices(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v1 = new MyVertex(0);
-		MyVertex v2 = new MyVertex(0);
-		MyVertex v3 = new MyVertex(0);
+		MyArgument v1 = new MyArgument(0);
+		MyArgument v2 = new MyArgument(0);
+		MyArgument v3 = new MyArgument(0);
 		l1.addUndecVertex(v1);
 		l1.addInVertex(v2);
 		l1.addOutVertex(v3);
@@ -112,9 +112,9 @@ public class MyLabellingTest {
 	@Test
 	public void testDeleteFromOutVertices2(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v1 = new MyVertex(0);
-		MyVertex v2 = new MyVertex(0);
-		MyVertex v3 = new MyVertex(0);
+		MyArgument v1 = new MyArgument(0);
+		MyArgument v2 = new MyArgument(0);
+		MyArgument v3 = new MyArgument(0);
 		l1.addUndecVertex(v1);
 		l1.addInVertex(v2);
 		l1.addOutVertex(v3);
@@ -125,7 +125,7 @@ public class MyLabellingTest {
 	@Test
 	public void testGetUndecVertices() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v = new MyVertex(0);
+		MyArgument v = new MyArgument(0);
 		l1.addUndecVertex(v);
 		assertEquals(l1.UndecLabels,l1.getUndecVertices());
 	}
@@ -133,7 +133,7 @@ public class MyLabellingTest {
 	@Test
 	public void testAddUndecVertex() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v = new MyVertex(0);
+		MyArgument v = new MyArgument(0);
 		l1.addUndecVertex(v);
 		assertTrue(l1.UndecLabels.contains(v));
 		assertTrue(v.label=="UNDEC");
@@ -142,8 +142,8 @@ public class MyLabellingTest {
 	@Test
 	public void testSetUndecVerties() {
 		MyLabelling l1 = new MyLabelling(0);
-		LinkedHashSet<MyVertex> h1 = new LinkedHashSet<MyVertex>();
-		MyVertex v = new MyVertex(0);
+		LinkedHashSet<MyArgument> h1 = new LinkedHashSet<MyArgument>();
+		MyArgument v = new MyArgument(0);
 		h1.add(v);
 		l1.setUndecVertices(h1);
 		assertEquals(h1, l1.getUndecVertices());
@@ -152,9 +152,9 @@ public class MyLabellingTest {
 	@Test  (expected = IllegalArgumentException.class)
 	public void testDeleteFromUndecVertices(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v1 = new MyVertex(0);
-		MyVertex v2 = new MyVertex(0);
-		MyVertex v3 = new MyVertex(0);
+		MyArgument v1 = new MyArgument(0);
+		MyArgument v2 = new MyArgument(0);
+		MyArgument v3 = new MyArgument(0);
 		l1.addUndecVertex(v1);
 		l1.addInVertex(v2);
 		l1.addOutVertex(v3);
@@ -166,9 +166,9 @@ public class MyLabellingTest {
 	@Test
 	public void testDeleteUndecInVertices2(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v1 = new MyVertex(0);
-		MyVertex v2 = new MyVertex(0);
-		MyVertex v3 = new MyVertex(0);
+		MyArgument v1 = new MyArgument(0);
+		MyArgument v2 = new MyArgument(0);
+		MyArgument v3 = new MyArgument(0);
 		l1.addUndecVertex(v1);
 		l1.addInVertex(v2);
 		l1.addOutVertex(v3);
@@ -181,7 +181,7 @@ public class MyLabellingTest {
 	@Test
 	public void testToString() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v = new MyVertex(0);
+		MyArgument v = new MyArgument(0);
 		l1.addUndecVertex(v);
 		String s = "{\u00D8,\u00D8,[0]}";
 		assertEquals(s, l1.toString());
@@ -189,12 +189,12 @@ public class MyLabellingTest {
 	
 	@Test 
 	public void testFindMyVertex(){
-		MyVertex v1 = new MyVertex(1);
-		MyVertex v2 = new MyVertex(2);
-		MyVertex v3 = new MyVertex(3);
-		MyVertex v4 = new MyVertex(4);
+		MyArgument v1 = new MyArgument(1);
+		MyArgument v2 = new MyArgument(2);
+		MyArgument v3 = new MyArgument(3);
+		MyArgument v4 = new MyArgument(4);
 		MyLabelling l1 = new MyLabelling(1);
-		LinkedHashSet<MyVertex> set = new LinkedHashSet<MyVertex>();
+		LinkedHashSet<MyArgument> set = new LinkedHashSet<MyArgument>();
 		set.add(v1);
 		set.add(v2);
 		set.add(v3);
@@ -206,16 +206,16 @@ public class MyLabellingTest {
 	
 	@Test 
 	public void testContainsAllVertices(){
-		MyVertex v1 = new MyVertex(1);
-		MyVertex v2 = new MyVertex(2);
-		MyVertex v3 = new MyVertex(3);
-		MyVertex v4 = new MyVertex(4);
+		MyArgument v1 = new MyArgument(1);
+		MyArgument v2 = new MyArgument(2);
+		MyArgument v3 = new MyArgument(3);
+		MyArgument v4 = new MyArgument(4);
 		MyLabelling l1 = new MyLabelling(1);
-		LinkedHashSet<MyVertex> set = new LinkedHashSet<MyVertex>();
+		LinkedHashSet<MyArgument> set = new LinkedHashSet<MyArgument>();
 		set.add(v1);
 		set.add(v2);
 		set.add(v3);
-		LinkedHashSet<MyVertex> set1 = new LinkedHashSet<MyVertex>();
+		LinkedHashSet<MyArgument> set1 = new LinkedHashSet<MyArgument>();
 		set1.add(v3);
 		set1.add(v2);
 		set1.add(v1);
@@ -227,7 +227,7 @@ public class MyLabellingTest {
 		MyLabelling l1 = new MyLabelling(0);
 		MyLabelling l2 = new MyLabelling(0);
 		assertTrue(l2.equals(l1));
-		MyVertex v = new MyVertex(0);
+		MyArgument v = new MyArgument(0);
 		l1.addUndecVertex(v);
 		System.out.println("l1 is:" + l1.toString());
 		assertFalse(l2.equals(l1));
@@ -237,9 +237,9 @@ public class MyLabellingTest {
 	@Test
 	public void testContains() {
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v1 = new MyVertex(0);
-		MyVertex v2 = new MyVertex(0);
-		MyVertex v3 = new MyVertex(0);
+		MyArgument v1 = new MyArgument(0);
+		MyArgument v2 = new MyArgument(0);
+		MyArgument v3 = new MyArgument(0);
 		l1.addUndecVertex(v1);
 		l1.addInVertex(v2);
 		l1.addOutVertex(v3);
@@ -252,7 +252,7 @@ public class MyLabellingTest {
 	@Test 
 	public void testNotLabelledVertices(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v = new MyVertex(0);
+		MyArgument v = new MyArgument(0);
 		l1.addUndecVertex(v);
 		assertEquals(l1.NotLabelledVertices,l1.getNotLabelledVertices());
 		
@@ -261,8 +261,8 @@ public class MyLabellingTest {
 	@Test
 	public void testSetNotLabelledVertices() {
 		MyLabelling l1 = new MyLabelling(0);
-		LinkedHashSet<MyVertex> h1 = new LinkedHashSet<MyVertex>();
-		MyVertex v = new MyVertex(0);
+		LinkedHashSet<MyArgument> h1 = new LinkedHashSet<MyArgument>();
+		MyArgument v = new MyArgument(0);
 		h1.add(v);
 		l1.setNotLabelledVertices(h1);
 		assertEquals(h1, l1.getNotLabelledVertices());
@@ -278,11 +278,11 @@ public class MyLabellingTest {
 	@Test 
 	public void testCheckAllLabels(){
 		MyLabelling l1 = new MyLabelling(0);
-		MyVertex v1 = new MyVertex(1);
-		MyVertex v2 = new MyVertex(2);
-		MyVertex v3 = new MyVertex(3);
-		MyVertex v4 = new MyVertex(5);
-		MyVertex v5 = new MyVertex(6);
+		MyArgument v1 = new MyArgument(1);
+		MyArgument v2 = new MyArgument(2);
+		MyArgument v3 = new MyArgument(3);
+		MyArgument v4 = new MyArgument(5);
+		MyArgument v5 = new MyArgument(6);
 		l1.addInVertex(v1);
 		l1.addInVertex(v2);
 		l1.addOutVertex(v3);

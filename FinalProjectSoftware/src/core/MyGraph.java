@@ -11,16 +11,16 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
-public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IMyGraph {
+public class MyGraph extends DirectedSparseGraph<MyArgument, MyAttack> implements IMyGraph {
 	 /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public  DirectedSparseGraph<MyVertex, MyEdge> myGraph = new DirectedSparseGraph<MyVertex, MyEdge>();
+	public  DirectedSparseGraph<MyArgument, MyAttack> myGraph = new DirectedSparseGraph<MyArgument, MyAttack>();
 	int vertexCount;
 	int edgeCount;
-	CircleLayout<MyVertex, MyEdge> layout;
-	VisualizationViewer<MyVertex, MyEdge> vv;
+	CircleLayout<MyArgument, MyAttack> layout;
+	VisualizationViewer<MyArgument, MyAttack> vv;
 	
 	public MyGraph(){
 		this.vertexCount=0;
@@ -43,27 +43,27 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		this.edgeCount=Integer;
 	}
 	
-	public Collection<MyVertex> getMyVertices(){
+	public Collection<MyArgument> getMyVertices(){
 		return myGraph.getVertices();
 	}
 	
-	public Collection<MyEdge> getMyEdges(){
+	public Collection<MyAttack> getMyEdges(){
 		return myGraph.getEdges();
 	}
-	public DirectedSparseGraph<MyVertex, MyEdge> getmygraph(){
+	public DirectedSparseGraph<MyArgument, MyAttack> getmygraph(){
 		return myGraph;
 	}
 	
 	@Override
-	public MyVertex addMyVertex() {
+	public MyArgument addMyVertex() {
 		++vertexCount;
-		MyVertex v = new MyVertex(vertexCount);
+		MyArgument v = new MyArgument(vertexCount);
 //		v.setId(vertexCount);
 		myGraph.addVertex(v);
 		return v;
 	}
 	
-	public MyEdge addMyEdge(MyVertex v1, MyVertex v2){
+	public MyAttack addMyEdge(MyArgument v1, MyArgument v2){
 		if(!(this.getMyVertices().contains(v1)) || !(this.getMyVertices().contains(v2))){
 			throw new IllegalArgumentException("Vertices not in graph");
 		}
@@ -73,7 +73,7 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		}
 	//create new edge
 		    ++edgeCount;
-			MyEdge e1 = new MyEdge(edgeCount);
+			MyAttack e1 = new MyAttack(edgeCount);
 			e1.setFrom(v1);
 			e1.setTo(v2);
 			e1.setLabel(v1, v2);
@@ -95,41 +95,41 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		}
 		
 	public String toString(){
-		HashSet<MyVertex> vertices = new HashSet<MyVertex>(myGraph.getVertices());
-		HashSet<MyEdge> edges = new HashSet<MyEdge>(myGraph.getEdges());
+		HashSet<MyArgument> vertices = new HashSet<MyArgument>(myGraph.getVertices());
+		HashSet<MyAttack> edges = new HashSet<MyAttack>(myGraph.getEdges());
 		String verticesToString = "Arguments: "+vertices.toString();
 		String edgesToString = "Attacks: "+edges.toString();
 		String y =  verticesToString+ "\n" + edgesToString+"\n" +"Arguments Count: " +vertexCount + "\n" +"Attacks Count: " +edgeCount;
 		return y;
 		}
 
-	public DirectedSparseGraph<MyVertex, MyEdge> getGraph(){
+	public DirectedSparseGraph<MyArgument, MyAttack> getGraph(){
 		return myGraph;
 	}
 	
-	public CircleLayout<MyVertex, MyEdge> getGraphLayout(){
-		layout = new CircleLayout<MyVertex,MyEdge>(myGraph);
+	public CircleLayout<MyArgument, MyAttack> getGraphLayout(){
+		layout = new CircleLayout<MyArgument,MyAttack>(myGraph);
 		return layout;
 	}
-	public void setGraphLayout(CircleLayout<MyVertex, MyEdge> layout){
+	public void setGraphLayout(CircleLayout<MyArgument, MyAttack> layout){
 		this.layout=layout;
 	}
-	public void setGraphVisualizationViewer(VisualizationViewer<MyVertex, MyEdge> vv){
+	public void setGraphVisualizationViewer(VisualizationViewer<MyArgument, MyAttack> vv){
 		this.vv=vv;
 	}
 	
-	public VisualizationViewer<MyVertex, MyEdge> getGraphVisualizationViewer(Layout<MyVertex, MyEdge> layout){
+	public VisualizationViewer<MyArgument, MyAttack> getGraphVisualizationViewer(Layout<MyArgument, MyAttack> layout){
 
-        vv = new VisualizationViewer<MyVertex, MyEdge>(layout);
+        vv = new VisualizationViewer<MyArgument, MyAttack>(layout);
         return vv;
 	}
 	
-	public HashSet<MyVertex> getNoneLabelledVertices(){
-		HashSet<MyVertex> noneLabelledVertices = new HashSet<MyVertex>();
-		HashSet<MyVertex> listVertices = new HashSet<MyVertex>(this.getMyVertices());
-		Iterator<MyVertex> vertexIterator = listVertices.iterator();
+	public HashSet<MyArgument> getNoneLabelledVertices(){
+		HashSet<MyArgument> noneLabelledVertices = new HashSet<MyArgument>();
+		HashSet<MyArgument> listVertices = new HashSet<MyArgument>(this.getMyVertices());
+		Iterator<MyArgument> vertexIterator = listVertices.iterator();
 		while(vertexIterator.hasNext()){
-			MyVertex currentVertex = vertexIterator.next();
+			MyArgument currentVertex = vertexIterator.next();
 			if(currentVertex.hasNoLabel()){
 				noneLabelledVertices.add(currentVertex);
 			}
@@ -142,12 +142,12 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		
 	}
 	
-	public HashSet<MyVertex> getInLabelledVertices(){
-		HashSet<MyVertex> inLabelledVertices = new HashSet<MyVertex>();
-		HashSet<MyVertex> listVertices = new HashSet<MyVertex>(this.getMyVertices());
-		Iterator<MyVertex> vertexIterator = listVertices.iterator();
+	public HashSet<MyArgument> getInLabelledVertices(){
+		HashSet<MyArgument> inLabelledVertices = new HashSet<MyArgument>();
+		HashSet<MyArgument> listVertices = new HashSet<MyArgument>(this.getMyVertices());
+		Iterator<MyArgument> vertexIterator = listVertices.iterator();
 		while(vertexIterator.hasNext()){
-			MyVertex currentVertex = vertexIterator.next();
+			MyArgument currentVertex = vertexIterator.next();
 			if(currentVertex.isIn()){
 				inLabelledVertices.add(currentVertex);
 			}
@@ -161,12 +161,12 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 	}
 	
 	
-	public HashSet<MyVertex> getOutLabelledVertices(){
-		HashSet<MyVertex> outLabelledVertices = new HashSet<MyVertex>();
-		HashSet<MyVertex> listVertices = new HashSet<MyVertex>(this.getMyVertices());
-		Iterator<MyVertex> vertexIterator = listVertices.iterator();
+	public HashSet<MyArgument> getOutLabelledVertices(){
+		HashSet<MyArgument> outLabelledVertices = new HashSet<MyArgument>();
+		HashSet<MyArgument> listVertices = new HashSet<MyArgument>(this.getMyVertices());
+		Iterator<MyArgument> vertexIterator = listVertices.iterator();
 		while(vertexIterator.hasNext()){
-			MyVertex currentVertex = vertexIterator.next();
+			MyArgument currentVertex = vertexIterator.next();
 			if(currentVertex.isOut()){
 				outLabelledVertices.add(currentVertex);
 			}
@@ -179,12 +179,12 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		
 	}
 	
-	public HashSet<MyVertex> getUndecLabelledVertices(){
-		HashSet<MyVertex> undecLabelledVertices = new HashSet<MyVertex>();
-		HashSet<MyVertex> listVertices = new HashSet<MyVertex>(this.getMyVertices());
-		Iterator<MyVertex> vertexIterator = listVertices.iterator();
+	public HashSet<MyArgument> getUndecLabelledVertices(){
+		HashSet<MyArgument> undecLabelledVertices = new HashSet<MyArgument>();
+		HashSet<MyArgument> listVertices = new HashSet<MyArgument>(this.getMyVertices());
+		Iterator<MyArgument> vertexIterator = listVertices.iterator();
 		while(vertexIterator.hasNext()){
-			MyVertex currentVertex = vertexIterator.next();
+			MyArgument currentVertex = vertexIterator.next();
 			if(currentVertex.isUndec()){
 				undecLabelledVertices.add(currentVertex);
 			}
@@ -198,10 +198,10 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 	}
 
 	public boolean resetGraph(){
-		HashSet<MyVertex> vertices = new HashSet<MyVertex>(this.getMyVertices());
-		Iterator<MyVertex> verticesIterator = vertices.iterator();
+		HashSet<MyArgument> vertices = new HashSet<MyArgument>(this.getMyVertices());
+		Iterator<MyArgument> verticesIterator = vertices.iterator();
 		while(verticesIterator.hasNext()){
-			MyVertex currentVertex = verticesIterator.next();
+			MyArgument currentVertex = verticesIterator.next();
 			this.myGraph.removeVertex(currentVertex);
 		}
 		if(this.getVertexCount()==0){
@@ -212,11 +212,11 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		return false;
 	}
 	
-	public boolean findMyVertex(MyVertex v){
-		LinkedHashSet<MyVertex> vertices = new LinkedHashSet<MyVertex>(this.getMyVertices());
-		Iterator<MyVertex> verticesIterator = vertices.iterator();
+	public boolean findMyVertex(MyArgument v){
+		LinkedHashSet<MyArgument> vertices = new LinkedHashSet<MyArgument>(this.getMyVertices());
+		Iterator<MyArgument> verticesIterator = vertices.iterator();
 		while(verticesIterator.hasNext()){
-			MyVertex currentvertex = verticesIterator.next();
+			MyArgument currentvertex = verticesIterator.next();
 			if(currentvertex.equals(v)){
 				return true;
 			}
@@ -224,11 +224,11 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		return false;
 	}
 	
-	public MyVertex getMyVertex(MyVertex v){
-		LinkedHashSet<MyVertex> vertices = new LinkedHashSet<MyVertex>(this.getMyVertices());
-		Iterator<MyVertex> verticesIterator = vertices.iterator();
+	public MyArgument getMyVertex(MyArgument v){
+		LinkedHashSet<MyArgument> vertices = new LinkedHashSet<MyArgument>(this.getMyVertices());
+		Iterator<MyArgument> verticesIterator = vertices.iterator();
 		while(verticesIterator.hasNext()){
-			MyVertex currentvertex = verticesIterator.next();
+			MyArgument currentvertex = verticesIterator.next();
 			if(currentvertex.equals(v)){
 				return currentvertex;
 			}
@@ -237,11 +237,11 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		
 	}
 	
-	public boolean findMyEdge(MyEdge e){
-		LinkedHashSet<MyEdge> edges = new LinkedHashSet<MyEdge>(this.getMyEdges());
-		Iterator<MyEdge> edgesIterator = edges.iterator();
+	public boolean findMyEdge(MyAttack e){
+		LinkedHashSet<MyAttack> edges = new LinkedHashSet<MyAttack>(this.getMyEdges());
+		Iterator<MyAttack> edgesIterator = edges.iterator();
 		while(edgesIterator.hasNext()){
-			MyEdge currentEdge= edgesIterator.next();
+			MyAttack currentEdge= edgesIterator.next();
 			if(currentEdge.equals(e)){
 				return true;
 			}
@@ -249,13 +249,13 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 		return false;
 	}
 	
-	public boolean containsAllVertices(Collection<MyVertex> collection){
-		LinkedHashSet<MyVertex> set = new LinkedHashSet<MyVertex>(collection);
-		Iterator<MyVertex> setIterator = set.iterator();
+	public boolean containsAllVertices(Collection<MyArgument> collection){
+		LinkedHashSet<MyArgument> set = new LinkedHashSet<MyArgument>(collection);
+		Iterator<MyArgument> setIterator = set.iterator();
 		// This counts the number of vertices in the collection that are the same as in the graph.
 		int sameVertexCount=0;
 		while(setIterator.hasNext()){
-			MyVertex currentVertex = setIterator.next();
+			MyArgument currentVertex = setIterator.next();
 			if(this.findMyVertex(currentVertex)){
 				sameVertexCount++;
 			}
@@ -266,13 +266,13 @@ public class MyGraph extends DirectedSparseGraph<MyVertex, MyEdge> implements IM
 	return false;
 	}
 	
-	public boolean containsAllEdges(Collection<MyEdge> collection){
-		LinkedHashSet<MyEdge> set = new LinkedHashSet<MyEdge>(collection);
-		Iterator<MyEdge> setIterator = set.iterator();
+	public boolean containsAllEdges(Collection<MyAttack> collection){
+		LinkedHashSet<MyAttack> set = new LinkedHashSet<MyAttack>(collection);
+		Iterator<MyAttack> setIterator = set.iterator();
 		int sameEdgeCount=0;
 		
 		while(setIterator.hasNext()){
-			MyEdge currentEdge= setIterator.next();
+			MyAttack currentEdge= setIterator.next();
 			if(this.findMyEdge(currentEdge)){
 				sameEdgeCount++;
 			}

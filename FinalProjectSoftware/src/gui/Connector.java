@@ -1,8 +1,6 @@
 package gui;
 
-import gui.Controller;
 import model.Model;
-import gui.View;
 
 
 public class Connector{

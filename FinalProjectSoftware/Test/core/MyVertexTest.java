@@ -4,12 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import core.MyVertex;
+import core.MyArgument;
 
 
 public class MyVertexTest {
 
-MyVertex v1 = new MyVertex(0);
+MyArgument v1 = new MyArgument(0);
 
 	
 	@Test
@@ -67,8 +67,8 @@ public void testToString(){
 	
 	@Test 
 	public void testEquals(){
-		MyVertex v1 = new MyVertex(1);
-		MyVertex v2 = new MyVertex(1);
+		MyArgument v1 = new MyArgument(1);
+		MyArgument v2 = new MyArgument(1);
 		assertTrue(v1.equals(v2));
 		v2.setId(2);
 		assertFalse(v1.equals(v2));

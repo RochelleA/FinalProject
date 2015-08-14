@@ -23,20 +23,20 @@ public interface IMyGraph {
 //	public int GetMyEdgeCount();
 
 	//Return all the edges in the Graph.
-	public Collection<MyVertex> getMyVertices();
+	public Collection<MyArgument> getMyVertices();
 	
 	//Returns all the vertices in the Graph
-	public Collection<MyEdge> getMyEdges();
+	public Collection<MyAttack> getMyEdges();
 
 	//This method first creates a new vertex and then adds it to the graph
-	public MyVertex addMyVertex();
+	public MyArgument addMyVertex();
 
 	//This method creates a vertex between V1 and V2 and then adds it to the graph
-	public MyEdge addMyEdge(MyVertex v1, MyVertex v2);
+	public MyAttack addMyEdge(MyArgument v1, MyArgument v2);
 	
 	//return myGraph.toString();
 	public String toString();
 	
 	//return the directed sparse graph inside the myGraph object
-	public DirectedSparseGraph<MyVertex, MyEdge> getGraph();
+	public DirectedSparseGraph<MyArgument, MyAttack> getGraph();
 	}

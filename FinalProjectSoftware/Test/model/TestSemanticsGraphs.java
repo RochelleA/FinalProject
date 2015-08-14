@@ -94,10 +94,10 @@ public class TestSemanticsGraphs {
 //		
 //		
 		Model m7= new Model();
-		MyVertex v71=m7.addMyVertex();
-		MyVertex v72 =m7.addMyVertex();
-		MyVertex v73 =m7.addMyVertex();
-		MyVertex v74 =m7.addMyVertex();
+		MyArgument v71=m7.addMyVertex();
+		MyArgument v72 =m7.addMyVertex();
+		MyArgument v73 =m7.addMyVertex();
+		MyArgument v74 =m7.addMyVertex();
 		m7.modelGraph.addMyEdge(v71, v72);
 		m7.modelGraph.addMyEdge(v72, v73);
 		m7.modelGraph.addMyEdge(v73, v72);
@@ -105,10 +105,10 @@ public class TestSemanticsGraphs {
 		System.out.println("An Admissible labelling is: " + m7.admissibleLabelling());
 	
 		Model m6 = new Model();
-		MyVertex v61= m6.addMyVertex();
-		MyVertex v62 = m6.addMyVertex();
-		MyVertex v63 = m6.addMyVertex();
-		MyVertex v64= m6.addMyVertex();
+		MyArgument v61= m6.addMyVertex();
+		MyArgument v62 = m6.addMyVertex();
+		MyArgument v63 = m6.addMyVertex();
+		MyArgument v64= m6.addMyVertex();
 		m6.modelGraph.addMyEdge(v61, v62);
 		m6.modelGraph.addMyEdge(v62, v61);
 		m6.modelGraph.addMyEdge(v62, v63);

@@ -1,21 +1,21 @@
 package core;
 
-public class MyEdge implements IMyEdge {
+public class MyAttack implements IMyAttack {
 	// id identifies an edge in the graph
 	int id;
 	//identifies the argument the edge comes from
-	MyVertex from;
+	MyArgument from;
 	//identifies the argument the edge attacks
-	MyVertex to;
+	MyArgument to;
 	//is a label such as Att(1,2)
 	String label;
 
-	 static MyVertex v1= new MyVertex(0);
-	static MyVertex v2= new MyVertex(0);
+	 static MyArgument v1= new MyArgument(0);
+	static MyArgument v2= new MyArgument(0);
 	//count the number of edge so that the edge Id can be incremented by 1 each time.
 	
 	
-	public MyEdge(int id){
+	public MyAttack(int id){
 		this.from = v1;
 		this.to= v2;
 		this.id=id;
@@ -35,22 +35,22 @@ public class MyEdge implements IMyEdge {
 		return label;
 	}
 
-	public MyVertex getFrom() {
+	public MyArgument getFrom() {
 		return from;
 	}
 	
-	public void setFrom(MyVertex from) {
+	public void setFrom(MyArgument from) {
 		this.from = from;
 	}
 	
-	public MyVertex getTo() {
+	public MyArgument getTo() {
 		return to;
 	}
 	
-	public void setTo(MyVertex to) {
+	public void setTo(MyArgument to) {
 		this.to = to;
 	}
-	public void setLabel(MyVertex vl1, MyVertex vl2){
+	public void setLabel(MyArgument vl1, MyArgument vl2){
 		this.label="Att("+vl1.getId()+","+vl2.getId()+")";
 	}
 	public void updateLabel(){
@@ -64,7 +64,7 @@ public class MyEdge implements IMyEdge {
 		    if (other == this) return true;
 		    if (other == null) return false;
 		    if (getClass() != other.getClass()) return false;
-		    MyEdge edge = (MyEdge)other;
+		    MyAttack edge = (MyAttack)other;
 		    return (to.equals(edge.getTo()) && from.equals(edge.getFrom()));
 		  }
 		
