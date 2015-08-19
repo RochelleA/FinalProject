@@ -134,7 +134,7 @@ public class Model extends java.util.Observable {
 		if(v1.isUndec()||v1.isOut()){
 			return false;
 	}
-		Collection<MyArg> predecessors = modelGraph.getPredecessors(v1);
+		Collection<MyArg> predecessors = modelGraph.getmygraph().getPredecessors(v1);
 		LinkedHashSet<MyArg> attackers = new LinkedHashSet<MyArg>(predecessors);
 		Iterator<MyArg> attackersIterator = attackers.iterator();
 		int tempCount1=0;

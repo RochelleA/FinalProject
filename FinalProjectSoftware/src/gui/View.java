@@ -16,6 +16,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Paint;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.border.Border;
@@ -45,6 +46,7 @@ import java.awt.Color;
 
 
  class View extends JFrame implements java.util.Observer {
+	 
 	
 	private static final long serialVersionUID = 2118299654730994785L;
 
@@ -118,7 +120,7 @@ import java.awt.Color;
 	
 	View() {
 
-
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("/TaaTLogo.png"));
 
 		resetLabelsButton.setBackground(buttonColour);
 		resetLabelsButton.setPreferredSize(buildButton.getPreferredSize());
@@ -885,7 +887,7 @@ import java.awt.Color;
 						viewVV.getRenderContext().setEdgeDrawPaintTransformer(attColour);
 						viewVV.getRenderContext().setArrowDrawPaintTransformer(attColour);
 						viewVV.getRenderContext().setArrowFillPaintTransformer(attColour);
-						messageFromController.setText("You have selected "+ att.getLabel()+ ".");
+						messageFromController.setText("You have selected "+ att.getLabel()+ ". Press enter to use this attack.");
 					
 					viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK, Color.BLUE));
 					viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK, Color.BLACK));

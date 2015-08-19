@@ -3,9 +3,10 @@ package gui;
 import model.Model;
 
 
-public class Connector{
+public class ProgramMain{
 
-	public Connector() {
+	public static void main(String[] args){
+
 
 		View myView 	= new View();
 		Controller myController = new Controller();
@@ -17,8 +18,8 @@ public class Connector{
 		myController.addModel(myModel);
 		myController.addView(myView);
 		myView.addController(myController,myController);
-	
+		
 
 	} 
 
-} 
+}

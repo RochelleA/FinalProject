@@ -206,7 +206,7 @@ class Controller implements ActionListener,ItemListener {
 						 }
 						 else{
 							 clickedFlag=false;
-						 MyView.getMessageFromController().setText("An Att has been added from "+from+ " to " + MyView.currentArg);
+						 MyView.getMessageFromController().setText("An attack has been added from "+from+ " to " + MyView.currentArg);
 							to =MyView.currentArg;
 							MyModel.addAtt(to);
 							System.out.println("to argument is "+to);
