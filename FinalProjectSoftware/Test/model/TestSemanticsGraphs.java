@@ -1,9 +1,7 @@
 package model;
 
-import java.util.LinkedHashSet;
 
 import core.*;
-import static org.junit.Assert.*;
 
 public class TestSemanticsGraphs {
 
@@ -116,7 +114,38 @@ public class TestSemanticsGraphs {
 		m6.modelGraph.addMyAtt(v61, v63);
 		m6.modelGraph.addMyAtt(v63, v64);
 		System.out.println("All Admissible Labelling"+ m6.allAdmissibleLabelling());
+		System.out.println("All Complete Labellings"+m6.completeLabellings());
+		System.out.println("Preferred labellings are: "+ m6.preferredLabelling());
+//		System.out.println("All Admissible Labelling"+ m6.allAdmissibleLabellings3());
+		
+		Model m8= new Model();
+		MyArg v81 = m8.addMyArg();
+		MyArg v82 = m8.addMyArg();
+		MyArg v83 = m8.addMyArg();
+		MyArg v84 = m8.addMyArg();
+		MyArg v85 = m8.addMyArg();
+		m8.modelGraph.addMyAtt(v81, v83);
+		m8.modelGraph.addMyAtt(v84, v81);
+		m8.modelGraph.addMyAtt(v85, v81);
+		m8.modelGraph.addMyAtt(v83, v82);
+		m8.modelGraph.addMyAtt(v82, v85);
+		m8.modelGraph.addMyAtt(v85, v84);
+		System.out.println("All Admissible labellings are:" + m8.allAdmissibleLabelling());
+		System.out.println("All Complete Labellings"+m8.completeLabellings());
+		System.out.println("Preferred labellings are: "+ m8.preferredLabelling());
+		
+		Model m9 = new Model();
+		MyArg v91 = m9.addMyArg();
+		MyArg v92 = m9.addMyArg();
+		MyArg v93 = m9.addMyArg();
+		m9.modelGraph.addMyAtt(v91, v92);
+		m9.modelGraph.addMyAtt(v92, v93);
+		m9.modelGraph.addMyAtt(v93, v91);
+		System.out.println("All Admissible labellings are:" + m9.allAdmissibleLabelling());
+		System.out.println("All Complete Labellings"+m9.completeLabellings());
+		System.out.println("Preferred labellings are: "+ m9.preferredLabelling());
 		
 	}
+	
 
 }

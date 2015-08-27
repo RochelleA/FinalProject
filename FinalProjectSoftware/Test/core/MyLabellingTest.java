@@ -209,7 +209,6 @@ public class MyLabellingTest {
 		MyArg v1 = new MyArg(1);
 		MyArg v2 = new MyArg(2);
 		MyArg v3 = new MyArg(3);
-		MyArg v4 = new MyArg(4);
 		MyLabelling l1 = new MyLabelling(1);
 		LinkedHashSet<MyArg> set = new LinkedHashSet<MyArg>();
 		set.add(v1);

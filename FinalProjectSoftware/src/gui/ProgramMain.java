@@ -17,7 +17,7 @@ public class ProgramMain{
 		myModel.addObserver(myView);
 		myController.addModel(myModel);
 		myController.addView(myView);
-		myView.addController(myController,myController);
+		myView.addController(myController);
 		
 
 	} 

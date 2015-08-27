@@ -7,7 +7,7 @@ import org.junit.Test;
 import core.MyArg;
 
 
-public class MyVertexTest {
+public class MyArgTest {
 
 MyArg v1 = new MyArg(0);
 

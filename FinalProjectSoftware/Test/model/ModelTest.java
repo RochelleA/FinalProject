@@ -550,7 +550,7 @@ public class ModelTest {
 		MyLabelling labelling= new MyLabelling(0);
 		labelling.setInVerties(new LinkedHashSet<MyArg>(m.modelGraph.getMyArgs()));
 //		MyLabelling labelling = new MyLabelling(0, new LinkedHashSet<MyArg>(m.modelGraph.getMyArgs()), new LinkedHashSet<MyArg>(), new LinkedHashSet<MyArg>());
-		System.out.println("The candidate labellings are: "+m.findLabelling(candidateLabelling, labelling));
+		System.out.println("The candidate labellings are: "+m.cFindLabelling(candidateLabelling, labelling));
 
 	}
 }

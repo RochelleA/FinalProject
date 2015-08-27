@@ -60,11 +60,10 @@ public class MyAtt implements IMyAtt {
         return "Att["+this.from+","+this.to+"]";
 	}
 
-	public boolean equals(Object other) {
-		    if (other == this) return true;
-		    if (other == null) return false;
-		    if (getClass() != other.getClass()) return false;
-		    MyAtt att = (MyAtt)other;
+	public boolean equals(Object Attack2) {
+		    if (Attack2 == null) return false;
+		    if (getClass() != Attack2.getClass()) return false;
+		    MyAtt att = (MyAtt)Attack2;
 		    return (to.equals(att.getTo()) && from.equals(att.getFrom()));
 		  }
 		

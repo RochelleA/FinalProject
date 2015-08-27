@@ -8,7 +8,6 @@ import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 public class PickingMouse extends DefaultModalGraphMouse<MyArg, MyAtt> {
 
 	public PickingMouse() {
-		// TODO Auto-generated constructor stub
 	}
 	
  

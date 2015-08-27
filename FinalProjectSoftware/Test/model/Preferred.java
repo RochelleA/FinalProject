@@ -1,6 +1,8 @@
-package core;
+package model;
 
 import java.util.LinkedHashSet;
+
+import core.MyLabelling;
 
 public class Preferred {
 	

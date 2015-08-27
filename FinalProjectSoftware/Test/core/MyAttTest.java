@@ -14,7 +14,7 @@ import core.MyArg;
  * @author Rochelle
  *
  */
-public class MyEdgeTest {
+public class MyAttTest {
 //	MyVertex v1 = new MyVertex(0);
 //	MyVertex v2 = new MyVertex(1);
 	MyArg v3 = new MyArg(2);

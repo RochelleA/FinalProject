@@ -63,14 +63,30 @@ public class MyGraph extends DirectedSparseGraph<MyArg, MyAtt> implements IMyGra
 		return v;
 	}
 	
+	
+	public boolean containsEdge(MyAtt att){
+		LinkedHashSet<MyAtt> attacks = new LinkedHashSet<MyAtt>(myGraph.getEdges());
+		Iterator<MyAtt> attacksIterator = attacks.iterator();
+		while(attacksIterator.hasNext()){
+			MyAtt tempAttack = attacksIterator.next();
+			if(tempAttack.equals(att)){
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	
 	public MyAtt addMyAtt(MyArg v1, MyArg v2){
 		if(!(this.getMyArgs().contains(v1)) || !(this.getMyArgs().contains(v2))){
 			throw new IllegalArgumentException("Args not in graph");
 		}
+		
+
 				
-		if(v1==v2){
-			throw new IllegalArgumentException("The to and from Args must be distinct");
-		}
+//		if(v1==v2){
+//			throw new IllegalArgumentException("The to and from Args must be distinct");
+//		}
 	//create new attacks
 		    ++attCount;
 			MyAtt e1 = new MyAtt(attCount);
@@ -203,6 +219,7 @@ public class MyGraph extends DirectedSparseGraph<MyArg, MyAtt> implements IMyGra
 		while(ArgsIterator.hasNext()){
 			MyArg currentargument = ArgsIterator.next();
 			this.myGraph.removeVertex(currentargument);
+			ArgCount--;
 		}
 		if(this.GetMyArgCount()==0){
 			ArgCount=0;
@@ -285,11 +302,10 @@ public class MyGraph extends DirectedSparseGraph<MyArg, MyAtt> implements IMyGra
 		return false;
 	}
 	
-	public boolean equals(Object other) {
-	    if (other == this) return true;
-	    if (other == null) return false;
-	    if (getClass() != other.getClass()) return false;
-	    MyGraph graph = (MyGraph)other;
+	public boolean equals(Object MyGraph2) {
+	    if (MyGraph2 == null) return false;
+	    if (getClass() != MyGraph2.getClass()) return false;
+	    MyGraph graph = (MyGraph)MyGraph2;
 	    return (graph.containsAllArgs(this.getMyArgs()) && graph.containsAllAtts(this.getMyAtts()) && this.GetMyArgCount()== graph.GetMyArgCount() && this.GetMyAttCount() == graph.GetMyAttCount() );
 	  }
 }

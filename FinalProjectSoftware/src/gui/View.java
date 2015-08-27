@@ -37,10 +37,6 @@ import javax.swing.border.BevelBorder;
 
 import org.apache.commons.collections15.Transformer;
 
-import pmisc.MyDefaultEdgeLabelRenderer;
-import pmisc.MyDefaultVertexLabelRenderer;
-import pmisc.MyPluggableGraphMouse;
-
 import java.awt.Color;
 
 
@@ -50,9 +46,9 @@ import java.awt.Color;
 	
 	private static final long serialVersionUID = 2118299654730994785L;
 
-	private JPanel contentPane = new JPanel();
+	private JScrollPane contentPane = new JScrollPane();
 	private JPanel graphVisualPanel = new JPanel();
-	private JPanel graphChangePanel= new JPanel();
+	private JPanel graphViewPanel= new JPanel();
 //	JPanel graphBuildPanel = new JPanel();
 	private JPanel graphSemanticsPanel = new JPanel();
 	private JPanel mainPanel = new JPanel();
@@ -64,31 +60,39 @@ import java.awt.Color;
 	private JPanel semanticsLabelPanel = new JPanel();
 	private JPanel semanticsContentsPanel = new JPanel();
 	private JPanel admissibleSemanticsPanel = new JPanel();
+	private JPanel allAdmissiblePanel= new JPanel();
+	private JPanel completeSemanticsPanel= new JPanel();
+	private JPanel graphChangePanel = new JPanel();
 	private JPanel graphLabelPanel = new JPanel();
 	private JPanel changeToBuildPanel = new JPanel();
-	private JLabel graphVisualLabel = new JLabel("Graph Visualisation",SwingConstants.CENTER);
-	private JLabel graphEditingLabel = new JLabel("Graph Editor");
-	private JLabel graphSemanticslLabel = new JLabel("Graph Semantics");
+	private JLabel graphVisualLabel = new JLabel("Framework Visualisation",SwingConstants.CENTER);
+	private JLabel graphEditingLabel = new JLabel("Framework Editor");
+	private JLabel graphSemanticslLabel = new JLabel("Framework Semantics");
 	private JButton addArgumentButton = new JButton("Add Argument");
 	private JButton addAttackButton = new JButton("Add Attack");
 	private JButton enterButton = new JButton("Enter");
-	private JButton resetGraphButton = new JButton("Reset Graph");
+	private JButton resetGraphButton = new JButton("Reset Framework");
 	private JButton deleteArgumentButton = new JButton("Delete Argument");
 	private JButton deleteAttackButton = new JButton("Delete Attack");
 	private JButton semanticsButton = new JButton("Change to Semantics View");
 	private JButton buildButton = new JButton("Return to Build View");
 	private JButton groundedLabellingButton = new JButton("Grounded Labelling");
 	private JButton admissibleLabellingButton = new JButton("Admissible Labelling");
-	private JButton allAdmissibleLabellingButton = new JButton("All Admissble Labelling");
+	private JButton allAdmissibleLabellingButton = new JButton("All Admissble Labellings");
 	private JButton resetLabelsButton = new JButton("Reset Labels");
-	private JButton preferredButton = new JButton("Preferred Labelling");
+	private JButton preferredButton = new JButton("All Preferred Labellings");
+	private JButton completeButton = new JButton("All Complete Labellings");
 	private JTextArea groundedSemanticsInfo = new JTextArea();
 	private JTextArea admissibleSemanticsInfo = new JTextArea();
 	private JTextArea preferredSemanticsInfo = new JTextArea();
 	private JTextArea areYouReady = new JTextArea();
 	private JTextArea allAdmissibleSemanticInfo = new JTextArea();
+	private JTextArea completeSemanticInfo = new JTextArea();
 	private JScrollPane allAdmissiblePane =  new JScrollPane(allAdmissibleSemanticInfo);
 	private JScrollPane preferredPane = new JScrollPane(preferredSemanticsInfo);
+	private JScrollPane completePane = new JScrollPane(completeSemanticInfo);
+	private JScrollPane admissiblePane = new JScrollPane(admissibleSemanticsInfo);
+	private JScrollPane groundedPane = new JScrollPane(groundedSemanticsInfo);
 	private Color panelColour = new Color(105, 105, 105);
 	private Color borderColour = new Color(82, 82, 82);
 	private Color buttonColour = new Color(184, 184, 184);
@@ -114,7 +118,8 @@ import java.awt.Color;
 	MyArg currentArg;
 	MyArg deleteArgument;
 	MyAtt deleteAttack;
-	MyPluggableGraphMouse noPickMouse;
+//	MyPluggableGraphMouse noPickMouse;
+	PluggableGraphMouse noPickMouse;
 	GraphMousePlugin pickingMouse;
 	private final JLabel LogoLabel;
 	
@@ -130,85 +135,127 @@ import java.awt.Color;
 		changeToBuildPanel.setBackground(panelColour);
 		changeToBuildPanel.add(buildButton);
 		changeToBuildPanel.add(resetLabelsButton);
+		changeToBuildPanel.setPreferredSize(new Dimension(400,60));
 
-		preferredSemanticsInfo.setBounds(0, 0, 370, 80);
+		preferredSemanticsInfo.setBounds(0, 0, 380, 100);
 		preferredSemanticsInfo.setLineWrap(true);
 		preferredSemanticsInfo.setWrapStyleWord(true);
 		preferredSemanticsInfo.setEditable(false);
 		preferredSemanticsInfo.setBackground(tBoxColour);
 		preferredSemanticsInfo.setForeground(Color.white);
 		
-		preferredPane.setBounds(260, 10, 380, 90);
-		preferredPane.setLayout(null);
+		preferredPane.setBounds(260, 10, 370, 100);
+//		preferredPane.setLayout(null);
 		preferredPane.setBackground(tBoxColour);
-		preferredPane.add(preferredSemanticsInfo);
 //		preferredPane.add(preferredSemanticsInfo);
 		
 		preferredButton.setBounds(30,10,200,30);
 		preferredButton.setBackground(buttonColour);
 
 		preferredSemanticsPanel.setPreferredSize(new Dimension(400, 100));
+		preferredSemanticsPanel.setMaximumSize(new Dimension(400, 300));
 		preferredSemanticsPanel.setLayout(null);
 		preferredSemanticsPanel.setBackground(panelColour);
 		preferredSemanticsPanel.add(preferredButton);
 		preferredSemanticsPanel.add(preferredPane);
+		
+		completeSemanticInfo.setBounds(0, 0, 380, 100);
+		completeSemanticInfo.setLineWrap(true);
+		completeSemanticInfo.setEditable(false);
+		completeSemanticInfo.setBackground(tBoxColour);
+		completeSemanticInfo.setForeground(Color.white);
+		
+		completePane.setBounds(260, 10, 370, 100);
+		completePane.setBackground(tBoxColour);
+		
+		completeButton.setBounds(30, 10, 200, 30);
+		completeButton.setBackground(buttonColour);
+		
+		completeSemanticsPanel.setPreferredSize(new Dimension(400,100));
+		completeSemanticsPanel.setMaximumSize(new Dimension(400, 300));
+		completeSemanticsPanel.setLayout(null);
+		completeSemanticsPanel.setBackground(panelColour);
+		completeSemanticsPanel.add(completeButton);
+		completeSemanticsPanel.add(completePane);
 
 		allAdmissibleSemanticInfo.setBackground(tBoxColour);
 		allAdmissibleSemanticInfo.setForeground(Color.white);
-		allAdmissibleSemanticInfo.setBounds(260, 100, 370, 80);
+		allAdmissibleSemanticInfo.setBounds(260, 10, 370, 100);
 		allAdmissibleSemanticInfo.setEditable(false);
 		
-		allAdmissiblePane.setBounds(260, 110, 370, 160);
+		allAdmissiblePane.setBounds(260, 10, 370, 100);
+		allAdmissiblePane.setBackground(tBoxColour);
 				
-		allAdmissibleLabellingButton.setBounds(30, 110, 200, 30);
+		allAdmissibleLabellingButton.setBounds(30, 10, 200, 30);
 		allAdmissibleLabellingButton.setBackground(buttonColour);
 		
-		admissibleSemanticsInfo.setBounds(260, 10 , 370, 80);
+		allAdmissiblePanel.setLayout(null);
+		allAdmissiblePanel.setPreferredSize(new Dimension(400, 100));
+		allAdmissiblePanel.setBackground(panelColour);
+	    allAdmissiblePanel.add(allAdmissibleLabellingButton);
+		allAdmissiblePanel.add(allAdmissiblePane);
+		
+		admissibleSemanticsInfo.setBounds(260, 10, 370, 100);
 		admissibleSemanticsInfo.setLineWrap(true);
 		admissibleSemanticsInfo.setWrapStyleWord(true);
 		admissibleSemanticsInfo.setEditable(false);
 		admissibleSemanticsInfo.setBackground(tBoxColour);
 		admissibleSemanticsInfo.setForeground(Color.WHITE);
-
+		
+		admissiblePane.setBounds(260, 10, 370, 100);
+		admissiblePane.setBackground(tBoxColour);
+		
 		admissibleLabellingButton.setBounds(30, 10, 200, 30);
 		admissibleLabellingButton.setBackground(buttonColour);
 		
 		admissibleSemanticsPanel.setLayout(null);
-		admissibleSemanticsPanel.setPreferredSize(new Dimension(400, 180));
+		admissibleSemanticsPanel.setPreferredSize(new Dimension(400, 100));
+		admissibleSemanticsPanel.setMaximumSize(new Dimension(400, 300));
 		admissibleSemanticsPanel.setBackground(panelColour);
 		admissibleSemanticsPanel.add(admissibleLabellingButton);
-		admissibleSemanticsPanel.add(admissibleSemanticsInfo);
-		admissibleSemanticsPanel.add(allAdmissibleLabellingButton);
-		admissibleSemanticsPanel.add(allAdmissiblePane);
-
-		groundedLabellingButton.setBounds(30, 10, 200, 30);
-		groundedLabellingButton.setBackground(buttonColour);
+		admissibleSemanticsPanel.add(admissiblePane);
 		
-		groundedSemanticsInfo.setBounds(260,10 , 370, 80);
+		groundedSemanticsInfo.setBounds(260, 10, 370, 100);
 		groundedSemanticsInfo.setLineWrap(true);
 		groundedSemanticsInfo.setWrapStyleWord(true);
 		groundedSemanticsInfo.setEditable(false);
 		groundedSemanticsInfo.setBackground(tBoxColour);
 		groundedSemanticsInfo.setForeground(Color.white);
 
-		groundedSemanticsPanel.setPreferredSize(new Dimension(400,100));
+		groundedPane.setBounds(260, 10, 370, 100);
+		groundedPane.setBackground(tBoxColour);
+		
+		groundedLabellingButton.setBounds(30, 10, 200, 30);
+		groundedLabellingButton.setBackground(buttonColour);
+		
 		groundedSemanticsPanel.setLayout(null);
+		groundedSemanticsPanel.setPreferredSize(new Dimension(400, 100));
+		groundedSemanticsPanel.setMaximumSize(new Dimension(400, 300));
 		groundedSemanticsPanel.setBackground(panelColour);
 		groundedSemanticsPanel.add(groundedLabellingButton);
-		groundedSemanticsPanel.add(groundedSemanticsInfo);
+		groundedSemanticsPanel.add(groundedPane);
 
-		semanticsContentsPanel.setLayout(new BorderLayout(0, 0));
-		semanticsContentsPanel.setPreferredSize(new Dimension(420, 360));
-		semanticsContentsPanel.add(groundedSemanticsPanel, BorderLayout.NORTH);
-		semanticsContentsPanel.add(admissibleSemanticsPanel, BorderLayout.CENTER);
-		semanticsContentsPanel.add(preferredSemanticsPanel, BorderLayout.SOUTH);
+		semanticsContentsPanel.setLayout(new BorderLayout(0, 10));
+		semanticsContentsPanel.setPreferredSize(new Dimension(420, 370));
+		semanticsContentsPanel.setMaximumSize(new Dimension(430, 380));
+		semanticsContentsPanel.setBackground(panelColour);
+		semanticsContentsPanel.setLayout(new GridLayout(5, 1, 0, 1));
+		semanticsContentsPanel.add(groundedSemanticsPanel);
+		semanticsContentsPanel.add(admissibleSemanticsPanel);
+		semanticsContentsPanel.add(allAdmissiblePanel);
+		semanticsContentsPanel.add(completeSemanticsPanel);
+		semanticsContentsPanel.add(preferredSemanticsPanel);
+//		semanticsContentsPanel.add(groundedSemanticsPanel, BorderLayout.PAGE_START);
+//		semanticsContentsPanel.add(admissibleSemanticsPanel, BorderLayout.CENTER);
+//		semanticsContentsPanel.add(preferredSemanticsPanel, BorderLayout.PAGE_END);
+		
 
 		graphSemanticslLabel.setFont(labelFont);
 		graphSemanticslLabel.setForeground(titleColour);
 		graphSemanticslLabel.setHorizontalAlignment(JLabel.CENTER);
 		
 		semanticsLabelPanel.add(graphSemanticslLabel);
-		semanticsLabelPanel.setPreferredSize(new Dimension(400,30));
+		semanticsLabelPanel.setPreferredSize(new Dimension(400,25));
 		semanticsLabelPanel.setBackground(panelColour);
 //		Font font = graphSemanticslLabel.getFont();
 //		Map attributes = font.getAttributes();
@@ -219,7 +266,7 @@ import java.awt.Color;
 		graphSemanticsPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
 		graphSemanticsPanel.setPreferredSize(new Dimension(450,400));
 		graphSemanticsPanel.setBackground(panelColour);
-		graphSemanticsPanel.setLayout(new BorderLayout(5, 5));
+		graphSemanticsPanel.setLayout(new BorderLayout(0, 10));
 		graphSemanticsPanel.add(changeToBuildPanel,BorderLayout.SOUTH);
 		graphSemanticsPanel.add(semanticsContentsPanel, BorderLayout.CENTER);
 		graphSemanticsPanel.add(semanticsLabelPanel, BorderLayout.NORTH);
@@ -246,6 +293,8 @@ import java.awt.Color;
 
 		informationPanel.setBackground(panelColour);
 		informationPanel.setPreferredSize(new Dimension(650, 300));
+		informationPanel.setMinimumSize(new Dimension(650, 300));
+		informationPanel.setBounds(30, 440, 620, 300);
 		informationPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
 		informationPanel.setLayout(null);
 		informationPanel.add(getGraphString());
@@ -262,6 +311,7 @@ import java.awt.Color;
 		areYouReady.setForeground(Color.WHITE);
 		areYouReady.setFont(largeTextFont);
 		areYouReady.setText("Are you ready to test semantics?");
+		areYouReady.setEditable(false);
 
 
 		enterButton.setBounds(365, 120, 150, 30);
@@ -294,7 +344,7 @@ import java.awt.Color;
 		addArgumentButton.setBackground(buttonColour);
 		addArgumentButton.setFont(buttonFont);
 
-		graphEditingLabel.setBounds(260, 30, 100, 20);
+		graphEditingLabel.setBounds(260, 30, 130, 20);
 		graphEditingLabel.setBackground(panelColour);
 		graphEditingLabel.setForeground(titleColour);
 
@@ -303,10 +353,10 @@ import java.awt.Color;
 		
 		buttonsPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
 		buttonsPanel.setBackground(panelColour);
-		buttonsPanel.setPreferredSize(new Dimension(650,200));
+		buttonsPanel.setPreferredSize(new Dimension(650,300));
 		buttonsPanel.setLayout(null);
 		buttonsPanel.add(graphEditingLabel);
-		buttonsPanel.setBounds(30, 30, 400, 400);
+		buttonsPanel.setBounds(30, 30, 400, 300);
 		buttonsPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
 		buttonsPanel.add(addArgumentButton);
 		buttonsPanel.add(addAttackButton);
@@ -334,13 +384,20 @@ import java.awt.Color;
 		titlePanel.setLayout(null);
 		titlePanel.add(LogoLabel, BorderLayout.CENTER);
 
-		
 		graphChangePanel.setBackground(panelColour);
+		graphChangePanel.setPreferredSize(new Dimension(650, 650));
+		graphChangePanel.setMinimumSize(new Dimension(650, 650));
 		graphChangePanel.setLayout(new BorderLayout(0, 0));
-		graphChangePanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
-		graphChangePanel.add(titlePanel, BorderLayout.NORTH);
-		graphChangePanel.add(buttonsPanel,BorderLayout.CENTER);
-		graphChangePanel.add(informationPanel,BorderLayout.SOUTH);
+		graphChangePanel.add(buttonsPanel,BorderLayout.NORTH);
+		graphChangePanel.add(informationPanel,BorderLayout.CENTER);
+		
+		graphViewPanel.setBackground(panelColour);
+		graphViewPanel.setPreferredSize(new Dimension(650, 650));
+		graphViewPanel.setMinimumSize(new Dimension(650, 650));
+		graphViewPanel.setLayout(new BorderLayout(0, 0));
+		graphViewPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
+		graphViewPanel.add(titlePanel, BorderLayout.NORTH);
+		graphViewPanel.add(graphChangePanel, BorderLayout.CENTER);
 		
 		
 
@@ -349,6 +406,7 @@ import java.awt.Color;
 //		graphVisualLabel.setFont(font.deriveFont(attributes));
 
 		graphLabelPanel.setPreferredSize(new Dimension(600,40));
+		graphLabelPanel.setMinimumSize(new Dimension(600, 40));
 		graphLabelPanel.setLayout(new BorderLayout());
 		graphLabelPanel.setBackground(panelColour);
 		graphLabelPanel.add(graphVisualLabel, BorderLayout.CENTER);
@@ -359,14 +417,13 @@ import java.awt.Color;
 		viewVV.setPreferredSize(new Dimension(640, 630));
 		viewArgPickedState= viewVV.getPickedVertexState();
 		viewAttPickedState=viewVV.getPickedEdgeState();
-		noPickMouse = new MyPluggableGraphMouse();
+		noPickMouse = new PluggableGraphMouse();
         viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
         viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAtt>());
         viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
         viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
         viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAtt>());
-        viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK,Color.BLACK));
-        viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);   
+        viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultAttLabelRenderer(Color.BLACK,Color.BLACK));
         viewVV.setBackground(buttonColour);
         viewVV.setBorder(new BevelBorder(BevelBorder.LOWERED, borderColour, borderColour));
         Transformer<MyAtt, Paint> attColour = new Transformer<MyAtt, Paint>() {
@@ -385,31 +442,38 @@ import java.awt.Color;
         mouse = new PickingMouse();
 
         
-		displayGraphPanel.setPreferredSize(new Dimension(640, 630));
+		displayGraphPanel.setPreferredSize(new Dimension(650, 650));
+		displayGraphPanel.setMinimumSize(new Dimension(650, 650));
 		displayGraphPanel.setBackground(panelColour);
 		displayGraphPanel.add(viewVV);
 
 		graphVisualPanel.setBackground(panelColour);
+		graphViewPanel.setPreferredSize(new Dimension(650, 650));
+		graphViewPanel.setMinimumSize(new Dimension(650, 650));
 		graphVisualPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
 		graphVisualPanel.add(graphLabelPanel);
 		graphVisualPanel.add(displayGraphPanel);
 
-		
+		mainPanel.setPreferredSize(new Dimension(1300,690));
+		mainPanel.setMinimumSize(new Dimension(1300, 690));
 		mainPanel.setBackground(panelColour);
 		mainPanel.setLayout(new GridLayout(0,2,15,15));
-		mainPanel.add(graphChangePanel);
+		mainPanel.add(graphViewPanel);
 		mainPanel.add(graphVisualPanel);
 
 
 		contentPane.setBackground(Color.BLACK);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-		contentPane.add(mainPanel);
+		contentPane.setViewportView(mainPanel);
+		contentPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		contentPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+//		contentPane.setLayout(new BorderLayout(0, 0));
+//		setContentPane(contentPane);
+		contentPane= new JScrollPane(mainPanel);
 
-
+		this.add(contentPane);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setMinimumSize(new Dimension(600,600));
+        this.setMinimumSize(new Dimension(600,695));
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.pack();
 		this.setVisible(true);
@@ -417,10 +481,6 @@ import java.awt.Color;
 		}
 	
 	
-	 
-	public JTextArea getPreferredSemanticsInfo() {
-		return preferredSemanticsInfo;
-	}
 
 
 
@@ -459,11 +519,20 @@ import java.awt.Color;
 	}
 
 
-
-	public JScrollPane getAllAdmissiblePane() {
-		return allAdmissiblePane;
+//
+//	public JScrollPane getAllAdmissiblePane() {
+//		return allAdmissiblePane;
+//	}
+//
+	 
+	public JTextArea getCompleteSemanticsInfo() {
+		return completeSemanticInfo;
 	}
 
+	 
+	public JTextArea getPreferredSemanticsInfo() {
+		return preferredSemanticsInfo;
+	}
 
 
 	public VisualizationViewer<MyArg, MyAtt> getViewVV() {
@@ -526,6 +595,12 @@ import java.awt.Color;
 
 
 
+	public JButton getCompleteButton() {
+		return completeButton;
+	}
+
+
+
 	public JButton getPreferredButton() {
 		return preferredButton;
 	}
@@ -579,7 +654,7 @@ import java.awt.Color;
 
   	} 
   	
-	public void addController(ActionListener controller,ItemListener controller1){
+	public void addController(ActionListener controller){
 		System.out.println("View      : adding controller");
 	addArgumentButton.addActionListener(controller);	
 	addAttackButton.addActionListener(controller);
@@ -588,6 +663,7 @@ import java.awt.Color;
 	deleteArgumentButton.addActionListener(controller);
 	deleteAttackButton.addActionListener(controller);
 	semanticsButton.addActionListener(controller);
+	completeButton.addActionListener(controller);
 	
 	groundedLabellingButton.addActionListener(controller);
 	admissibleLabellingButton.addActionListener(controller);
@@ -595,14 +671,11 @@ import java.awt.Color;
 	preferredButton.addActionListener(controller);
 	buildButton.addActionListener(controller);
 	resetLabelsButton.addActionListener(controller);
-	
-	viewArgPickedState.addItemListener(controller1);
-	viewAttPickedState.addItemListener(controller1);
 
 	
 	} 
 	
-	public void displayGraph(MyGraph g1){
+	private void displayGraph(MyGraph g1){
 		displayGraphPanel.setPreferredSize(new Dimension(640, 630));
 		displayGraphPanel.setBackground(panelColour);
 		viewLayout = g1.getGraphLayout();
@@ -611,13 +684,13 @@ import java.awt.Color;
 		viewVV.setPreferredSize(new Dimension(640, 630));
 		viewArgPickedState= viewVV.getPickedVertexState();
 		viewAttPickedState=viewVV.getPickedEdgeState();
-		noPickMouse = new MyPluggableGraphMouse();
+//		noPickMouse = new PluggableGraphMouse();
         viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
         viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAtt>());
         viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);  
         viewVV.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<MyArg>());
         viewVV.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<MyAtt>());
-        viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK,Color.BLACK));
+        viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultAttLabelRenderer(Color.BLACK,Color.BLACK));
         viewVV.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);   
         viewVV.setBackground(buttonColour);
         viewVV.setBorder(new BevelBorder(BevelBorder.LOWERED, borderColour, borderColour));
@@ -686,7 +759,7 @@ import java.awt.Color;
 
 	public void displayGraphAsString(MyGraph g1){
   		String z= g1.toString();
-  		getGraphString().setText("Graph Represented as a string \n"+ z);
+  		getGraphString().setText("Framework Represented as a string \n"+ z);
 	}
 	
 	public void setPickingMode(){
@@ -704,7 +777,7 @@ import java.awt.Color;
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK,Color.BLACK));
+				viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultArgLabelRenderer(Color.BLACK,Color.BLACK));
 				Object pickedItem = e.getItem();
 				
 				if (pickedItem instanceof MyArg) {
@@ -721,7 +794,7 @@ import java.awt.Color;
 							}
 						};
 						
-						viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK, Color.BLACK));
+						viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultAttLabelRenderer(Color.BLACK, Color.BLACK));
 						viewVV.getRenderContext().setVertexFillPaintTransformer(ArgColour);
 						messageFromController.setText("You have selected "+ Arg+". Press enter to use this argument.");
 						informationPanel.add(messageFromController);
@@ -863,7 +936,7 @@ import java.awt.Color;
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				
-				viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK, Color.BLACK));
+				viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultArgLabelRenderer(Color.BLACK, Color.BLACK));
 				Object pickedItem = e.getItem();
 				if (pickedItem instanceof MyAtt) {
 					currentArg=null;
@@ -888,9 +961,8 @@ import java.awt.Color;
 						viewVV.getRenderContext().setArrowDrawPaintTransformer(attColour);
 						viewVV.getRenderContext().setArrowFillPaintTransformer(attColour);
 						messageFromController.setText("You have selected "+ att.getLabel()+ ". Press enter to use this attack.");
-					
-					viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK, Color.BLUE));
-					viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK, Color.BLACK));
+					viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultAttLabelRenderer(Color.BLACK, Color.BLUE));
+					viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultArgLabelRenderer(Color.BLACK, Color.BLACK));
 					informationPanel.add(messageFromController);
 						System.out.println("Att " + att+ " is now selected");
 						deleteAttack=att;
@@ -908,12 +980,12 @@ import java.awt.Color;
 				
 				if (viewArgPickedState.isPicked(Arg)) {
 					viewAttPickedState.clear();
-					viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultEdgeLabelRenderer(Color.BLACK, Color.BLACK));
-					viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK,Color.BLACK));
+					viewVV.getRenderContext().setEdgeLabelRenderer(new MyDefaultAttLabelRenderer(Color.BLACK, Color.BLACK));
+					viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultArgLabelRenderer(Color.BLACK,Color.BLACK));
 				} 
 			}
 				else {
-					viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultVertexLabelRenderer(Color.BLACK, Color.BLACK));
+					viewVV.getRenderContext().setVertexLabelRenderer(new MyDefaultArgLabelRenderer(Color.BLACK, Color.BLACK));
 					messageFromController.setText("");
 					informationPanel.add(messageFromController);
 					System.out.println("Picking state and message box cleared");
@@ -931,6 +1003,7 @@ import java.awt.Color;
 		admissibleSemanticsInfo.setText("");
 		allAdmissibleSemanticInfo.setText("");
 		preferredSemanticsInfo.setText("");
+		completeSemanticInfo.setText("");
 	}
 	
 	public void clearBuildInforBoxes(){
@@ -944,20 +1017,18 @@ import java.awt.Color;
 	
 	public void changeToSemantics(){
 		messageFromController.setText("");
-		graphChangePanel.remove(buttonsPanel);
-		graphChangePanel.remove(informationPanel);
-		graphChangePanel.add(graphSemanticsPanel);
+		graphViewPanel.remove(graphChangePanel);
+		graphViewPanel.add(graphSemanticsPanel);
 //		titlePanel.setPreferredSize(new Dimension(650,60));
-		graphChangePanel.validate();
-		graphChangePanel.repaint();
+		graphViewPanel.validate();
+		graphViewPanel.repaint();
 	}
 	public void changeToBuild(){
-		graphChangePanel.remove(graphSemanticsPanel);
-		graphChangePanel.add(buttonsPanel,BorderLayout.CENTER);
-		graphChangePanel.add(informationPanel, BorderLayout.SOUTH);
+		graphViewPanel.remove(graphSemanticsPanel);
+		graphViewPanel.add(graphChangePanel);
 		titlePanel.setPreferredSize(new Dimension(650,80));
-		graphChangePanel.validate();
-		graphChangePanel.repaint();
+		graphViewPanel.validate();
+		graphViewPanel.repaint();
 	}
 
 

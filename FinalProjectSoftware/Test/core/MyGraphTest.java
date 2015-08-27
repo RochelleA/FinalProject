@@ -1,10 +1,13 @@
 package core;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
+
 import core.MyAtt;
 import core.MyGraph;
 import core.MyArg;
+
 import java.util.*;
 
 public class MyGraphTest {
@@ -80,8 +83,36 @@ public void testAddArg(){
 	assertTrue(c3.contains(v1));
 }
 
+@Test
+public void testContainsEdge(){
+	MyGraph g9 = new MyGraph();
+	MyArg v91 = g9.addMyArg();
+	MyArg v92 = g9.addMyArg();
+	MyAtt e91 = g9.addMyAtt(v91, v92);
+	MyAtt e92 = new MyAtt(0);
+	assertTrue(g9.containsEdge(e91));
+	assertFalse(g9.containsEdge(e92));
+}
+
 @Test 
 public void testAddAtt(){
+	MyGraph g4 = new MyGraph();
+	MyArg v1 =g4.addMyArg();
+	MyArg v2= g4.addMyArg();
+//	MyArg v2 =new MyArg(1);
+	MyAtt e1 = g4.addMyAtt(v1, v2);
+	MyAtt e2 = g4.addMyAtt(v1, v1);
+	System.out.println("g4 "+ g4.toString());
+	Collection<MyAtt> c4 = g4.getMyAtts();
+	System.out.println("Size of Att collection is " + c4.size());
+	assertTrue(c4.contains(e1));
+	assertTrue(g4.containsEdge(e2));
+}
+
+
+
+@Test  (expected = IllegalArgumentException.class)
+public void testAddAtt1(){
 	MyGraph g4 = new MyGraph();
 	MyArg v1 =g4.addMyArg();
 	MyArg v2= g4.addMyArg();
@@ -91,7 +122,9 @@ public void testAddAtt(){
 	Collection<MyAtt> c4 = g4.getMyAtts();
 	System.out.println("Size of Att collection is " + c4.size());
 	assertTrue(c4.contains(e1));
+	g4.addMyAtt(v1, v2);
 }
+
 
 @Test
 public void testToString(){
@@ -173,6 +206,7 @@ public void testResetGraph(){
 	g6.resetGraph();
 	assertTrue(g6.getMyArgs().isEmpty());
 	assertTrue(g6.getMyAtts().isEmpty());
+	System.out.println("Arg count is"+g6.ArgCount);
 	assertTrue(g6.ArgCount==0);
 	assertTrue(g6.attCount==0);
 }
