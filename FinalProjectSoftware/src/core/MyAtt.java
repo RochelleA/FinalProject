@@ -22,6 +22,14 @@ public class MyAtt implements IMyAtt {
 		this.label= "Att("+v1.getId()+","+v2.getId()+")";
 		
 	}
+	
+	public MyAtt(int id, MyArg from, MyArg to){
+		this.from = from;
+		this.to= to;
+		this.id=id;
+		this.label= "Att("+from.getId()+","+to.getId()+")";
+		
+	}
 
 	public int getId() {
 		return id;

@@ -75,23 +75,37 @@ public class Model extends java.util.Observable {
 	}
 
 	public MyAtt addAtt(MyArg v){
+
 		if(modelFrom ==null){
 			modelFrom=v;
 			System.out.println("I have stored the from Arg as "+ v);
 			return null;
 		}
 		else if(!(modelFrom==null)){
+			System.out.println("This else if entered \n");
 			modelTo=v;
 			System.out.println("I have stored the to Arg as "+ v);
+			MyAtt e1= new MyAtt(0, modelFrom, modelTo);
+			if(!(modelGraph.containsEdge(e1))){
+				System.out.println("This  if entered \n");
+//				MyAtt e=new MyAtt(10);
 			MyAtt e =modelGraph.addMyAtt(modelFrom, modelTo);
 			System.out.println("Model init: counter = " + modelGraph.toString());
 			setChanged();
 			notifyObservers(modelGraph);
 			modelFrom=null;
 			modelTo=null;
+			System.out.println("e"+e+"returned");
 			return e;
+			}
 		}
-		return null;
+		System.out.println("Down here entered");
+		MyAtt e1= new MyAtt(0, modelFrom, modelTo);
+		System.out.println("The Id for e1 is"+e1.getId());
+		System.out.println("e2"+e1+"returned");
+		modelFrom=null;
+		modelTo=null;
+		return e1;
 	}
 
 	public void deleteAtt(MyAtt deleteAtt){
@@ -335,7 +349,8 @@ public class Model extends java.util.Observable {
 
 	public HashSet<MyArg> findUnattackedArgsHashSet(){
 		HashSet<MyArg> unattacked = new LinkedHashSet<MyArg>();
-		LinkedHashSet<MyArg> ArgList =  new LinkedHashSet<MyArg>(this.modelGraph.getMyArgs());
+		LinkedHashSet<MyArg> ArgList =  new LinkedHashSet<MyArg>();
+		ArgList.addAll(this.modelGraph.getMyArgs());
 		Iterator<MyArg> ArgIterator = ArgList.iterator();
 		while(ArgIterator.hasNext()){
 			MyArg currentArg = ArgIterator.next();
@@ -423,9 +438,12 @@ public class Model extends java.util.Observable {
 				}
 				lPrevious.getNotLabelledArgs().removeAll(lCurrent.getInArgs());
 			}
-			Iterator<MyArg> outNotLabelledIterator = lPrevious.getNotLabelledArgs().iterator();
-			while(outNotLabelledIterator.hasNext()){
-				MyArg v1= outNotLabelledIterator.next();
+			LinkedHashSet<MyArg> tempOutNotLabelled = new LinkedHashSet<MyArg>();
+			tempOutNotLabelled.addAll(lPrevious.getNotLabelledArgs());
+			Iterator<MyArg> tempOutNotLabelledIterator = tempOutNotLabelled.iterator();
+			
+			while(tempOutNotLabelledIterator.hasNext()){
+				MyArg v1= tempOutNotLabelledIterator.next();
 				LinkedHashSet<MyArg> v1Attackers = new LinkedHashSet<MyArg>(this.modelGraph.getmygraph().getPredecessors(v1));
 				LinkedHashSet<MyArg> intsection = new LinkedHashSet<MyArg>(v1Attackers);
 				intsection.retainAll(lPrevious.getInArgs());

@@ -18,6 +18,7 @@ public class MyGraphTest {
 		MyGraph g1 = new MyGraph();
 		g1.addMyArg();
 		g1.addMyArg();
+		System.out.println("The graph has vertices "+g1.getMyArgs());
 		assertEquals(g1.ArgCount,2);
 		assertEquals(g1.attCount,0);
 	}
@@ -89,9 +90,14 @@ public void testContainsEdge(){
 	MyArg v91 = g9.addMyArg();
 	MyArg v92 = g9.addMyArg();
 	MyAtt e91 = g9.addMyAtt(v91, v92);
+	System.out.println("g91 id is "+e91.getId());
 	MyAtt e92 = new MyAtt(0);
+	MyAtt e93 = new MyAtt(0, v91, v92);
+	MyAtt e94 = new MyAtt(0,v91, v91);
 	assertTrue(g9.containsEdge(e91));
 	assertFalse(g9.containsEdge(e92));
+	assertTrue(g9.containsEdge(e93));
+	assertFalse(g9.containsEdge(e94));
 }
 
 @Test 

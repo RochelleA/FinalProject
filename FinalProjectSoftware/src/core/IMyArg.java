@@ -40,7 +40,7 @@ public interface IMyArg {
 	void setWeight(int weight);
 	
 	/**
-	 * Overides the toString function to print a argument as V followed by the argument's id.
+	 * Overides the toString function to print an argument as V followed by the argument's id.
 	 * @return
 	 */
 	String toString();

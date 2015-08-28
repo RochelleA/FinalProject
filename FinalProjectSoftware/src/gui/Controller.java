@@ -214,9 +214,7 @@ has already been made for a framework. The addition of a new argument would inva
 				 MyView.getMessageFromController().setText(MyView.getMessageFromController().getText());
 //						 +"You have not select a Arg. Please select a Arg.");
 			  }
-			  else{ 
-				  {
-					  if(clickedFlag==false){
+			  else if(clickedFlag==false){
 						  System.out.print(clickedFlag);
 							clickedFlag=true;
 							MyView.getMessageFromController().setText("The Arg used will be "+ MyView.currentArg);
@@ -238,11 +236,18 @@ has already been made for a framework. The addition of a new argument would inva
 //								MyView.changeToNoPickingMouse();
 //						 }
 //						 else{
-							 clickedFlag=false;
-						 MyView.getMessageFromController().setText("An attack has been added from "+from+ " to " + MyView.currentArg);
-							to =MyView.currentArg;
-							MyModel.addAtt(to);
-							System.out.println("to argument is "+to);
+							 clickedFlag=false;	
+							 to =MyView.currentArg;
+							 MyAtt att= MyModel.addAtt(to);
+							 System.out.print("att Id is "+att.getId());
+								if(!(att.getId()==0)){
+									 MyView.getMessageFromController().setText("An attack has been added from "+from+ " to " + MyView.currentArg);
+								}
+								else if(att.getId()==0){
+									MyView.getMessageFromController().setText("This attack att["+  att.getFrom() +","+ att.getTo()+"] already exist. ");
+								}
+								System.out.println("to argument is "+to);
+						
 							MyView.getViewAttPickedState().clear();
 							MyView.getViewArgPickedState().clear();
 							MyView.clearSemanticsInfoBoxes();
@@ -250,13 +255,9 @@ has already been made for a framework. The addition of a new argument would inva
 							MyView.currentArg=null;
 							System.out.println("We have now reset the currentArg to be null");
 
-						 
-//					 }
-				}
-				}			  }
-		  }
+					 }
+				  }
 	}
 	
+	}
 
-
-} 

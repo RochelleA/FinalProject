@@ -31,7 +31,7 @@ public interface IMyGraph {
 	//This method first creates a new argument and then adds it to the graph
 	public MyArg addMyArg();
 
-	//This method creates a argument between V1 and V2 and then adds it to the graph
+	//This method creates an argument between V1 and V2 and then adds it to the graph
 	public MyAtt addMyAtt(MyArg v1, MyArg v2);
 	
 	//return myGraph.toString();

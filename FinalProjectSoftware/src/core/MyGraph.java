@@ -69,7 +69,7 @@ public class MyGraph extends DirectedSparseGraph<MyArg, MyAtt> implements IMyGra
 		Iterator<MyAtt> attacksIterator = attacks.iterator();
 		while(attacksIterator.hasNext()){
 			MyAtt tempAttack = attacksIterator.next();
-			if(tempAttack.equals(att)){
+			if(tempAttack.getFrom().equals(att.getFrom())&&tempAttack.getTo().equals(att.getTo())){;
 				return true;
 			}
 		}
